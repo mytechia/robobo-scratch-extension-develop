@@ -227,23 +227,32 @@ function setFacePosition(dist,x,y) {
 /** Sets the position of the BLOB sensor in the Robobo view widget.
     It also makes the BLOB sensor visible. */
 function setBlobPosition(color, size, x, y) {
-    if (color != null && size != "none" && x != null && y != null) {
 
-        bbEmotion = document.getElementById("robobo-view").getBBox();
-        xScale = bbEmotion.width / 100;
-        yScale = bbEmotion.height / 100;
-        var cx = xScale * x + bbEmotion.x;
-        var cy = yScale * y + bbEmotion.y;
+    if (color != null && size != null && x != null && y != null) {
 
         ball = document.getElementById("robobo-ball");
-        bbBall = ball.getBBox();
-        cx = cx - bbBall.width/2;
-        cy = cy - bbBall.height/2;
 
-        ball.setAttribute("x", cx);
-        ball.setAttribute("y", cy);          
+        if (size == 0) {
+            setElementVisibility(ball, 0);
+        }
+        else {
 
-        setElementVisibility(ball, 1);
+            bbEmotion = document.getElementById("robobo-view").getBBox();
+            xScale = bbEmotion.width / 100;
+            yScale = bbEmotion.height / 100;
+            var cx = xScale * x + bbEmotion.x;
+            var cy = yScale * y + bbEmotion.y;
+
+            
+            bbBall = ball.getBBox();
+            cx = cx - bbBall.width/2;
+            cy = cy - bbBall.height/2;
+
+            ball.setAttribute("x", cx);
+            ball.setAttribute("y", cy);          
+
+            setElementVisibility(ball, 1);
+        }
 
     }
 }

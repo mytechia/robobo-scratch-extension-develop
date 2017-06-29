@@ -2122,7 +2122,7 @@ RK5CYII=
     </div>
 
     <script>
-
+        lastZero = true;
         function googleChartsStartedEvent() {
             googleChartsReady = 1;
 
@@ -2204,7 +2204,7 @@ RK5CYII=
               if (deltaXSpeed > deltaYSpeed) { //"turn speed" shoudn't be higher than straigh speed
                 deltaXSpeed = deltaYSpeed;
               }
-
+              lastZero = false;
             }
             else {
               //joystick is not in use
@@ -2228,7 +2228,13 @@ RK5CYII=
           }
 
           //update movement
+          if (!lastZero ){
           rem.moveWheelsSeparated(speedLeftWheel, speedRightWheel, 0.2);
+          if ((speedLeftWheel == 0)&&(speedRightWheel == 0)){
+            lastZero = true;
+          }
+          }
+          
 
 			  }, 50); //20 movement commands per seconds
 
