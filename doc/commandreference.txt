@@ -1,0 +1,165 @@
+COMMAND REFERENCE FOR THE ROBOBO REMOTE PROTOCOL
+
+-------------------------------MOVEMENT COMMANDS--------------------------------
+
+1.(v0.1.0)
+
+name:
+  MOVEBYDEGREES
+
+parameters:
+  wheel: "left"||"right"||"both"
+  degrees: integer (>0)
+  speed: integer (-100:100)
+
+2.(v0.1.0)
+
+name:
+  MOVEBYTIME
+
+parameters:
+wheel: "left"||"right"||"both"
+time: integer (>0)
+speed: integer (-100:100)
+
+3.(v0.1.0)
+
+name:
+  MOVETWOWHEELS
+
+parameters:
+  lspeed: integer (-100:100)
+  rspeed: integer (-100:100)
+  time: integer (>0)
+
+4.(v0.1.0)
+
+name:
+  TURNINPLACE
+
+parameters:
+  degrees: integer
+
+5.(v0.1.0)
+
+name:
+  MOVEPAN
+
+parameters:
+  pos: integer (0:360)
+  speed : integer (0:10)
+
+6.(v0.1.0)
+
+name:
+  MOVETILT
+
+parameters:
+  pos: integer (0:180)
+  speed: integer (0:10)
+
+11.(v0.1.3)
+
+name:
+  MOTORSON
+
+parameters:
+  lmotor: string in ['forward','backward','off']
+  rmotor: string in ['forward','backward','off']
+  speed: integer
+
+13.(v0.1.4)
+
+name:
+  TWOWHEELSBLOCKING
+
+parameters:
+  lspeed: integer (-100:100)
+  rspeed: integer (-100:100)
+  time: integer (>0)
+  blockid: integer (>0)
+
+
+
+  14.(v0.2.1)
+
+  name:
+    MOVEPANBLOCKING
+
+  parameters:
+    pos: integer (0:360)
+    speed : integer (0:10)
+    blockid: integer (>0)
+
+  15.(v0.2.1)
+
+  name:
+    MOVETILTBLOCKING
+
+  parameters:
+    pos: integer (0:180)
+    speed: integer (0:10)
+    blockid: integer (>0)
+
+  16.(v0.2.1)
+  name:
+    PLAYNOTE
+  parameters:
+    index: integer
+    time: integer
+
+----------------------------------HRI COMMANDS----------------------------------
+
+7.(v0.1.0)
+
+name:
+  TALK
+
+parameters:
+  text: string
+
+8.(v0.1.0)
+
+name:
+  CHANGEEMOTION
+
+parameters:
+  emotion: string in ['happy','laughting','sad','angry','surprised','normal']
+
+9.(v0.1.0)
+
+name:
+  LEDCOLOR
+
+parameters:
+  led: string (0:9)|'all'
+  color: string in ['white','red','blue','cyan','magenta','yellow','green','orange','on','off']
+
+10.(v0.1.2)
+
+name:
+  SOUND
+
+parameters:
+  sound: string in ['moan','purr']
+
+----------------------------------OTHER COMMANDS----------------------------------
+12.(v0.1.3.2)
+
+name:
+  DIE
+
+parameters:
+  none
+
+17.(v0.2.1)
+
+  name:
+    CONFIGUREBLOB
+
+  parameters:
+    red: boolean
+    green: boolean
+    blue: boolean
+    custom: boolean
+

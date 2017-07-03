@@ -1,0 +1,307 @@
+STATUS REFERENCE FOR THE ROBOBO REMOTE PROTOCOL
+
+1.(v0.1.0)
+
+name:
+  IRSTATUS
+
+value:
+  Back-C: integer
+  Back-L: integer
+  Back-R: integer
+  Front-C: integer
+  Front-L: integer
+  Front-LL: integer
+  Front-R: integer
+  Front-RR: integer
+
+2.(v0.1.0)
+
+name:
+  NEWCOLOR
+
+value:
+  color: string in ['red','blue','cyan','magenta','yellow','green']
+
+3.(v0.1.1)
+
+name:
+  NEWFACE
+
+value:
+  coordx: integer (>0)
+  coordy: integer (>0)
+  distance: integer (>0)
+
+4.(v0.1.1)
+
+name:
+  BATTLEV
+
+value:
+  level: integer (0:100)
+
+5.(v0.1.1)
+
+name:
+  FALLSTATUS
+
+value:
+  Fall1: boolean
+  Fall2: boolean
+  Fall3: boolean
+  Fall4: boolean
+
+
+6.(v0.1.1)
+
+name:
+  GAPSTATUS
+
+value:
+  Gap1: boolean
+  Gap2: boolean
+  Gap3: boolean
+  Gap4: boolean
+
+7.(v0.1.1)
+
+name:
+  TAP
+
+value:
+  coordx: integer (>0)
+  coordy: integer (>0)
+
+8.(v0.1.2)
+
+name:
+  CLAP
+
+value:
+  none
+
+9.(v0.1.2)
+
+name:
+  OBOBATTLEV
+
+value:
+  level: integer (0:100)
+
+10.(v0.1.3)
+
+name:
+  ORIENTATION
+
+value:
+  yaw: integer (-180:180)
+  pitch: integer (-180:180)
+  roll: integer (-180:180)
+
+11.(v0.1.3)
+
+name:
+  BRIGHTNESS
+
+value:
+  level: integer (0:50000)
+
+12.(v0.1.3)
+
+name:
+  BRIGHTNESSCHANGED
+
+value:
+  none
+
+13.(v0.1.3)
+
+name:
+  FLING
+
+value:
+  angle: integer (0:360)
+  time: integer
+  distance: integer
+
+14.(v0.1.3)
+
+  name:
+    ACCELERATION
+
+  value:
+    xaccel: integer
+    yaccel: integer
+    zaccel: integer
+
+
+15.(v0.1.3)
+
+name:
+  ACCELCHANGED
+
+value:
+  none
+
+
+16.(v0.1.3.1)
+
+name:
+  MEASUREDCOLOR
+
+value:
+  R: integer 0-255
+  G: integer 0-255
+  B: integer 0-255
+
+17.(v0.1.3.2)
+
+name:
+  LOSTFACE
+
+value:
+  none
+
+18.(v0.1.3.2)
+
+name:
+  FOUNDFACE
+
+value:
+  coordx: integer (>0)
+  coordy: integer (>0)
+  distance: integer (>0)
+
+19.(v0.1.3.2)
+
+name:
+  ONERROR
+
+value:
+  error: String
+
+
+19.(v0.1.3.2)
+
+name:
+  ONPHRASE
+
+value:
+  text: String
+
+20.(v0.1.4)
+
+name:
+  UNLOCK
+
+value:
+  blockid: integer (>0)
+
+21. (v2.0.1)
+
+name:
+  PANSTATUS
+
+value:
+  panPos: integer (0:360)
+
+21. (v2.0.1)
+
+name:
+  TILTSTATUS
+
+value:
+  panPos: integer (0:360)
+
+
+22.(v2.0.1)
+
+name:
+  UNLOCKTILT
+
+value:
+  blockid: integer (>0)
+
+23.(v2.0.1)
+
+name:
+  UNLOCKPAN
+
+value:
+  blockid: integer (>0)
+
+24. (v2.1.0)
+
+name:
+  COLORBLOB
+
+value:
+  posx: integer (>0)
+  posy: integer (>0)
+  size: integer (>0)
+  color: string
+
+
+25. (v2.1.0)
+
+name:
+  NEWNOTE
+
+value:
+  name: String
+  index: integer
+  octave: integer
+
+26. (v2.1.0)
+
+name:
+  ENDOFSPEECH
+
+value:
+  none
+
+27. (2.1.0)
+
+name:
+  WHEELSTATUS
+
+value:
+  encoderPosR: long
+  encoderPosL : long
+  encoderSpeedR: long
+  encoderSpeedL : long
+
+28. (2.1.0)
+
+name:
+  OBSTACLES
+  
+value:
+  Back-C: boolean
+  Back-L: boolean
+  Back-R: boolean
+  Front-C: boolean
+  Front-L: boolean
+  Front-LL: boolean
+  Front-R: boolean
+  Front-RR: boolean
+
+29. (2.1.0)
+
+name:
+  LEDSTATUS
+
+value:
+  id: string
+  R: integer
+  G:integer
+  B:integer
+
+30. (2.1.0)
+
+name:
+  EMOTIONSTATUS
+
+value:
+  emotion: string
