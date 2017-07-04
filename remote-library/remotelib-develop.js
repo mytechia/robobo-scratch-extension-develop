@@ -789,8 +789,8 @@ Remote.prototype = {
       }
   },
 
-  getLedColor : function (led, color){
-      return this.statusmap.get(led+color);
+  getLedColor : function (led, channel){
+      return this.statusmap.get(led+channel);
 
   },
 
