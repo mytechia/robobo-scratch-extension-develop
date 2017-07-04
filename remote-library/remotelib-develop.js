@@ -789,6 +789,14 @@ Remote.prototype = {
       }
   },
 
+  getLedColor : function (led, color){
+      return this.statusmap.get(led+color);
+
+  },
+
+  getEmotion : function (){
+      return this.statusmap.get("emotion");
+  },
 
 
   manageStatus : function (msg) {
