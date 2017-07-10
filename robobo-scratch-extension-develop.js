@@ -841,7 +841,9 @@
         //  ['r', 'pan position','readPan'],//v
         //  ['r', 'tilt position','readTilt'],//v
 
-          ['r', 'obstacle at sensor %m.ir','readObstacle','Front-C'],//v
+          ['r', 'distance at sensor %m.ir','readObstacle','Front-C'],//v
+          ['r', 'raw value at sensor %m.ir','readObstacle','Front-C'],//v
+
         //  ['h', 'when obstacle is detected','detectedObstacle'],//v
 
         // ['r', 'gap at %m.gaps','readGap','Gap1'],//v
