@@ -792,10 +792,10 @@
   }
 
   ext.playNote = function(note, time, callback){
-    rem.playNote(note, time)
+    rem.playNote(note*1000, time)
     window.setTimeout(function() {
               callback();
-          }, (time)-50);
+          }, (time*1000)-50);
     console.log('Note: '+note+' time '+time);
   }
 
@@ -841,10 +841,10 @@
         //  ['r', 'pan position','readPan'],//v
         //  ['r', 'tilt position','readTilt'],//v
 
-          ['r', 'obstacle at sensor %m.ir','readObstacle'],//v
+          ['r', 'obstacle at sensor %m.ir','readObstacle','Front-C'],//v
         //  ['h', 'when obstacle is detected','detectedObstacle'],//v
 
-          ['r', 'gap at %m.gaps','readGap','Gap1'],//v
+        // ['r', 'gap at %m.gaps','readGap','Gap1'],//v
         //  ['h', 'when gap is detected at %m.gaps','changedGaps','Gap1'],//v
 
           ['r', 'ROB battery level','readBatteryLevel'],//v
