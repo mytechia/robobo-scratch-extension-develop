@@ -827,8 +827,7 @@ Remote.prototype = {
         //  console.log(msg.value[key]);
 
       }
-      this.firstime = false;
-    }
+    
 
     else if (msg.name == "BATTLEV") {
       this.statusmap.set("batterylevel",parseInt(msg.value["level"]));
