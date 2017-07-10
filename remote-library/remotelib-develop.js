@@ -809,42 +809,16 @@ Remote.prototype = {
 
     else if (msg.name == "IRSTATUS"){
 
-      /*for (var key in msg.value) {
-        //console.log(key);
 
-
-          this.statusmap.set(key,parseInt(msg.value[key]));
-          //console.log(this.statusmap);
-          if (this.firstime){
-            this.laststatusmap.set(key,parseInt(msg.value[key]));
-          }else{
-            var now = parseInt(msg.value[key]);
-            if (parseInt(msg.value[key])>130) {
-              this.statusmap.set("obstacle_"+parseInt(key.slice(-1)),true);
-
-              this.callbackmap.get("onObstacle")();
-            } else {
-              this.statusmap.set("obstacle_"+parseInt(key.slice(-1)),false);
-
-            }
-            var then = this.laststatusmap.get(key);
-            //console.log(key+" now: "+now);
-            //console.log(key+" then: "+then);
-            if (now>then){
-              if (((now/then))>3){
-                this.laststatusmap.set(key,now);
-                this.callbackmap.get("onIrChanged")(parseInt(key.slice(-1)));
-              }
-            }else if (((then/now))>5){
-              this.laststatusmap.set(key,now);
-              this.callbackmap.get("onIrChanged")(parseInt(key.slice(-1)));
-            }
+      for (var key in msg.value) {
+            this.statusmap.set(key,msg.value[key]);  
           }
-
+        
+          
 
         //  console.log(msg.value[key]);
 
-      }*/
+      }
       this.firstime = false;
     }
 
@@ -1049,7 +1023,7 @@ Remote.prototype = {
     }
     else if (msg.name == "OBSTACLES") {
 
-      obstacle = false;
+      /*obstacle = false;
 
       for (var key in msg.value) {
         this.statusmap.set(key,msg.value[key]);
@@ -1060,6 +1034,7 @@ Remote.prototype = {
       if (obstacle){
         this.callbackmap.get("onObstacle")();
       }
+      */
     }
     else if (msg.name == "LEDSTATUS") {
       this.statusmap.set(msg.value['id']+"R",msg.value['R']);
