@@ -795,7 +795,7 @@
     rem.playNote(note, Math.round(time*1000))
     window.setTimeout(function() {
               callback();
-          }, Math.round(time-50));
+          }, Math.round((time*1000)-50));
     console.log('Note: '+note+' time '+time);
   }
 
