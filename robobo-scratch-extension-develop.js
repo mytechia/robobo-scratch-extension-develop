@@ -836,10 +836,10 @@
           [' ','reset sensor %m.sensors','resetSensor','all'],
           [' ','Configure blob detection R:%m.boolean G:%m.boolean B:%m.boolean C:%m.boolean','configBlob','false','true','false','false'],
 
-          ['r', 'read %m.indvidualwheel wheel %m.wheelmenu','readWheel','right','position'],//v
+          ['r', 'read %m.individualwheel wheel %m.wheelmenu','readWheel','right','position'],//v
 
-        //  ['r', 'pan position','readPan'],//v
-        //  ['r', 'tilt position','readTilt'],//v
+          ['r', 'pan position','readPan'],//v
+          ['r', 'tilt position','readTilt'],//v
 
           ['r', 'distance at sensor %m.ir','readObstacle','Front-C'],//v
           ['r', 'raw value at sensor %m.ir','readObstacle','Front-C'],//v
