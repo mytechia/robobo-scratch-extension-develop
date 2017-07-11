@@ -792,10 +792,10 @@
   }
 
   ext.playNote = function(note, time, callback){
-    rem.playNote(Math.round(note*1000), time)
+    rem.playNote(note, Math.round(time*1000))
     window.setTimeout(function() {
               callback();
-          }, Math.round(time*1000)-50);
+          }, Math.round(time-50);
     console.log('Note: '+note+' time '+time);
   }
 
