@@ -863,7 +863,7 @@
           ['h', 'when face is detected','newFaceFun'],//v
           ['h', 'when face is lost','lostFace'],//v
 
-          ['r', 'color at %m.colorchan channel','measureColor'],//v
+          //['r', 'color at %m.colorchan channel','measureColor'],//v
           ['r', 'read clap counter','readClap'],//v
 
           ['r', 'read %m.blobcolor blob position at %m.axis axis','readBlobCoord','green','x'],//v
