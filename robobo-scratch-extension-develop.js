@@ -2,6 +2,7 @@
 /*******************************************************************************
  * Copyright 2016 Mytech Ingenieria Aplicada <http://www.mytechia.com>
  * Copyright 2016 Luis Llamas <luis.llamas@mytechia.com>
+ * Copyright 2016 Gervasio Varela <gervasio.varela@mytechia.com>
  * <p>
  * This file is part of Robobo Scratch Extension.
  * <p>
@@ -18,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-//Scratch extension version 0.2.1-dev
+//Scratch extension version 0.2.2-dev
 (function(ext) {
     var rem;
     var commandid = 0;
@@ -814,89 +815,90 @@
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
+
+          //SECTION - CONNECTION BLOCKS
           ['h', 'CONNECTION BLOCKS','dummyFun'],
 
           [' ', 'connect to ROBOBO at %s ','connectToRobobo','192.168.0.110'],
           [' ', 'end connection','disconnect'],
 
-          ['h', 'ROB ACTUATION BLOCKS','dummyFun'],
+
+
+          //SECTION - ROBOBO BASE ACTUATION BLOCKS
+          ['h', 'BASE ACTUATION BLOCKS','dummyFun'],
+
           [' ', 'stop %m.stop motors','stopFun','all'],
           ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovementT','30','30','1','seconds'],
           ['w', 'move pan to %s at speed %s %m.block','movePanRoboboNew','180','5','blocking'],
           ['w', 'move tilt to %s at speed %s %m.block','moveTiltRoboboNew','90','5','blocking'],
 
-          [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],
+          [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],                    
+
+
+
+          //SECTION - ROBOBO BASE SENSING BLOCKS
+          ['h', 'BASE SENSING BLOCKS','dummyFun'],
+
+          [' ','reset sensor %m.sensors','resetSensor','all'],          
+
+          ['r', 'read %m.individualwheel wheel %m.wheelmenu','readWheel','right','position'],
+
+          ['r', 'pan position','readPan'],
+          ['r', 'tilt position','readTilt'],
+
+          ['r', 'distance at sensor %m.ir','readObstacle','Front-C'],
+          ['r', 'raw value at sensor %m.ir','readObstacle','Front-C'],
+
+          ['r', 'base battery level','readBatteryLevel'],
+
+          
+
+          //SECTION - SMARTPHONE ACTUATION BLOCKS
+          ['h', 'SMARTPHONE ACTUATION BLOCKS','dummyFun'],
+
+          [' ', 'set emotion to %m.emotions','changeEmotion','normal'],
+
+          ['w', 'say %s','talkRobobo','hello world'],
+
+          [' ', 'play %m.sounds sound','playSound', 'moan'],
           ['w', 'play note %d.note for %n seconds', 'playNote', 60, 0.5],
+
+
+
+          //SECTION - SMARTPHONE SENSING BLOCKS SECTION
+          ['h', 'SMARPTHONE SENSING BLOCKS','dummyFun'],
+
+          ['r', 'face distance','readFaceDist'],
+          ['r', 'face position at %m.axis axis','readFaceCoord','x'],
+          ['h', 'when face is detected','newFaceFun'],
+          ['h', 'when face is lost','lostFace'],
+
+          ['r', 'read clap counter','readClap'],
+
           ['h', 'when note detected','newNoteFun'],
           ['r', 'read last note','readLastNote'],
 
+          ['r', 'read %m.blobcolor blob position at %m.axis axis','readBlobCoord','green','x'],
+          ['r', 'read %m.blobcolor area','readBlobSize','green'],
+          [' ','configure blob detection colors R:%m.boolean G:%m.boolean B:%m.boolean C:%m.boolean','configBlob','false','true','false','false'],
 
+          ['r', 'fling angle','readFlingAngle'],
+          
+          ['r', 'tap position at %m.axis axis','readTapCoord','x'],
+          ['r', 'tap zone','readTapZone'],
 
-          ['h', 'ROB SENSING BLOCKS','dummyFun'],
-          [' ','reset sensor %m.sensors','resetSensor','all'],
-          [' ','Configure blob detection R:%m.boolean G:%m.boolean B:%m.boolean C:%m.boolean','configBlob','false','true','false','false'],
+          ['r', 'orientation at %m.orientation axis','readOrientation','yaw'],
+          ['r', 'acceleration at %m.axis3d axis','readAcceleration','x'],
 
-          ['r', 'read %m.individualwheel wheel %m.wheelmenu','readWheel','right','position'],//v
+          ['r', 'brightness','readBrightnessLevel'],
 
-          ['r', 'pan position','readPan'],//v
-          ['r', 'tilt position','readTilt'],//v
-
-          ['r', 'distance at sensor %m.ir','readObstacle','Front-C'],//v
-          ['r', 'raw value at sensor %m.ir','readObstacle','Front-C'],//v
-
-        //  ['h', 'when obstacle is detected','detectedObstacle'],//v
-
-        // ['r', 'gap at %m.gaps','readGap','Gap1'],//v
-        //  ['h', 'when gap is detected at %m.gaps','changedGaps','Gap1'],//v
-
-          ['r', 'ROB battery level','readBatteryLevel'],//v
-
-          ['h', 'OBO ACTUATION BLOCKS','dummyFun'],
-          [' ', 'set emotion to %m.emotions','changeEmotion','normal'],
-          ['w', 'say %s','talkRobobo','hello world'],
-          [' ', 'play %m.sounds sound','playSound', 'moan'],
-
-          ['h', 'OBO SENSING BLOCKS','dummyFun'],
-
-          ['r', 'face distance','readFaceDist'],//v
-          ['r', 'face position at %m.axis axis','readFaceCoord','x'],//v
-          ['h', 'when face is detected','newFaceFun'],//v
-          ['h', 'when face is lost','lostFace'],//v
-
-          //['r', 'color at %m.colorchan channel','measureColor'],//v
-          ['r', 'read clap counter','readClap'],//v
-
-          ['r', 'read %m.blobcolor blob position at %m.axis axis','readBlobCoord','green','x'],//v
-          ['r', 'read %m.blobcolor area','readBlobSize','green'],//v
-
-
-          ['r', 'orientation at %m.orientation axis','readOrientation','yaw'],//v
-
-          ['r', 'fling angle','readFlingAngle'],//v
-          ['r', 'tap position at %m.axis axis','readTapCoord','x'],//v
-          ['r', 'tap zone','readTapZone'],//v
-
-
-          ['r', 'acceleration at %m.axis3d axis','readAcceleration','x'],//v
-
-          ['r', 'brightness','readBrightnessLevel'],//v
-          ['r', 'OBO battery level','readOboBatteryLevel'],//v
+          ['r', 'smarpthone battery level','readOboBatteryLevel'],
 
 
 
-          //BLOCKS-TO-BE-REMOVED
-  //        ['h', 'when OBO battery level is low','lowBatt'],//v
-          //END BLOCKS-TO-BE-REMOVED
-
-
-
-          //BLOCKS-TO-BE-REMOVED
-//          ['h', 'when ROB battery level is low','lowBatt'],//v
-          //END BLOCKS-TO-BE-REMOVED
-
-          //BLOCKS-TO-BE-REMOVED
-//          ['r', 'read error','readErrorFun'],//v
-//          ['h', 'on error','errorFun'],//v
+          //deprecated blocks
+          //['r', 'read error','readErrorFun'],//v
+          //['h', 'on error','errorFun'],//v
 
 
 
@@ -931,5 +933,5 @@
 
 
     // Register the extension
-    ScratchExtensions.register('Robobo Extension v0.2.1 Lite', descriptor, ext);
+    ScratchExtensions.register('Robobo Extension Develop v0.2.2', descriptor, ext);
 })({});
