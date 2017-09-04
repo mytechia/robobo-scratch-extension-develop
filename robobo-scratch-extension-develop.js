@@ -729,6 +729,13 @@
       rem.statusmap.set("xaccel",0);
       rem.statusmap.set("yaccel",0);
       rem.statusmap.set("zaccel",0);
+      rem.statusmap.set("IRSensorStatus1",0);
+      rem.statusmap.set("IRSensorStatus2",0);
+      rem.statusmap.set("IRSensorStatus3",0);
+      rem.statusmap.set("IRSensorStatus4",0);
+      rem.statusmap.set("IRSensorStatus5",0);
+      rem.statusmap.set("IRSensorStatus6",0);
+      rem.statusmap.set("IRSensorStatus7",0);
 
     }else if (sensor == 'brightness') {
       brightnessChange = false;
@@ -770,6 +777,14 @@
       rem.statusmap.set("xaccel",0);
       rem.statusmap.set("yaccel",0);
       rem.statusmap.set("zaccel",0);
+    }else if (sensor == "IR"){
+      rem.statusmap.set("IRSensorStatus1",0);
+      rem.statusmap.set("IRSensorStatus2",0);
+      rem.statusmap.set("IRSensorStatus3",0);
+      rem.statusmap.set("IRSensorStatus4",0);
+      rem.statusmap.set("IRSensorStatus5",0);
+      rem.statusmap.set("IRSensorStatus6",0);
+      rem.statusmap.set("IRSensorStatus7",0);
     }
 
 
@@ -921,7 +936,7 @@
           axis3d: ['x','y','z'],
           sounds: ['moan','purr',"angry","approve","disapprove","discomfort","doubtful","laugh","likes","mumble","ouch","thinking","various"],
           colorchan: ['red','green','blue'],
-          sensors: ['all','acceleration','brighness','claps','face','fling','gaps','obstacles','pan','orientation','tap','tilt'],
+          sensors: ['all','acceleration','brighness','claps','face','fling','IR','pan','orientation','tap','tilt'],
           block: ['blocking','non-blocking'],
           range: ['between', 'out'],
           stop: ['all','wheels','pan','tilt'],
