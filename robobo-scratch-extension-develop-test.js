@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-//Scratch extension version 0.2.2-dev
+//Scratch extension version 0.2.4-dev
 (function(ext) {
     var rem;
     var commandid = 0;
@@ -944,6 +944,7 @@
           boolean: ['true','false'],
           wheelmenu: ['position','speed']
         },
+        url: 'http://education.theroboboproject.com/manual-de-programacion'
     };
 
 
