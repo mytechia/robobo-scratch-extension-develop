@@ -793,7 +793,7 @@
   ext.dummyFun = function () {
     return false;
   };
- 
+
 
   ext.readBlobCoord = function(color, axis){
     return rem.getBlobCoord(color,axis);
@@ -847,14 +847,14 @@
           ['w', 'move pan to %s at speed %s %m.block','movePanRoboboNew','180','5','blocking'],
           ['w', 'move tilt to %s at speed %s %m.block','moveTiltRoboboNew','90','5','blocking'],
 
-          [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],                    
+          [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],
 
 
 
           //SECTION - ROBOBO BASE SENSING BLOCKS
           ['h', 'BASE SENSING BLOCKS','dummyFun'],
 
-          [' ','reset sensor %m.sensors','resetSensor','all'],          
+          [' ','reset sensor %m.sensors','resetSensor','all'],
 
           ['r', 'read %m.individualwheel wheel %m.wheelmenu','readWheel','right','position'],
 
@@ -866,7 +866,7 @@
 
           ['r', 'base battery level','readBatteryLevel'],
 
-          
+
 
           //SECTION - SMARTPHONE ACTUATION BLOCKS
           ['h', 'SMARTPHONE ACTUATION BLOCKS','dummyFun'],
@@ -898,7 +898,7 @@
           [' ','configure blob detection colors R:%m.boolean G:%m.boolean B:%m.boolean C:%m.boolean','configBlob','false','true','false','false'],
 
           ['r', 'fling angle','readFlingAngle'],
-          
+
           ['r', 'tap position at %m.axis axis','readTapCoord','x'],
           ['r', 'tap zone','readTapZone'],
 
@@ -948,5 +948,5 @@
 
 
     // Register the extension
-    ScratchExtensions.register('Robobo Extension Develop v0.2.2', descriptor, ext);
+    ScratchExtensions.register('Robobo Extension Develop v0.2.3', descriptor, ext);
 })({});
