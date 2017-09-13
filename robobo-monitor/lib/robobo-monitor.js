@@ -43,56 +43,10 @@ function setElementVisibility(element, visibility) {
     }
 }
 
-/** Returns SVG element corresponding to the IR sensor number 'irNumber' */
-function getIr(irNumber) {
-    return document.getElementById("robobo-ir"+irNumber);
+/** Sets the HTML content of the specified element */
+function setElementHTML(element, html) {
+    document.getElementById(element).innerHTML = html;
 }
-
-/** Hides the specified IR sensor from the Robobo views */
-function hideIr(irNumber) {
-    ir = getIr(irNumber);
-    setElementVisibility(ir, 0);
-    if (irNumber == 3) {
-    hideIr(33);
-    }
-    else if (irNumber == 7) {
-    hideIr(77);
-    }
-}
-
-/** Hide all IR sensor from the Robobo views */
-function hideAllIrs() {
-    for(i=1; i<=8; i++) {
-    hideIr(i);
-    }
-}
-
-/** Notifies (visually) the presence of an obstacle in a particular IR */
-function setIrObstacle(irNumber) {
-    ir = getIr(irNumber);
-    setElementVisibility(ir, 1);
-    ir.setAttribute("fill", "#ffbb00");
-    if (irNumber == 3) {
-    setIrObstacle(33);
-    }
-    else if (irNumber == 7) {
-    setIrObstacle(77);
-    }
-}
-
-/** Notifies (visually) the presence of a fall in a particular IR */
-function setIrFall(irNumber) {
-    ir = getIr(irNumber);
-    setElementVisibility(ir, 1);
-    ir.setAttribute("fill","#dd0000");
-    if (irNumber == 3) {
-    setIrFall(33);
-    }
-    else if (irNumber == 7) {
-    setIrFall(77);
-    }
-}
-
 
 /** Modifies the pan angle in the Robobo top-view */
 function setPanAngle(angle) {
@@ -118,46 +72,6 @@ function setTiltAngle(angle) {
         tilt.setAttribute("transform", rotate);
     }
 }
-
-/** Sets the color of the specified LED in the Robobo- top-view widget*/
-function setLEDColor(ledNumber, color) {
-    ledId = "robobo-led" + ledNumber;
-    roboboLed = document.getElementById(ledId);
-    roboboLed.setAttribute("fill", color);
-}
-
-/** Sets the HTML content of the specified element */
-function setElementHTML(element, html) {
-    document.getElementById(element).innerHTML = html;
-}
-
-/** Starts the rotation animation of the Robobo wheel
-    at the indicated speed. */
-function rotateWheel(speed) {
-    addRotateTransform("robobo-wheel", 10, speed);
-}
-
-/** Adds a rotation transform animation to a SVG element. */
-function addRotateTransform(target_id, dur, dir) {
-    var my_element = document.getElementById(target_id);
-    var a = document.createElementNS("http://www.w3.org/2000/svg", "animateTransform");
-
-    var bb = my_element.getBBox();
-    var cx = bb.x + bb.width/2;
-    var cy = bb.y + bb.height/2;
-
-    a.setAttributeNS(null, "attributeName", "transform");
-    a.setAttributeNS(null, "attributeType", "XML");
-    a.setAttributeNS(null, "type", "rotate");
-    a.setAttributeNS(null, "dur", dur + "s");
-    a.setAttributeNS(null, "repeatCount", "indefinite");
-    a.setAttributeNS(null, "from", "0 "+cx+" "+cy);
-    a.setAttributeNS(null, "to", 360*dir+" "+cx+" "+cy);
-
-    my_element.appendChild(a);
-    a.beginElement();
-}
-
 
 /** Sets the position of the TAP sensor in the Robobo view widget.
     It also makes the TAP sensor visible. */
@@ -222,59 +136,6 @@ function setFacePosition(dist,x,y) {
         setElementVisibility(face, 1);
 
     }
-}
-
-/** Sets the position of the BLOB sensor in the Robobo view widget.
-    It also makes the BLOB sensor visible. */
-function setBlobPosition(color, size, x, y) {
-
-    if (color != null && size != null && x != null && y != null) {
-
-        ball = document.getElementById("robobo-ball");
-
-        if (size == 0) {
-            setElementVisibility(ball, 0);
-        }
-        else {
-
-            bbEmotion = document.getElementById("robobo-view").getBBox();
-            xScale = bbEmotion.width / 100;
-            yScale = bbEmotion.height / 100;
-            var cx = xScale * x + bbEmotion.x;
-            var cy = yScale * y + bbEmotion.y;
-
-
-            bbBall = ball.getBBox();
-            cx = cx - bbBall.width/2;
-            cy = cy - bbBall.height/2;
-
-            ball.setAttribute("x", cx);
-            ball.setAttribute("y", cy);
-
-            setElementVisibility(ball, 1);
-        }
-
-    }
-}
-
-/** Hides al the sensors (IRs, obstacles, face, ball, etc.) shown in the
-    Robobo status page */
-function hideAllSensors() {
-
-    hideAllIrs();
-
-    touch = document.getElementById("robobo-touch");
-    setElementVisibility(touch, 0);
-
-    fling = document.getElementById("robobo-fling");
-    setElementVisibility(fling, 0);
-
-    face = document.getElementById("robobo-face");
-    setElementVisibility(face, 0);
-
-    ball = document.getElementById("robobo-ball");
-    setElementVisibility(ball, 0);
-
 }
 
 
@@ -371,16 +232,16 @@ function registerRemoteCallbacks(rem) {
     rem.registerCallback("onNewTap", function() {
         //update TAP position in robobo emotion face
         var tapX = rem.getTapCoord('x');
-        var tapY = rem.getTapCoord('y')
-        var tapSensor =  tapX + ' | ' + tapY;
-        setElementHTML("tap-sensor-value", tapSensor);
-        setTapPosition(tapX, tapY);
+        var tapY = rem.getTapCoord('y');
+        setElementHTML("tap-sensor-x-value", tapX);
+        setElementHTML("tap-sensor-y-value", tapY);
+        //setTapPosition(tapX, tapY);
     });
 
     rem.registerCallback("onNewFling",function() {
         //update fling angle in robobo emotion face
         var flingAngle = rem.checkFlingAngle();
-        setFlingAngle(flingAngle);
+        //setFlingAngle(flingAngle);
         setElementHTML("fling-sensor-value", rem.checkFlingAngle());
     });
 
@@ -416,13 +277,6 @@ function updateSensors() {
     var orSensor = rem.getOrientation('yaw') + ' | ' + rem.getOrientation('pitch') + ' | ' + rem.getOrientation('roll');
     setElementHTML("orientation-sensor-value", orSensor);
 
-    //update batteries
-    var robBat = rem.checkBatt();
-    setElementHTML("rob-batery-value", robBat);
-    var oboBat = rem.checkOboBatt();
-    setElementHTML("obo-batery-value", oboBat);
-    updateBatteryChart(oboBat, robBat);
-
     //update pan-tilt position
     setElementHTML("pan-sensor-value", rem.getPan());
     setPanAngle(rem.getPan());
@@ -437,11 +291,5 @@ function updateSensors() {
     setElementHTML("facepos-sensor-value", faceSensor);
     setFacePosition(faceDist, faceX, faceY);
     setElementHTML("facedist-sensor-value", rem.getFaceDist());
-
-    //update BLOB position
-    var blobX = rem.getBlobCoord("green","x");
-    var blobY = rem.getBlobCoord("green","y");
-    var blobSize = rem.getBlobSize("green");
-    setBlobPosition("green", blobSize, blobX, blobY);
 
 }

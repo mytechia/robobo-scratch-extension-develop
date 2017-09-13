@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Muuri - Responsive, sortable, filterable and draggable grid layouts</title>
+    <meta name="description" content="Muuri is a JavaScript library that creates responsive, sortable, filterable and draggable grid layouts.">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Niklas Rämö">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/robobo-monitor-grid.css">
+  </head>
+  <body>
+
+    <section class="grid-demo">
+
+      <h2 class="section-title"><span>Grid Demo</span></h2>
+
+      <div class="grid">
+
+        <div class="item" data-id="1">
+          <div class="item-content">
+            <div class="card-title">Wheels
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              Right Speed - AU (0-100)<br>
+              Right Position - grados (0-360)<br>
+              Left Speed - AU (0-100)<br>
+              Left Position - grados (0-360)<br>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="2">
+          <div class="item-content">
+            <div class="card-title">Pan & Tilt
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              <id id="pan-sensor">Pan: <span id="pan-sensor-value"></span></id>
+              </br>
+              <id id="tilt-sensor">Tilt: <span id="tilt-sensor-value"></span></id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="3">
+          <div class="item-content">
+            <div class="card-title">Control
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              <br>
+              Aquí el joystick virtual
+              <br><br>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="4">
+          <div class="item-content">
+            <div class="card-title">IR Sensors Distance
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              Front-C - cm (0-100)<br>
+              Front-L - cm (0-100)<br>
+              Front-LL - cm (0-100)<br>
+              Front-R - cm (0-100)<br>
+              Front-RR - cm (0-100)<br>
+              Back-C - cm (0-100)<br>
+              Back-L - cm (0-100)<br>
+              Back-R - cm (0-100)<br>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="5">
+          <div class="item-content">
+            <div class="card-title">IR Sensors Raw
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              Front-C - AU (número de entre 5-6 dígitos)<br>
+              Front-L - AU (número de entre 5-6 dígitos)<br>
+              Front-LL - AU (número de entre 5-6 dígitos)<br>
+              Front-R - AU (número de entre 5-6 dígitos)<br>
+              Front-RR - AU (número de entre 5-6 dígitos)<br>
+              Back-C - AU (número de entre 5-6 dígitos)<br>
+              Back-L - AU (número de entre 5-6 dígitos)<br>
+              Back-R - AU (número de entre 5-6 dígitos)<br>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="6">
+          <div class="item-content">
+            <div class="card-title">Battery
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              <id id="rob-batery-sensor">ROB battery: <span id="rob-batery-value"></span> %</id>
+              </br>
+              <id id="obo-batery-sensor">OBO battery: <span id="obo-batery-value"></span> %</id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="7">
+          <div class="item-content">
+            <div class="card-title">Audio Sensors
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              Music Note - DO, RE, MI, … <br>
+              Claps - (0-1000)
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="8">
+          <div class="item-content">
+            <div class="card-title">Face Sensor
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+<!--
+              Dist - cm (0-100)<br>
+              X Position - AU (0-100)<br>
+              Y Position - AU (0-100)<br>
+-->
+              <id id="facepos-sensor">Last face position: <span id="facepos-sensor-value"></span></id>
+              </br>
+              <id id="facedist-sensor">Last face distance: <span id="facedist-sensor-value"></span></id>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="9">
+          <div class="item-content">
+            <div class="card-title">Blob Sensor
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              <id id="color-sensor">Color: <span id="color-sensor-value"></span></id>
+
+              Green Blob X - AU (0-100)<br>
+              Green Blob Y - AU (0-100)<br>
+              Green Blob Area - AU (0-1000)<br>
+              Blue Blob X - AU (0-100)<br>
+              Blue Blob Y - AU (0-100)<br>
+              Blue Blob Area - AU (0-1000)<br>
+              Red Blob X - AU (0-100)<br>
+              Red Blob Y - AU (0-100)<br>
+              Red Blob Area - AU (0-1000)<br>
+              Custom BlobX - AU (0-100)<br>
+              Custom BlobY - AU (0-100)<br>
+              Custom Blob Area - AU (0-1000)<br>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="10">
+          <div class="item-content">
+            <div class="card-title">Orientation Sensor
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              Yaw - grados (-360 a 360)<br>
+              Pitch - grados (-360 a 360)<br>
+              Roll - grados (-360 a 360)<br>
+            </br>
+            <id id="orientation-sensor">Orientation: <span id="orientation-sensor-value"></span></id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="10">
+          <div class="item-content">
+            <div class="card-title">Accleration Sensor
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              AccelX - m/s2 (0-1000)<br>
+              AccelY - m/s2 (0-1000)<br>
+              AccelZ - m/s2 (0-1000)<br>
+              </br>
+              <id id="accel-sensor">Aceleration: <span id="accel-sensor-value"></span></id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="10">
+          <div class="item-content">
+            <div class="card-title">Touch Sensor
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              Tap zone - texto (mouth, eye, left..)<br>
+              <id id="tap-sensor">
+                Tap X: <span id="tap-sensor-x-value"></span><br>
+                Tap Y: <span id="tap-sensor-y-value"></span>
+              </id>
+              <br>
+              <id id="fling-sensor">Fling angle: <span id="fling-sensor-value"></span> º</id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="10">
+          <div class="item-content">
+            <div class="card-title">Environment Light Sensor
+              <div class="card-remove">R</div>
+            </div>
+            <div class ="card-content">
+              <!--
+              Brightness - Lux (0-10000)
+            -->
+              <br>
+              <id id="brightness-sensor">Brightness: <span id="brightness-sensor-value"></span></id>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+    <script src="lib/vendor/velocity.min.js"></script>
+    <script src="lib/vendor/hammer.min.js"></script>
+    <script src="lib/vendor/muuri.js"></script>
+    <script src="lib/robobo-monitor-grid.js"></script>
+    <script src="https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js"></script>
+    <script type="text/javascript" src="lib/robobo-monitor.js"></script>
+
+    <script>
+        //Lets create a new instance of the Robobo Remote JS Library and connect it to a Robobo
+        var rem = new Remote(getAllUrlParams().ip,"");
+
+        //connect to the remote Robobo
+        rem.connect();
+
+        //wait until the connection is stablished
+        rem.waitForConnection();
+
+        //register status callbacks
+        registerRemoteCallbacks(rem);
+
+        //start polling status values
+        setInterval(updateSensors, 100); //10 per second
+    </script>
+
+  </body>
+
+</html>
