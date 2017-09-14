@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var docElem = document.documentElement;
   var demo = document.querySelector('.grid-demo');
   var gridElement = demo.querySelector('.grid');
+
   var dragOrder = [];
   var uuid = 0;
 
@@ -17,7 +18,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function initDemo() {
     initGrid();
+
+    gridElement.addEventListener('click', function (e) {
+      if (elementMatches(e.target, '.card-icon')) {
+        cardContent = e.target.parentElement.getElementsByClassName('card-content')[0];
+        clickExpandCollapse(e.target, cardContent);
+      }
+    });
   }
+
+  function clickExpandCollapse(iconElement, contentElement) {
+      if (contentElement.classList.contains('card-content-collapsed')) {
+         expandCard(iconElement,contentElement);
+      }else {
+        collapseCard(iconElement, contentElement);
+      }
+
+  }
+
+  function expandCard(iconElement, contentElement) {
+    contentElement.classList.remove("card-content-collapsed");
+    contentElement.classList.add("card-content-expanded");
+  }
+
+  function collapseCard(iconElement, contentElement) {
+    contentElement.classList.remove("card-content-expanded");
+    contentElement.classList.add("card-content-collapsed");
+  }
+
 
   function initGrid() {
 
@@ -38,7 +66,8 @@ document.addEventListener('DOMContentLoaded', function () {
       dragSortInterval: 50,
       dragContainer: document.body,
       dragStartPredicate: function (item, event) {
-        return Muuri.ItemDrag.defaultStartPredicate(item, event);
+        var isCollapseAction = elementMatches(event.target, '.card-icon, .card-icon i');
+        return !isCollapseAction ? Muuri.ItemDrag.defaultStartPredicate(item, event) : false;
       },
       dragReleaseDuration: 400,
       dragReleseEasing: 'ease'
@@ -59,7 +88,13 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateIndices() {
     grid.getItems().forEach(function (item, i) {
       item.getElement().setAttribute('data-id', i + 1);
-    });
+  });
+
+  }
+
+  function elementMatches(element, selector) {
+    var p = Element.prototype;
+    return (p.matches || p.matchesSelector || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || p.oMatchesSelector).call(element, selector);
 
   }
 
