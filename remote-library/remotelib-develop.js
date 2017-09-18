@@ -2,6 +2,7 @@
 /*******************************************************************************
  * Copyright 2016 Mytech Ingenieria Aplicada <http://www.mytechia.com>
  * Copyright 2016 Luis Llamas <luis.llamas@mytechia.com>
+ * Copyright 2016 Gervasio Varela <gervasio.varela@mytechia.com>
  * <p>
  * This file is part of Robobo Scratch Extension.
  * <p>
@@ -18,45 +19,62 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-//Remote library version 0.1.3-dev
+
+//Javascript remote control library for the Robobo educational robot - Version 0.9.0-dev
+
 //Constructor of the remote control object 
 function Remote(ip,passwd){
   this.ip = ip.trim();
   this.port = 40404;
+
   //WebSocket to stablish the connection
   this.ws = undefined;
+
   //Unique command id sent to the server
   this.commandid = 0;
+
   //Map of statuses
   this.statusmap = new Map();
+
   //Map of last relevant statuses, for comparations
   this.laststatusmap = new Map();
+
   //Map of callbacks registered by the extension
   this.callbackmap = new Map();
+
   //Map of blocking callbacks
   //this.blockingcallbackmap = new Map();
+
   //First execution mark
   this.firstime = true;
+
   //Connection state
   this.connectionState = Remote.ConnectionStateEnum.DISCONNECTED;
+
   //Connection password
   this.password = passwd;
+
   //Last block id
   this.lastblock = 0;
+
   //Wheel stop callback
   this.wheelsCallback = undefined;
+
   //Tilt stop callback
   this.tiltCallback = undefined;
+
   //Pan stop callback
   this.panCallback = undefined;
+
   //Speech synthesis callback
   this.talkCallback = undefined;
 
+  //defaults and limits
   this.panSpeedLimit = 40;
   this.tiltSpeedLimit = 10;
-
+  
   this.wheelsSpeedLimit = 250;
-
+  
   this.panInferiorLimit = 26;
   this.panSuperiorLimit = 339;
 
@@ -66,6 +84,7 @@ function Remote(ip,passwd){
 //END OF REMOTE OBJECT
 };
 
+//State enumarion fo the connection with the remote robot
 Remote.ConnectionStateEnum = {
   CONNECTING: 0,
   CONNECTED: 1,
@@ -73,6 +92,7 @@ Remote.ConnectionStateEnum = {
   DISCONNECTED: 3
 }
 
+//Remote control implementation
 Remote.prototype = {
 
 
@@ -80,12 +100,13 @@ Remote.prototype = {
     this.callbackmap.set(name,callback);
     //END OF REGISTERCALLBACK FUNCTION
   },
+
+  /** Establishes connection with the remote Robobo */
   connect :function() {
     if (this.ws != undefined){
       console.log("Closing previous connection");
       this.ws.close();
       (this.callbackmap.get("onConnectionChanges"))(1);
-
     }
 
     this.connectionState = Remote.ConnectionStateEnum.CONNECTING;
@@ -99,7 +120,7 @@ Remote.prototype = {
       this.connectionState = Remote.ConnectionStateEnum.CONNECTED;
     }.bind(this);
 
-
+    //adds the listener to process incoming messages
     this.ws.addEventListener('message', function(evt) {
       var received_msg = evt.data;
       this.handleMessage(received_msg);
@@ -160,53 +181,51 @@ Remote.prototype = {
       alert("Websocket Error");
     }.bind(this);
 
+  }, //ENDOF connect
 
-
-    //END OF CONNECT FUNCTION
-  },
-
-  //Waits until the connection is established with the server
-
-
+  /** Waits until the connection is established */
   waitForConnection : function() {
 
     var startTime = new Date().getTime();
     while(true) {
       var currentTime = new Date().getTime();
       if (startTime+1000 < currentTime) {
-
         break;
       }
     }
 
-  },
+  }, //ENDOF waitForConnection 
 
+  /** Checks whether the connection is established or not */
   isConnected : function() {
     return this.connectionState == Remote.ConnectionStateEnum.CONNECTED;
-  },
+  },//ENDOF isConnected
 
+  //closeConnection - Closes the connection with the remote Robobo
   closeConnection: function(reconnect) {
     if (reconnect) {
       this.connectionState = Remote.ConnectionStateEnum.RECONNECTING;
     }
-    this.ws.close();
-    //END OF CLOSECONNECTION METHOD
-  },
+    this.ws.close();    
+  }, //ENDOF closeConnection
 
+  /** Sends a message to the remote Robobo */
   sendMessage: function(message) {
     this.commandid = this.commandid +1;
     this.ws.send(message);
 
-    //END OF SENDMESSAGE FUNCTION
+    //ENDOF sendMessage
   },
 
+  /** Notifies an error */
   fireError: function (err) {
     console.log("ERROR "+ err);
     this.statusmap.set("error",err);
 
     (this.callbackmap.get("onError"))();
-  },
+  },//ENDOF fireError
 
+  /** Handles and processes an incoming message from the remote Robobo */
   handleMessage: function(message) {
 
     var jsonmsg = JSON.parse(message)
@@ -217,12 +236,14 @@ Remote.prototype = {
       this.manageResponse(jsonmsg);
     }
 
-    //END OF HANDLEMESSAGE FUNCTION
-  },
+  },//ENDOF handleMessage
 
 
-  //MOVEMENT
+  /*********************************/
+  /* ROBOT BASE MOVEMENT FUNCTIONS *
+  /*********************************/
 
+  /** Commands the robot to move the wheel by some angle */
   moveWheelsByDegree: function(wheel,degrees,speed) {
     var message = JSON.stringify({
         "name": "MOVEBYDEGREES",
@@ -234,9 +255,11 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF MOVEDEGREE FUNCTION
+    //ENDOF moveWheelsByDegree
   },
 
+
+  /** Commands the robot to move during some time */
   moveWheelsByTime: function(wheel,time,speed) {
     var message = JSON.stringify({
         "name": "MOVEBYTIME",
@@ -248,42 +271,29 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF MOVETIME FUNCTION
+    //ENDOF moveWheelsByTime
   },
 
+  //TODO -> mover a utilities.js
+  /** Converts the speed to the range expected by the robot */
   convertSpeedWheels: function (speed) {
-    convertedSpeed = speed*2.5;
-    if (Math.abs(speed)<10) {
-      return 0;
-    }else if (this.wheelsSpeedLimit > convertedSpeed) {
-      return Math.round(convertedSpeed);
-    }else{
-      return this.wheelsSpeedLimit;
-    }
-  },
+    return speed;
+  }, //ENDOF convertSpeedWheels
 
+  //TODO -> mover a utilities.js
+  /** Converts the PAN movement speed to the range expected by the robot */
   convertSpeedPan: function (speed) {
-    convertedSpeed = speed*1.4;
+    return speed;
+  },//ENDOF convertSpeedPan
 
-      if (convertedSpeed < this.panSpeedLimit){
-        return Math.floor(convertedSpeed);
-      }else{
-        return this.panSpeedLimit;
-      }
-
-  },
-
+  //TODO -> mover a utilities.js
+  /** Converts the TILT movement speed to the range expected by the robot */
   convertSpeedTilt: function (speed) {
-    convertedSpeed = speed*0.9;
+    return speed;
+  },//ENDOF convertSpeedTilt
 
-      if (convertedSpeed < this.tiltSpeedLimit){
-        return Math.floor(convertedSpeed);
-      }else{
-        return this.tiltSpeedLimit;
-      }
 
-  },
-
+  /** Commands the robot to move each wheel with an idepenent speed */
   moveWheelsSeparated: function(lSpeed,rSpeed,time) {
     lS = ''+this.convertSpeedWheels(parseInt(lSpeed));
     rS = ''+this.convertSpeedWheels(parseInt(rSpeed));
@@ -298,9 +308,12 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF MOVETWOWHEELS FUNCTION
-  },
+    
+  },//ENDOF moveWheelsSeparated
 
+
+  /** Commands the robot to move each wheel with an idepenent speed and waits
+   * until the roboot finishes the movement */
   moveWheelsSeparatedWait: function(lSpeed,rSpeed,time,callback) {
     console.log("moveWheelsSeparatedWait "+lSpeed+" "+rSpeed+" "+time);
     lS = ''+this.convertSpeedWheels(parseInt(lSpeed));
@@ -320,15 +333,15 @@ Remote.prototype = {
             rspeed: rS,
             time:time,
             blockid: this.lastblock
-
         },
         "id": this.commandid
     });
-    console.log("Message: "+message)
     this.sendMessage(message);
-    //END OF MOVETWOWHEELS FUNCTION
-  },
+    
+  },//ENDOF moveWheelsSeparatedWait
 
+
+  /** Commands the robot to turn on the wheels motors at the specified speed, indefinitely */
   motorsOn: function(lMotor,rMotor,speed) {
     var message = JSON.stringify({
         "name": "MOTORSON",
@@ -340,11 +353,11 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF MOTORSON FUNCTION
-  },
+    
+  },//ENDOF motorsOn
 
 
-
+  /** Commands the robot to turn by some degrees */
   turnInPlace: function(degrees) {
     var message = JSON.stringify({
         "name": "TURNINPLACE",
@@ -354,9 +367,11 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF TURNINPLACE FUNCTION
-  },
 
+  },//ENDOF turnInPlace
+
+
+  /** Commands the robot to move the PAN to the specified position */
   movePan: function(pos, vel) {
     s = ''+ this.convertSpeedPan(parseInt(vel));
     if (pos > this.panSuperiorLimit){
@@ -378,9 +393,12 @@ Remote.prototype = {
     //  this.statusmap.set("panPos",pos);
     //}
     this.sendMessage(message);
-    //END OF MOVEPAN FUNCTION
-  },
+    
+  }, //ENDOF movePan
 
+
+  /** Commands the robot to move the PAN to the specified position 
+   * and waits until the movement finishes */
   movePanWait: function(pos, vel, callback) {
     s = ''+ this.convertSpeedPan(parseInt(vel));
     if (pos > this.panSuperiorLimit){
@@ -401,7 +419,6 @@ Remote.prototype = {
 
     lb = this.lastblock
 
-
     var message = JSON.stringify({
         "name": "MOVEPANBLOCKING",
         "parameters": {
@@ -415,17 +432,20 @@ Remote.prototype = {
     //  this.statusmap.set("panPos",pos);
     //}
     this.sendMessage(message);
-    //END OF MOVEPAN FUNCTION
-  },
+    
+  },//ENDOF movePanWait
 
+  /** Returns the current PAN position */
   getPan:function() {
     return this.statusmap.get("panPos")
-  },
+  },//ENDOF getPan
 
+  /** Returns the current TILT position */
   getTilt:function() {
     return this.statusmap.get("tiltPos")
-  },
+  },//ENDOF getTilt
 
+  /** Commands the  robot to move the PAN by some degrees */
   movePanByDegrees: function (degrees, speed) {
 
     console.log("movePanByDegrees");
@@ -447,6 +467,8 @@ Remote.prototype = {
     //END OF MOVEPANBYDEGREES FUNCTION
   },
 
+
+  /** Commands the robot to move the TILT to an specified position */
   moveTilt: function (pos, vel) {
     s = ''+ this.convertSpeedTilt(parseInt(vel));
 
@@ -462,9 +484,12 @@ Remote.prototype = {
     //  this.statusmap.set("tiltPos",parseInt(pos));
     //}
     this.sendMessage(message);
-    //END OF MOVETILT FUNCTION
-  },
+    
+  },//ENDOF moveTilt
 
+
+  /** Commands the robot to move the TILT to an specified position 
+   * and waits until the robot ends the movement */
   moveTiltWait: function (pos, vel, callback) {
     s = ''+ this.convertSpeedTilt(parseInt(vel));
     if (pos > this.tiltSuperiorLimit){
@@ -495,9 +520,11 @@ Remote.prototype = {
     //  this.statusmap.set("tiltPos",parseInt(pos));
     //}
     this.sendMessage(message);
-    //END OF MOVETILT FUNCTION
-  },
+    
+  },//ENDOF moveTiltWait
 
+
+  /** Commands the  robot to move the TILT by some degrees */
   moveTiltByDegrees: function (degrees, speed) {
     console.log("moveTiltByDegrees");
     var actual = this.statusmap.get("tiltPos");
@@ -514,12 +541,20 @@ Remote.prototype = {
     console.log(newpos);
     //this.statusmap.set("tiltPos",newpos);
     this.moveTilt(newpos, speed);
-    //END OF MOVETILTBYDEGREES FUNCTION
-  },
 
-  //ENDMOVEMENT
+  },//ENDOF moveTiltByDegrees
 
-  //HRI
+  /***************************************/
+  /* ENDOF ROBOT BASE MOVEMENT FUNCTIONS *
+  /***************************************/
+
+  //---------------------------------------
+
+  /***************************************/
+  /* SOUND-BASED INTERACTION FUNCTIONS   *
+  /***************************************/
+
+  /** Commands the robot to read text using Text-To-Speech */
   talk : function (speech, callback) {
     if (this.talkCallback != undefined){
       this.talkCallback();
@@ -534,9 +569,11 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF TALK FUNCTION
-  },
+    
+  },//ENDOF talk
 
+
+  /** Commands the robot to change its face/emotion */
   changeEmotion : function (emotion) {
     var message = JSON.stringify({
         "name": "CHANGEEMOTION",
@@ -546,8 +583,8 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF CHANGEEMOTION FUNCTION
-  },
+
+  }, //ENDOF changeEmotion
 
   setLedColor: function (led,color) {
     var message = JSON.stringify({
@@ -562,6 +599,8 @@ Remote.prototype = {
     //END OF CHANGECOLOR FUNCTION
   },
 
+
+  /** Commands the robot to play a prerecorded sound */
   playEmotionSound : function (sound) {
     var message = JSON.stringify({
         "name": "SOUND",
@@ -571,9 +610,11 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF PLAYEMOTION FUNCTION
-  },
+    
+  },//ENDOF playEmotionSound
 
+
+  /** Commands the robot to play a musical note */
   playNote : function (index, time) {
     var message = JSON.stringify({
         "name": "PLAYNOTE",
@@ -584,12 +625,20 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF PLAYNOTE FUNCTION
-  },
 
-  //ENDHRI
+  },//ENDOF playNote
 
-  //SENSING
+  /*********************************************/
+  /* ENDOF SOUND-BASED INTERACTION FUNCTIONS   *
+  /*********************************************/
+
+  //---------------------------------------
+
+  /***************************************/
+  /* SMARTPHONE SENSORS FUNCTIONS        *
+  /***************************************/
+
+  /** Commands the robot to return the last known ambient light value */
   getLightBrightness: function () {
     var message = JSON.stringify({
         "name": "GETBRIGHTNESS",
@@ -597,30 +646,16 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    //END OF GETLIGHTBRIGHTNESS FUNCTION
-  },
+  }, //ENDOF getLightBrightness
 
+
+  /** Notifies that the ambient light value has changed */
   brightnessChanged: function (callback) {
     callback();
+  }, //ENDOF brightnessChanged
 
-    //END OF BRIGHTNESSCHANGED FUNCTION
-  },
 
-  configureBlobDetection: function (red, green, blue, custom) {
-    var message = JSON.stringify({
-        "name": "CONFIGUREBLOB",
-        "parameters": {
-            "red":red,
-            "green":green,
-            "blue":blue,
-            "custom":custom
-        },
-        "id": this.commandid
-    });
-    this.sendMessage(message);
-    //END OF CHANGECOLOR FUNCTION
-  },
-
+  //TODO --> Move to base functions block
   consultIR : function (irnumber) {
     console.log("ASDF");
 
@@ -629,6 +664,7 @@ Remote.prototype = {
     //END OF GETLIGHTBRIGHTNESS FUNCTION
   },
 
+  //TODO --> Remove
   mirarIr : function (irnumber) {
     return this.statusmap.get("IRSensorStatus"+irnumber);
     //END OF MIRARIR FUNCTION
@@ -644,6 +680,7 @@ Remote.prototype = {
     //END OF CHECKBATT FUNCTION
   },
 
+  //TODO --> Remove
   checkFall : function (fall) {
     return this.statusmap.get(fall);
     //END OF CHECKFALL FUNCTION
@@ -654,25 +691,51 @@ Remote.prototype = {
     //END OF CHECKFLING ANGLE
   },
 
+    //TODO --> Remove
   checkGap : function (gap) {
     return this.statusmap.get(gap);
     //END OF CHECKFALL FUNCTION
   },
 
+  /** Returns the last known ambient light value */
   getBrightness : function () {
     return this.statusmap.get("brightness");
   },
 
+  /***************************************/
+  /* ENDOF SMARTPHONE SENSORS FUNCTIONS  *
+  /***************************************/
 
-  //ENDSENSING
+  //---------------------------------------
 
-  //VISION
+  /***************************************/
+  /* VISION-BASED INTERACTION FUNCTIONS   *
+  /***************************************/
 
+  /** Activates/deactivates the detection of each of the 4 different color-blobs supported */
+  configureBlobDetection: function (red, green, blue, custom) {
+    var message = JSON.stringify({
+        "name": "CONFIGUREBLOB",
+        "parameters": {
+            "red":red,
+            "green":green,
+            "blue":blue,
+            "custom":custom
+        },
+        "id": this.commandid
+    });
+    this.sendMessage(message);
+    
+  },//ENDOF configureBlobDetection
+
+  //TODO --> Remove
   getColor : function () {
     return this.statusmap.get("color");
     //END OF GETCOLOR FUNCTION
   },
 
+
+  /** Returns the coords (x or y axis) of the last defected face */
   getFaceCoord :function(axis) {
     if (axis=="x") {
       return this.statusmap.get("facex");
@@ -680,9 +743,12 @@ Remote.prototype = {
     }else{
       return this.statusmap.get("facey");
     }
-    //END OF GETFACECOORD FUNCTION
-  },
+    
+  },//ENDOF getFaceCoord
 
+
+  //TODO --> Move to touch block
+  /** Returns the coords (x or y axis) of the last TAP of the user in the screen */
   getTapCoord :function(axis) {
     if (axis=="x") {
       return this.statusmap.get("tapx");
@@ -690,9 +756,12 @@ Remote.prototype = {
     }else{
       return this.statusmap.get("tapy");
     }
-    //END OF GETFACECOORD FUNCTION
-  },
+    
+  },//ENDOF getTapCoord
 
+
+  //TODO -> Move to sensing block
+  /** Returns the current orientation of each axis (yaw, pitch, roll) of the smartphone */
   getOrientation :function(axis) {
     if (axis=="yaw") {
       return this.statusmap.get("yaw");
@@ -703,9 +772,12 @@ Remote.prototype = {
     }else{
       return this.statusmap.get("roll");
     }
-    //END OF GETORIENTATION FUNCTION
-  },
+    
+  },//ENDOF getOrientation
 
+
+  //TODO --> Move to sensing block
+  /** Returns the current accleration of each axis (x, y, z) of the smartphone */
   getAcceleration :function(axis) {
     if (axis=="x") {
       return this.statusmap.get("xaccel");
@@ -716,9 +788,11 @@ Remote.prototype = {
     }else{
       return this.statusmap.get("zaccel");
     }
-    //END OF GETORIENTATION FUNCTION
-  },
+    
+  },//ENDOF getAcceleration
 
+
+  //TODO --> Remove
   checkMeasuredColor:function(channel) {
 
     if (channel=="red") {
@@ -734,42 +808,83 @@ Remote.prototype = {
     //END OF GETMEASUREDCOLOR FUNCTION
   },
 
+
+  /** Returns the estimated distance to last detected face */
   getFaceDist : function () {
     return this.statusmap.get("facedist");
-  },
+  },//ENDOF getFaceDist
 
+
+  //TODO --> remove or not?
   getObstacle : function (ir) {
 
     return this.statusmap.get(ir);
   },
 
-  //ENDVISION
+  /**********************************************/
+  /* ENDOF VISION-BASED INTERACTION FUNCTIONS   *
+  /**********************************************/
+
+  //---------------------------------------------
+
+  /**********************************************/
+  /* TOUCH-BASED INTERACTION FUNCTIONS          *
+  /**********************************************/
+
+
+
+  /**********************************************/
+  /* ENDOF TOUCH-BASED INTERACTION FUNCTIONS    *
+  /**********************************************/
+
+
+  //---------------------------------------------
+
+  /**********************************************/
+  /* UTILITY FUNCTIONS                          *
+  /**********************************************/
+
 
   getError : function () {
     return this.statusmap.get("error");
     //END OF GETCOLOR FUNCTION
   },
 
+  /**********************************************/
+  /* ENDOF UTILITY FUNCTIONS                    *
+  /**********************************************/
+
+
+
+
+  //TODO --> Move to base block or remove?
   getPanPosition : function () {
     return this.statusmap.get("panPos");
     //END OF GETCOLOR FUNCTION
   },
 
+  //TODO --> Move to base block or remove?
   getTiltPosition : function () {
     return this.statusmap.get("tiltPos");
     //END OF GETCOLOR FUNCTION
   },
 
+  //TODO --> Move to vision block
   getBlobCoord : function(color, axis){
     return this.statusmap.get("blobPos"+axis+color);
   },
 
+  //TODO --> Move to vision block
   getBlobSize : function(color){
     return this.statusmap.get("blobSize"+color);
   },
+
+  //TODO --> Move to sound block
   getLastNote : function(){
     return this.statusmap.get("lastNote");
   },
+
+  //TODO --> Move to base block
   getWheel : function(wheel, type){
       if (type == "speed"){
         if (wheel == "right"){
@@ -789,16 +904,23 @@ Remote.prototype = {
       }
   },
 
+  //TODO --> Move to base block
   getLedColor : function (led, channel){
       return this.statusmap.get(led+channel);
 
   },
 
+  //TODO --> Move to HRI block
   getEmotion : function (){
       return this.statusmap.get("emotion");
   },
 
 
+  /******************************/
+  /* MESSAGE PROCESSING         *
+  /******************************/
+  
+  /** Manages the processing of each different status message received from the remote robot */
   manageStatus : function (msg) {
 
 
@@ -901,7 +1023,7 @@ Remote.prototype = {
     }
 
     else if (msg.name == "CLAP") {
-
+      //TODO --> add null calback check
       (this.callbackmap.get("onNewClap"))();
     }
 
@@ -1064,13 +1186,13 @@ Remote.prototype = {
     }
 
 
-    //END MANAGESTATUS FUNCTION
-  },
+  }, //ENDOF manageStatus
 
+
+  /** Manages the processing of each response message received from the remote robot */
   manageResponse : function (msg) {
       console.log(JSON.stringify(msg));
 
-    //END MANAGERESPONSE FUNCTION
-  }
+  } //ENDOF manageResponse
 
 }
