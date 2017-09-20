@@ -19,10 +19,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-//Scratch extension version 0.2.2-dev
+//Scratch extension for the Robobo education robot - Version 0.9.0-dev
 (function(ext) {
-    var rem;
+    
+    var rem; //remote connection to the robot
+
     var commandid = 0;
+
+    //event toggles
     var newcolor = false;
     var newface = false;
     var lostface = false;
@@ -30,6 +34,7 @@
     var voice = false;
     var newNote = false;
 
+    //status of the remote connection
     var connectionStatus = 1;
 
 
@@ -49,6 +54,7 @@
 
     var blockCallback = undefined;
 
+    //load required libraries
     $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js", function(){});
     $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/utilities.js", function(){});
 
@@ -631,6 +637,7 @@
 
     };
 
+    //TODO --> Remove?
     ext.oldMovement = function(rSpeed,lSpeed,quantity,mode,callback){
       if (mode == 'non-stop'){
         rem.moveWheelsSeparated(rSpeed,lSpeed,2147483647)
@@ -650,7 +657,7 @@
 
     ext.newMovementT = function(rSpeed,lSpeed,quantity,mode,callback){
       if (mode == 'non-stop'){
-        rem.moveWheelsSeparated(lSpeed,rSpeed,2147483647);
+        rem.moveWheelsSeparated(lSpeed,rSpeed,2147483647); //TODO -> use rem.motorsOn
         callback();
       }else if (mode=='seconds') {
         rem.moveWheelsSeparatedWait(lSpeed,rSpeed,quantity,callback);
@@ -844,8 +851,8 @@
 
           [' ', 'stop %m.stop motors','stopFun','all'],
           ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovementT','30','30','1','seconds'],
-          ['w', 'move pan to %s at speed %s %m.block','movePanRoboboNew','180','5','blocking'],
-          ['w', 'move tilt to %s at speed %s %m.block','moveTiltRoboboNew','90','5','blocking'],
+          ['w', 'move pan to %s at speed %s %m.block','movePanRoboboNew','180','15','blocking'],
+          ['w', 'move tilt to %s at speed %s %m.block','moveTiltRoboboNew','90','15','blocking'],
 
           [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],                    
 
@@ -854,14 +861,14 @@
           //SECTION - ROBOBO BASE SENSING BLOCKS
           ['h', 'BASE SENSING BLOCKS','dummyFun'],
 
-          [' ','reset sensor %m.sensors','resetSensor','all'],          
+          [' ', 'reset sensor %m.sensors','resetSensor','all'],          
 
           ['r', 'read %m.individualwheel wheel %m.wheelmenu','readWheel','right','position'],
 
           ['r', 'pan position','readPan'],
           ['r', 'tilt position','readTilt'],
 
-          ['r', 'distance at sensor %m.ir','readObstacle','Front-C'],
+          //['r', 'distance at sensor %m.ir','readObstacle','Front-C'], --> not visible until calibration is ready
           ['r', 'raw value at sensor %m.ir','readObstacle','Front-C'],
 
           ['r', 'base battery level','readBatteryLevel'],
@@ -910,11 +917,9 @@
           ['r', 'smarpthone battery level','readOboBatteryLevel'],
 
 
-
           //deprecated blocks
           //['r', 'read error','readErrorFun'],//v
           //['h', 'on error','errorFun'],//v
-
 
 
         ],
@@ -946,7 +951,6 @@
         },
     };
 
-
     // Register the extension
-    ScratchExtensions.register('Robobo Extension Develop v0.2.2', descriptor, ext);
+    ScratchExtensions.register('Robobo', descriptor, ext);
 })({});
