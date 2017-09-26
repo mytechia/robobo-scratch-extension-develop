@@ -894,21 +894,21 @@ Remote.prototype = {
 
   resetSensors : function () {
 
-    resetFaceSensor();
+    this.resetFaceSensor();
     
-    resetFlingSensor();
+    this.resetFlingSensor();
 
-    resetTapSensor();
+    this.resetTapSensor();
 
-    resetOrientationSensor();
+    this.resetOrientationSensor();
     
-    resetAccelerationSensor();
+    this.resetAccelerationSensor();
 
-    resetIRs();
+    this.resetIRs();
 
-    resetBlobSensor();
+    this.resetBlobSensor();
     
-    resetNoteSensor();
+    this.resetNoteSensor();
 
   },
 
