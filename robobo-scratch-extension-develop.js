@@ -280,13 +280,6 @@
       }
     };
 
-    //Reporter function to get the last detected color
-    ext.readCol = function() {
-      var value = 0;
-      value =rem.getColor();
-      console.log("Value: "+value);
-      return value;
-    };
 
     //Hat function that checks for ir changes
     ext.changedIr = function(irname) {
@@ -703,30 +696,9 @@
       obstacle = false;
       clapnumber = 0;
       lastphrase = '';
-      rem.statusmap.set("facex",0);
-      rem.statusmap.set("facey",0);
-      rem.statusmap.set("facedist","far");
-      rem.statusmap.set("flingangle",0);
-      rem.statusmap.set('Gap1',false);
-      rem.statusmap.set('Gap2',false);
-      rem.statusmap.set('Gap3',false);
-      rem.statusmap.set('Gap4',false);
       ext.obstacle = false;
-      rem.statusmap.set("yaw",0);
-      rem.statusmap.set("pitch",0);
-      rem.statusmap.set("roll",0);
-      rem.statusmap.set("tapx",0);
-      rem.statusmap.set("tapy",0);
-      rem.statusmap.set("xaccel",0);
-      rem.statusmap.set("yaccel",0);
-      rem.statusmap.set("zaccel",0);
-      rem.statusmap.set("IRSensorStatus1",0);
-      rem.statusmap.set("IRSensorStatus2",0);
-      rem.statusmap.set("IRSensorStatus3",0);
-      rem.statusmap.set("IRSensorStatus4",0);
-      rem.statusmap.set("IRSensorStatus5",0);
-      rem.statusmap.set("IRSensorStatus6",0);
-      rem.statusmap.set("IRSensorStatus7",0);
+
+      rem.resetSensors();
 
     }else if (sensor == 'brightness') {
       brightnessChange = false;
@@ -735,47 +707,28 @@
       clapnumber = 0;
 
     }else if (sensor == 'face') {
-      rem.statusmap.set("facex",0);
-      rem.statusmap.set("facey",0);
-      rem.statusmap.set("facedist","far");
+      rem.resetFaceSensor();
 
     }else if (sensor == 'fling') {
-      rem.statusmap.set("flingangle",0);
-
-    }else if (sensor == 'gaps') {
-      rem.statusmap.set('Gap1',false);
-      rem.statusmap.set('Gap2',false);
-      rem.statusmap.set('Gap3',false);
-      rem.statusmap.set('Gap4',false);
-
-
-    }else if (sensor == 'obstacles') {
-      obstacle = false;
+      rem.resetFlingSensor();
 
     }else if (sensor == 'pan') {
     }else if (sensor == 'tilt') {
 
     }else if (sensor == 'orientation') {
-      rem.statusmap.set("yaw",0);
-      rem.statusmap.set("pitch",0);
-      rem.statusmap.set("roll",0);
+      rem.resetOrientationSensor();
 
     }else if (sensor == 'tap') {
-      rem.statusmap.set("tapx",0);
-      rem.statusmap.set("tapy",0);
+      rem.resetTapSensor();
 
     }else if (sensor == 'acceleration') {
-      rem.statusmap.set("xaccel",0);
-      rem.statusmap.set("yaccel",0);
-      rem.statusmap.set("zaccel",0);
+      rem.resetAccelerationSensor();
     }else if (sensor == "IR"){
-      rem.statusmap.set("IRSensorStatus1",0);
-      rem.statusmap.set("IRSensorStatus2",0);
-      rem.statusmap.set("IRSensorStatus3",0);
-      rem.statusmap.set("IRSensorStatus4",0);
-      rem.statusmap.set("IRSensorStatus5",0);
-      rem.statusmap.set("IRSensorStatus6",0);
-      rem.statusmap.set("IRSensorStatus7",0);
+      rem.resetIRs();
+    }else if (sensor == "blob") {
+      rem.resetBlobSensor();
+    }else if (sensor == "note") {
+      rem.resetNoteSensor();
     }
 
 
@@ -925,7 +878,7 @@
           axis3d: ['x','y','z'],
           sounds: ['moan','purr',"angry","approve","disapprove","discomfort","doubtful","laugh","likes","mumble","ouch","thinking","various"],
           colorchan: ['red','green','blue'],
-          sensors: ['all','acceleration','brighness','claps','face','fling','IR','pan','orientation','tap','tilt'],
+          sensors: ['all','acceleration','blob','brighness','claps','face','fling','IR','note','pan','orientation','tap','tilt'],
           block: ['blocking','non-blocking'],
           range: ['between', 'out'],
           stop: ['all','wheels','pan','tilt'],

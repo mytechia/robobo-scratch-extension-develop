@@ -768,12 +768,6 @@ Remote.prototype = {
     
   },//ENDOF configureBlobDetection
 
-  //TODO --> Remove
-  getColor : function () {
-    return this.statusmap.get("color");
-    //END OF GETCOLOR FUNCTION
-  },
-
 
   /** Returns the coords (x or y axis) of the last defected face */
   getFaceCoord :function(axis) {
@@ -841,6 +835,82 @@ Remote.prototype = {
   /* UTILITY FUNCTIONS                          *
   /**********************************************/
 
+  resetFaceSensor : function() {
+    //face sensor
+    this.statusmap.set("facex",0);
+    this.statusmap.set("facey",0);
+    this.statusmap.set("facedist","far");
+  },
+
+  resetFlingSensor : function() {
+    this.statusmap.set("flingangle",0);
+  },
+
+  resetTapSensor : function() {
+    this.statusmap.set("tapx",0);
+    this.statusmap.set("tapy",0);
+  },
+
+  resetOrientationSensor : function() {
+    this.statusmap.set("yaw",0);
+    this.statusmap.set("pitch",0);
+    this.statusmap.set("roll",0);
+  },
+
+  resetAccelerationSensor : function() {
+    this.statusmap.set("xaccel",0);
+    this.statusmap.set("yaccel",0);
+    this.statusmap.set("zaccel",0);
+  },
+
+  resetIRs : function() {
+    this.statusmap.set("IRSensorStatus1",0);
+    this.statusmap.set("IRSensorStatus2",0);
+    this.statusmap.set("IRSensorStatus3",0);
+    this.statusmap.set("IRSensorStatus4",0);
+    this.statusmap.set("IRSensorStatus5",0);
+    this.statusmap.set("IRSensorStatus6",0);
+    this.statusmap.set("IRSensorStatus7",0);
+  },
+
+  resetBlobSensor : function() {
+    this.statusmap.set("blobPosxgreen",0);
+    this.statusmap.set("blobPosygreen",0);
+    this.statusmap.set("blobSizegreen",0);
+    this.statusmap.set("blobPosxred",0);
+    this.statusmap.set("blobPosyred",0);
+    this.statusmap.set("blobSizered",0);
+    this.statusmap.set("blobPosxblue",0);
+    this.statusmap.set("blobPosyblue",0);
+    this.statusmap.set("blobSizeblue",0);
+    this.statusmap.set("blobPosxcustom",0);
+    this.statusmap.set("blobPosycustom",0);
+    this.statusmap.set("blobSizecustom",0);
+  },
+
+  resetNoteSensor : function() {
+    this.statusmap.set("lastNote",0);
+  },
+
+  resetSensors : function () {
+
+    resetFaceSensor();
+    
+    resetFlingSensor();
+
+    resetTapSensor();
+
+    resetOrientationSensor();
+    
+    resetAccelerationSensor();
+
+    resetIRs();
+
+    resetBlobSensor();
+    
+    resetNoteSensor();
+
+  },
 
   getError : function () {
     return this.statusmap.get("error");
