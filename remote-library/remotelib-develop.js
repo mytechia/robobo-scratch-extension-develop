@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright 2016 Mytech Ingenieria Aplicada <http://www.mytechia.com>
  * Copyright 2016 Luis Llamas <luis.llamas@mytechia.com>
@@ -20,7 +19,7 @@
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-//Javascript remote control library for the Robobo educational robot - Version 0.9.0-dev
+//Javascript remote control library for the Robobo educational robot - Version 0.9.1-dev
 
 //Constructor of the remote control object 
 function Remote(ip,passwd){
@@ -240,7 +239,7 @@ Remote.prototype = {
 
 
   /*********************************/
-  /* ROBOT BASE MOVEMENT FUNCTIONS *
+  /* ROBOT BASE FUNCTIONS *
   /*********************************/
 
   /** Commands the robot to move the wheel by some angle */
@@ -274,29 +273,11 @@ Remote.prototype = {
     //ENDOF moveWheelsByTime
   },
 
-  //TODO -> mover a utilities.js
-  /** Converts the speed to the range expected by the robot */
-  convertSpeedWheels: function (speed) {
-    return speed;
-  }, //ENDOF convertSpeedWheels
-
-  //TODO -> mover a utilities.js
-  /** Converts the PAN movement speed to the range expected by the robot */
-  convertSpeedPan: function (speed) {
-    return speed;
-  },//ENDOF convertSpeedPan
-
-  //TODO -> mover a utilities.js
-  /** Converts the TILT movement speed to the range expected by the robot */
-  convertSpeedTilt: function (speed) {
-    return speed;
-  },//ENDOF convertSpeedTilt
-
 
   /** Commands the robot to move each wheel with an idepenent speed */
   moveWheelsSeparated: function(lSpeed,rSpeed,time) {
-    lS = ''+this.convertSpeedWheels(parseInt(lSpeed));
-    rS = ''+this.convertSpeedWheels(parseInt(rSpeed));
+    lS = ''+lSpeed;
+    rS = ''+rSpeed;
 
     var message = JSON.stringify({
         "name": "MOVETWOWHEELS",
@@ -316,8 +297,8 @@ Remote.prototype = {
    * until the roboot finishes the movement */
   moveWheelsSeparatedWait: function(lSpeed,rSpeed,time,callback) {
     console.log("moveWheelsSeparatedWait "+lSpeed+" "+rSpeed+" "+time);
-    lS = ''+this.convertSpeedWheels(parseInt(lSpeed));
-    rS = ''+this.convertSpeedWheels(parseInt(rSpeed));
+    lS = ''+lSpeed;
+    rS = ''+rSpeed;
 
     this.lastblock = this.lastblock+1;
     //this.blockingcallbackmap.set(this.lastblock+"",callback);
@@ -373,7 +354,7 @@ Remote.prototype = {
 
   /** Commands the robot to move the PAN to the specified position */
   movePan: function(pos, vel) {
-    s = ''+ this.convertSpeedPan(parseInt(vel));
+    s = ''+ vel;
     if (pos > this.panSuperiorLimit){
       pos = this.panSuperiorLimit;
     }
@@ -400,7 +381,7 @@ Remote.prototype = {
   /** Commands the robot to move the PAN to the specified position 
    * and waits until the movement finishes */
   movePanWait: function(pos, vel, callback) {
-    s = ''+ this.convertSpeedPan(parseInt(vel));
+    s = ''+ vel;
     if (pos > this.panSuperiorLimit){
       pos = this.panSuperiorLimit;
     }
@@ -470,7 +451,7 @@ Remote.prototype = {
 
   /** Commands the robot to move the TILT to an specified position */
   moveTilt: function (pos, vel) {
-    s = ''+ this.convertSpeedTilt(parseInt(vel));
+    s = ''+ vel;
 
     var message = JSON.stringify({
         "name": "MOVETILT",
@@ -491,7 +472,7 @@ Remote.prototype = {
   /** Commands the robot to move the TILT to an specified position 
    * and waits until the robot ends the movement */
   moveTiltWait: function (pos, vel, callback) {
-    s = ''+ this.convertSpeedTilt(parseInt(vel));
+    s = ''+ vel;
     if (pos > this.tiltSuperiorLimit){
       pos = this.tiltSuperiorLimit;
     }
@@ -543,9 +524,98 @@ Remote.prototype = {
     this.moveTilt(newpos, speed);
 
   },//ENDOF moveTiltByDegrees
+  
+
+  /** Returns the last value detected by the infrared senseor specified by 'irnumber' */
+  getIRValue : function (irnumber) {
+    return this.statusmap.get("IRSensorStatus"+irnumber);
+  },//ENDOF getIRValue
+
+
+  /** Returns the last value detected by the infrared senseor specified by 'irnumber' */
+  getObstacle : function (ir) {
+    return this.statusmap.get(ir);
+  },
+
+
+  /** Returns the last known value of Robobo's base battery level */
+  checkBatt : function () {
+    return this.statusmap.get("batterylevel");
+  },//ENDOF checkBatt
+
+  /** Returns the last known position of the specified wheel */
+  getWheel : function(wheel, type){
+    if (type == "speed"){
+      if (wheel == "right"){
+            this.statusmap.get("encoderSpeedR");
+      }else{
+              this.statusmap.get("encoderSpeedL");
+
+      }
+    }else{
+      if (wheel == "right"){
+        this.statusmap.get("encoderPosR");
+
+      }else{
+        this.statusmap.get("encoderPosL");
+
+      }
+    }
+  },
+
+  /** Returns the last know color of the specified led */
+  getLedColor : function (led, channel){
+      return this.statusmap.get(led+channel);
+
+  },
+
 
   /***************************************/
-  /* ENDOF ROBOT BASE MOVEMENT FUNCTIONS *
+  /* ENDOF ROBOT BASE FUNCTIONS *
+  /***************************************/
+
+  //---------------------------------------
+
+
+  /***************************************/
+  /* EMOTION INTERACTION FUNCTIONS   *
+  /***************************************/
+
+  /** Commands the robot to change its face/emotion */
+  changeEmotion : function (emotion) {
+    var message = JSON.stringify({
+        "name": "CHANGEEMOTION",
+        "parameters": {
+            emotion: emotion
+        },
+        "id": this.commandid
+    });
+    this.sendMessage(message);
+
+  }, //ENDOF changeEmotion
+
+
+  /** Returns the last known Robobo emotion */
+  getEmotion : function (){
+    return this.statusmap.get("emotion");
+  },  
+
+
+  /** Commands the robot to play a prerecorded sound */
+  playEmotionSound : function (sound) {
+    var message = JSON.stringify({
+        "name": "SOUND",
+        "parameters": {
+            sound:sound
+        },
+        "id": this.commandid
+    });
+    this.sendMessage(message);
+    
+  },//ENDOF playEmotionSound
+
+  /***************************************/
+  /* ENDOF EMOTION BASE FUNCTIONS *
   /***************************************/
 
   //---------------------------------------
@@ -573,19 +643,6 @@ Remote.prototype = {
   },//ENDOF talk
 
 
-  /** Commands the robot to change its face/emotion */
-  changeEmotion : function (emotion) {
-    var message = JSON.stringify({
-        "name": "CHANGEEMOTION",
-        "parameters": {
-            emotion: emotion
-        },
-        "id": this.commandid
-    });
-    this.sendMessage(message);
-
-  }, //ENDOF changeEmotion
-
   setLedColor: function (led,color) {
     var message = JSON.stringify({
         "name": "LEDCOLOR",
@@ -598,20 +655,6 @@ Remote.prototype = {
     this.sendMessage(message);
     //END OF CHANGECOLOR FUNCTION
   },
-
-
-  /** Commands the robot to play a prerecorded sound */
-  playEmotionSound : function (sound) {
-    var message = JSON.stringify({
-        "name": "SOUND",
-        "parameters": {
-            sound:sound
-        },
-        "id": this.commandid
-    });
-    this.sendMessage(message);
-    
-  },//ENDOF playEmotionSound
 
 
   /** Commands the robot to play a musical note */
@@ -628,6 +671,12 @@ Remote.prototype = {
 
   },//ENDOF playNote
 
+
+  /** Returns the last musical note detected by the robot */
+  getLastNote : function(){
+    return this.statusmap.get("lastNote");
+  },//ENDOF getLastNote
+
   /*********************************************/
   /* ENDOF SOUND-BASED INTERACTION FUNCTIONS   *
   /*********************************************/
@@ -637,6 +686,35 @@ Remote.prototype = {
   /***************************************/
   /* SMARTPHONE SENSORS FUNCTIONS        *
   /***************************************/
+
+  /** Returns the current orientation of each axis (yaw, pitch, roll) of the smartphone */
+  getOrientation :function(axis) {
+    if (axis=="yaw") {
+      return this.statusmap.get("yaw");
+
+    }else if (axis=="pitch") {
+      return this.statusmap.get("pitch");
+
+    }else{
+      return this.statusmap.get("roll");
+    }
+    
+  },//ENDOF getOrientation
+
+
+  /** Returns the current accleration of each axis (x, y, z) of the smartphone */
+  getAcceleration :function(axis) {
+    if (axis=="x") {
+      return this.statusmap.get("xaccel");
+
+    }else if (axis=="y") {
+      return this.statusmap.get("yaccel");
+
+    }else{
+      return this.statusmap.get("zaccel");
+    }
+    
+  },//ENDOF getAcceleration
 
   /** Commands the robot to return the last known ambient light value */
   getLightBrightness: function () {
@@ -648,60 +726,22 @@ Remote.prototype = {
     this.sendMessage(message);
   }, //ENDOF getLightBrightness
 
+  /** Returns the last known ambient light value */
+  getBrightness : function () {
+    return this.statusmap.get("brightness");
+  },
 
   /** Notifies that the ambient light value has changed */
   brightnessChanged: function (callback) {
     callback();
   }, //ENDOF brightnessChanged
 
-
-  //TODO --> Move to base functions block
-  consultIR : function (irnumber) {
-    console.log("ASDF");
-
-    console.log(this.statusmap.get("IRSensorStatus"+irnumber).value);
-    return this.statusmap.get("IRSensorStatus"+irnumber).value;
-    //END OF GETLIGHTBRIGHTNESS FUNCTION
-  },
-
-  //TODO --> Remove
-  mirarIr : function (irnumber) {
-    return this.statusmap.get("IRSensorStatus"+irnumber);
-    //END OF MIRARIR FUNCTION
-  },
-
-  checkBatt : function () {
-    return this.statusmap.get("batterylevel");
-    //END OF CHECKBATT FUNCTION
-  },
-
   checkOboBatt : function () {
     return this.statusmap.get("obobatterylevel");
     //END OF CHECKBATT FUNCTION
   },
 
-  //TODO --> Remove
-  checkFall : function (fall) {
-    return this.statusmap.get(fall);
-    //END OF CHECKFALL FUNCTION
-  },
-
-  checkFlingAngle : function () {
-    return this.statusmap.get("flingangle");
-    //END OF CHECKFLING ANGLE
-  },
-
-    //TODO --> Remove
-  checkGap : function (gap) {
-    return this.statusmap.get(gap);
-    //END OF CHECKFALL FUNCTION
-  },
-
-  /** Returns the last known ambient light value */
-  getBrightness : function () {
-    return this.statusmap.get("brightness");
-  },
-
+  
   /***************************************/
   /* ENDOF SMARTPHONE SENSORS FUNCTIONS  *
   /***************************************/
@@ -746,8 +786,33 @@ Remote.prototype = {
     
   },//ENDOF getFaceCoord
 
+  getBlobCoord : function(color, axis){
+    return this.statusmap.get("blobPos"+axis+color);
+  },
 
-  //TODO --> Move to touch block
+  getBlobSize : function(color){
+    return this.statusmap.get("blobSize"+color);
+  },
+
+
+  /** Returns the estimated distance to last detected face */
+  getFaceDist : function () {
+    return this.statusmap.get("facedist");
+  },//ENDOF getFaceDist
+
+
+  /**********************************************/
+  /* ENDOF VISION-BASED INTERACTION FUNCTIONS   *
+  /**********************************************/
+
+
+
+  //---------------------------------------------
+
+  /**********************************************/
+  /* TOUCH-BASED INTERACTION FUNCTIONS          *
+  /**********************************************/
+
   /** Returns the coords (x or y axis) of the last TAP of the user in the screen */
   getTapCoord :function(axis) {
     if (axis=="x") {
@@ -759,78 +824,10 @@ Remote.prototype = {
     
   },//ENDOF getTapCoord
 
-
-  //TODO -> Move to sensing block
-  /** Returns the current orientation of each axis (yaw, pitch, roll) of the smartphone */
-  getOrientation :function(axis) {
-    if (axis=="yaw") {
-      return this.statusmap.get("yaw");
-
-    }else if (axis=="pitch") {
-      return this.statusmap.get("pitch");
-
-    }else{
-      return this.statusmap.get("roll");
-    }
-    
-  },//ENDOF getOrientation
-
-
-  //TODO --> Move to sensing block
-  /** Returns the current accleration of each axis (x, y, z) of the smartphone */
-  getAcceleration :function(axis) {
-    if (axis=="x") {
-      return this.statusmap.get("xaccel");
-
-    }else if (axis=="y") {
-      return this.statusmap.get("yaccel");
-
-    }else{
-      return this.statusmap.get("zaccel");
-    }
-    
-  },//ENDOF getAcceleration
-
-
-  //TODO --> Remove
-  checkMeasuredColor:function(channel) {
-
-    if (channel=="red") {
-      return this.statusmap.get("colorr");
-
-    }else if (channel=="green") {
-      return this.statusmap.get("colorg");
-
-    }if (channel=="blue") {
-      return this.statusmap.get("colorb");
-
-    }
-    //END OF GETMEASUREDCOLOR FUNCTION
-  },
-
-
-  /** Returns the estimated distance to last detected face */
-  getFaceDist : function () {
-    return this.statusmap.get("facedist");
-  },//ENDOF getFaceDist
-
-
-  //TODO --> remove or not?
-  getObstacle : function (ir) {
-
-    return this.statusmap.get(ir);
-  },
-
-  /**********************************************/
-  /* ENDOF VISION-BASED INTERACTION FUNCTIONS   *
-  /**********************************************/
-
-  //---------------------------------------------
-
-  /**********************************************/
-  /* TOUCH-BASED INTERACTION FUNCTIONS          *
-  /**********************************************/
-
+  /** Returns the last angle of a fling gesture in the smartphone screen */
+  checkFlingAngle : function () {
+    return this.statusmap.get("flingangle");
+  },//ENDOF checkFlingAngle
 
 
   /**********************************************/
@@ -869,52 +866,6 @@ Remote.prototype = {
     //END OF GETCOLOR FUNCTION
   },
 
-  //TODO --> Move to vision block
-  getBlobCoord : function(color, axis){
-    return this.statusmap.get("blobPos"+axis+color);
-  },
-
-  //TODO --> Move to vision block
-  getBlobSize : function(color){
-    return this.statusmap.get("blobSize"+color);
-  },
-
-  //TODO --> Move to sound block
-  getLastNote : function(){
-    return this.statusmap.get("lastNote");
-  },
-
-  //TODO --> Move to base block
-  getWheel : function(wheel, type){
-      if (type == "speed"){
-        if (wheel == "right"){
-              this.statusmap.get("encoderSpeedR");
-        }else{
-                this.statusmap.get("encoderSpeedL");
-
-        }
-      }else{
-        if (wheel == "right"){
-          this.statusmap.get("encoderPosR");
-
-        }else{
-          this.statusmap.get("encoderPosL");
-
-        }
-      }
-  },
-
-  //TODO --> Move to base block
-  getLedColor : function (led, channel){
-      return this.statusmap.get(led+channel);
-
-  },
-
-  //TODO --> Move to HRI block
-  getEmotion : function (){
-      return this.statusmap.get("emotion");
-  },
-
 
   /******************************/
   /* MESSAGE PROCESSING         *
@@ -943,11 +894,6 @@ Remote.prototype = {
       for (var key in msg.value) {
             this.statusmap.set(key,msg.value[key]);  
           }
-        
-          
-
-        //  console.log(msg.value[key]);
-
       }
     
 
@@ -1178,8 +1124,6 @@ Remote.prototype = {
     }
 
 
-    
-    
 
     else {
       console.log('Lost status '+ msg.name);

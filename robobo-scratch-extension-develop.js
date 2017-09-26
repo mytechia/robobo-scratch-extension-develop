@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright 2016 Mytech Ingenieria Aplicada <http://www.mytechia.com>
  * Copyright 2016 Luis Llamas <luis.llamas@mytechia.com>
@@ -19,7 +18,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-//Scratch extension for the Robobo education robot - Version 0.9.0-dev
+
+//Scratch extension for the Robobo education robot - Version 0.9.1-dev
 (function(ext) {
     
     var rem; //remote connection to the robot
@@ -302,7 +302,7 @@
     //Reporter function to get the ir values
     ext.readIrValue = function(ir) {
       var value = 0;
-      value = rem.mirarIr(ir);
+      value = rem.getIRValue(ir);
       return value;
     };
 
@@ -385,19 +385,10 @@
 
 
     //Reporter function that checks falls
-    ext.readFall = function (fall) {
-      return rem.checkFall(fall);
-    };
-
-    //Reporter function that checks falls
     ext.readFlingAngle = function () {
       return rem.checkFlingAngle();
     };
 
-    //Reporter function that checks gaps
-    ext.readGap = function (gap) {
-      return rem.checkFall(gap);
-    };
 
     //Hat function that checks ROB the battery
     ext.lowBatt = function() {
@@ -588,13 +579,6 @@
       }
     };
 
-
-    //Reporter function to get the orientation in one axis
-    ext.measureColor = function (channel) {
-      var value = 0;
-      value = rem.checkMeasuredColor(channel);
-      return value;
-    };
 
     //Two wheels movement function
     ext.moveRoboboWheelsWait = function(lSpeed,rSpeed,time,callback){
@@ -895,14 +879,14 @@
           ['h', 'when face is detected','newFaceFun'],
           ['h', 'when face is lost','lostFace'],
 
-          ['r', 'read clap counter','readClap'],
+          ['r', 'clap counter','readClap'],
 
           ['h', 'when note detected','newNoteFun'],
-          ['r', 'read last note','readLastNote'],
+          ['r', 'last note','readLastNote'],
 
-          ['r', 'read %m.blobcolor blob position at %m.axis axis','readBlobCoord','green','x'],
-          ['r', 'read %m.blobcolor area','readBlobSize','green'],
-          [' ','configure blob detection colors R:%m.boolean G:%m.boolean B:%m.boolean C:%m.boolean','configBlob','false','true','false','false'],
+          ['r', '%m.blobcolor blob position at %m.axis axis','readBlobCoord','green','x'],
+          ['r', '%m.blobcolor blob area','readBlobSize','green'],
+          [' ', 'active blob colors R:%m.boolean G:%m.boolean B:%m.boolean C:%m.boolean','configBlob','false','true','false','false'],
 
           ['r', 'fling angle','readFlingAngle'],
           
