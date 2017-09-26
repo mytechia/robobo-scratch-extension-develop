@@ -1,44 +1,208 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Robobo Status</title>
-</head>
-<body>
-    <div id="sensors" style="position: relative">
-        <h1>Robot Sensors</h1>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Muuri - Responsive, sortable, filterable and draggable grid layouts</title>
+    <meta name="description" content="Muuri is a JavaScript library that creates responsive, sortable, filterable and draggable grid layouts.">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Niklas Rämö">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/robobo-monitor-grid.css">
+  </head>
+  <body>
+    <section class="monitor">
+      <div class="grid">
 
-        <div id="sensor-data">
-            <id id="color-sensor">Color: <span id="color-sensor-value"></span></id>
-            </br>
-            <id id="facepos-sensor">Last face position: <span id="facepos-sensor-value"></span></id>
-            </br>
-            <id id="facedist-sensor">Last face distance: <span id="facedist-sensor-value"></span></id>
-            </br>
-            <id id="tap-sensor">Last tap position: <span id="tap-sensor-value"></span></id>
-            </br>
-            <id id="fling-sensor">Last fling angle: <span id="fling-sensor-value"></span> º</id>
-            </br>
-            <id id="brightness-sensor">Brightness: <span id="brightness-sensor-value"></span></id>
-            </br>
-            <id id="accel-sensor">Aceleration: <span id="accel-sensor-value"></span></id>
-            </br>
-            <id id="orientation-sensor">Orientation: <span id="orientation-sensor-value"></span></id>
-            </br>
-            <id id="pan-sensor">Pan: <span id="pan-sensor-value"></span></id>
-            </br>
-            <id id="tilt-sensor">Tilt: <span id="tilt-sensor-value"></span></id>
-            </br>
-            <id id="rob-batery-sensor">ROB battery: <span id="rob-batery-value"></span> %</id>
-            </br>
-            <id id="obo-batery-sensor">OBO battery: <span id="obo-batery-value"></span> %</id>
+        <div class="item" data-id="1">
+          <div class="item-content">
+            <div class="card">
+              <div class="card-title">Wheels</div>
+              <div class="card-icon">R</div>
+              <div class ="card-content card-content-expanded">
+                <i id="wheel">
+                  Right Speed: <span id="wheel-right-speed"></span><br>
+                  Right Position: <span id="wheel-right-position"></span>º<br>
+                  Left Speed: <span id="wheel-left-speed"></span><br>
+                  Left Position: <span id="wheel-left-position"></span>º<br>
+                </i>
+              </div>
+            </div>
+          </div>
         </div>
-        <span id="result"></span>
 
-    </div>
+        <div class="item" data-id="2">
+          <div class="item-content">
+            <div class="card-title">Pan & Tilt
+            </div>
+            <div class="card-icon">R</div>
+            <div class ="card-content card-content-expanded">
+              <id id="pan-sensor">Pan: <span id="pan-sensor-value"></span></id>
+              </br>
+              <id id="tilt-sensor">Tilt: <span id="tilt-sensor-value"></span></id>
+            </div>
+          </div>
+        </div>
 
+        <div class="item" data-id="3">
+          <div class="item-content">
+            <div class="card-title">Control</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content card-content-expanded">
+              <br>
+              Aquí el joystick virtual
+              <br><br>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="4">
+          <div class="item-content">
+            <div class="card-title">IR Sensors Raw</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+              <i id = "ir-sensor-raw">
+                Front-C: <span id="ir-sensor-raw-front-c"></span><br>
+                Front-L: <span id="ir-sensor-raw-front-l"></span><br>
+                Front-LL: <span id="ir-sensor-raw-front-ll"></span><br>
+                Front-R: <span id="ir-sensor-raw-front-r"></span><br>
+                Front-RR: <span id="ir-sensor-raw-front-rr"></span><br>
+                Back-C: <span id="ir-sensor-raw-back-c"></span><br>
+                Back-L: <span id="ir-sensor-raw-back-l"></span><br>
+                Back-R: <span id="ir-sensor-raw-back-r"></span>
+              </i>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="5">
+          <div class="item-content">
+            <div class="card-title">Battery</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+              <id id="rob-batery-sensor">ROB battery: <span id="rob-batery-value" class="battery-normal"></span> %</id>
+              </br>
+              <id id="obo-batery-sensor">OBO battery: <span id="obo-batery-value" class="battery-normal"></span> %</id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="6">
+          <div class="item-content">
+            <div class="card-title">Audio Sensors</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+              <id id="audio-sensor">
+              Music Note: <span id="audio-sensor-music-note"></span><br>
+              Claps (0-1000): <span id="audio-sensor-claps"></span>
+              </id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="7">
+          <div class="item-content">
+            <div class="card-title">Face Sensor</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+<!--
+               <id id="facedist-sensor">Distance (0-100): <span id="facedist-sensor-value"></span> cm</id><br>
+-->
+               <id id="facedist-sensor">Distance: <span id="facedist-sensor-value"></span></id><br>
+               <id id="facepos-sensor">
+                 X position (0-100): <span id="facepos-sensor-value-x"></span><br>
+                 Y position (0-100): <span id="facepos-sensor-value-y"></span>
+               </id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="8">
+          <div class="item-content">
+            <div class="card-title">Blob Sensor</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+              Green Blob X (0-100): <span id="color-sensor-green-x"></span><br>
+              Green Blob Y (0-100): <span id="color-sensor-green-y"></span><br>
+              Green Blob Area (0-1000): <span id="color-sensor-green-size"></span> <br>
+              Blue Blob X (0-100): <span id="color-sensor-blue-x"></span><br>
+              Blue Blob Y (0-100): <span id="color-sensor-blue-y"></span><br>
+              Blue Blob Area (0-1000): <span id="color-sensor-blue-size"></span><br>
+              Red Blob X (0-100): <span id="color-sensor-red-x"></span><br>
+              Red Blob Y (0-100): <span id="color-sensor-red-y"></span><br>
+              Red Blob Area (0-1000): <span id="color-sensor-red-size"></span><br>
+              Custom BlobX (0-100):<span id="color-sensor-custom-x"></span><br>
+              Custom BlobY (0-100):<span id="color-sensor-custom-y"></span><br>
+              Custom Blob Area (0-1000):<span id="color-sensor-custom-size"></span><br>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="9">
+          <div class="item-content">
+            <div class="card-title">Orientation Sensor</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+              <id id="orientation-sensor">
+                Yaw: <span id="orientation-sensor-value-yaw"></span>º<br>
+                Pitch: <span id="orientation-sensor-value-pitch"></span>º<br>
+                Roll: <span id="orientation-sensor-value-roll"></span>º
+              </id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="10">
+          <div class="item-content">
+            <div class="card-title">Accleration Sensor</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+              <id id="accel-sensor">
+                X (0-1000): <span id="accel-sensor-x"></span> m/s<sup>2</sup> <br>
+                Y (0-1000): <span id="accel-sensor-y"></span> m/s<sup>2</sup><br>
+                Z (0-1000): <span id="accel-sensor-z"></span> m/s<sup>2</sup><br>
+              </id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="10">
+          <div class="item-content">
+            <div class="card-title">Touch Sensor</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+              Tap zone - texto (mouth, eye, left..)<br>
+              <id id="tap-sensor">
+                Tap X: <span id="tap-sensor-x-value"></span><br>
+                Tap Y: <span id="tap-sensor-y-value"></span>
+              </id>
+              <br>
+              <id id="fling-sensor">Fling angle: <span id="fling-sensor-value"></span> º</id>
+            </div>
+          </div>
+        </div>
+
+        <div class="item" data-id="10">
+          <div class="item-content">
+            <div class="card-title">Environment Light Sensor</div>
+            <div class="card-icon">R</div>
+            <div class ="card-content">
+              <id id="brightness-sensor">Brightness (0-10000): <span id="brightness-sensor-value"></span> Lux</id>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <script src="lib/vendor/velocity.min.js"></script>
+    <script src="lib/vendor/hammer.min.js"></script>
+    <script src="lib/vendor/muuri.js"></script>
+    <script src="lib/robobo-monitor-grid.js"></script>
     <script src="https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js"></script>
     <script type="text/javascript" src="lib/robobo-monitor.js"></script>
+
     <script>
         //Lets create a new instance of the Robobo Remote JS Library and connect it to a Robobo
         var rem = new Remote(getAllUrlParams().ip,"");
@@ -54,8 +218,8 @@
 
         //start polling status values
         setInterval(updateSensors, 100); //10 per second
-
     </script>
 
-</body>
+  </body>
+
 </html>

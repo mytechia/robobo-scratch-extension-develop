@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var grid = null;
   var docElem = document.documentElement;
-  var demo = document.querySelector('.grid-demo');
-  var gridElement = demo.querySelector('.grid');
+  var monitor = document.querySelector('.monitor');
+  var gridElement = monitor.querySelector('.grid');
 
   var dragOrder = [];
   var uuid = 0;
@@ -20,32 +20,41 @@ document.addEventListener('DOMContentLoaded', function () {
     initGrid();
 
     gridElement.addEventListener('click', function (e) {
-      if (elementMatches(e.target, '.card-icon')) {
-        cardContent = e.target.parentElement.getElementsByClassName('card-content')[0];
-        clickExpandCollapse(e.target, cardContent);
-      }
-    });
+        if (elementMatches(e.target, '.card-icon')) {
+          item = e.target.parentElement.parentElement.parentElement;
+          cardContent = e.target.parentElement.getElementsByClassName('card-content')[0];
+          clickExpandCollapse(e.target, cardContent, item);
+        }
+      });
+
+
+    function clickExpandCollapse(iconElement, contentElement, item) {
+        if (contentElement.classList.contains('card-content-collapsed')) {
+           expandCard(iconElement,contentElement);
+        }else {
+          collapseCard(iconElement, contentElement);
+        }
+        grid.refreshItems();
+        /*
+        grid.remove(item);
+        grid.add([item]);
+        updateIndices();
+        */
+    }
+
+    function expandCard(iconElement, contentElement) {
+      contentElement.classList.remove("card-content-collapsed");
+      contentElement.classList.add("card-content-expanded");
+    }
+
+    function collapseCard(iconElement, contentElement) {
+      contentElement.classList.remove("card-content-expanded");
+      contentElement.classList.add("card-content-collapsed");
+    }
+
+
+
   }
-
-  function clickExpandCollapse(iconElement, contentElement) {
-      if (contentElement.classList.contains('card-content-collapsed')) {
-         expandCard(iconElement,contentElement);
-      }else {
-        collapseCard(iconElement, contentElement);
-      }
-
-  }
-
-  function expandCard(iconElement, contentElement) {
-    contentElement.classList.remove("card-content-collapsed");
-    contentElement.classList.add("card-content-expanded");
-  }
-
-  function collapseCard(iconElement, contentElement) {
-    contentElement.classList.remove("card-content-expanded");
-    contentElement.classList.add("card-content-collapsed");
-  }
-
 
   function initGrid() {
 
@@ -86,9 +95,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   function updateIndices() {
-    grid.getItems().forEach(function (item, i) {
-      item.getElement().setAttribute('data-id', i + 1);
-  });
+      grid.getItems().forEach(function (item, i) {
+        item.getElement().setAttribute('data-id', i + 1);
+      });
 
   }
 

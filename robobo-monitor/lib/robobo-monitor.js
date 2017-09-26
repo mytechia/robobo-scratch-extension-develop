@@ -27,6 +27,15 @@
 var faceLost = 0;
 var faceNew = 0;
 
+// IR Sensors number
+var frontCIR = "Front-C",
+    frontLIR = "Front-L",
+    frontLLIR = "Front-LL",
+    frontRIR = "Front-R",
+    frontRRIR = "Front-RR",
+    backCIR = "Back-C",
+    backLIR = "Back-L",
+    backRIR = "Back-R";
 
 /** Returns the GapKey string for the specified gap number */
 function getGapKey(gapNumber) {
@@ -48,49 +57,6 @@ function setElementHTML(element, html) {
     document.getElementById(element).innerHTML = html;
 }
 
-/** Modifies the pan angle in the Robobo top-view */
-function setPanAngle(angle) {
-    if (angle != null) {
-        pan = document.getElementById('robobo-pantilt');
-        bb = pan.getBBox();
-        xc = bb.x + (bb.width/2);
-        yc = bb.y + (bb.height/2);
-        rotate = "rotate("+angle+" "+xc+" "+yc+")";
-        pan.setAttribute("transform", rotate);
-    }
-}
-
-/** Modifies the tilt angle in the Robobo-side view */
-function setTiltAngle(angle) {
-    if (angle != null) {
-        angle = angle-90;
-        tilt = document.getElementById('robobo-tilt');
-        bb = tilt.getBBox();
-        xc = bb.x + (bb.width/2);
-        yc = bb.y + bb.height;
-        rotate = "rotate("+angle+" "+xc+" "+yc+")";
-        tilt.setAttribute("transform", rotate);
-    }
-}
-
-/** Sets the position of the TAP sensor in the Robobo view widget.
-    It also makes the TAP sensor visible. */
-function setTapPosition(x,y) {
-    if (x != null && y != null) {
-
-        bbEmotion = document.getElementById("robobo-emotion").getBBox();
-        xScale = bbEmotion.width / 100;
-        yScale = bbEmotion.height / 100;
-        var cx = xScale * x + bbEmotion.x;
-        var cy = yScale * y + bbEmotion.y;
-
-        touch = document.getElementById("robobo-touch");
-        touch.setAttribute("cx", cx);
-        touch.setAttribute("cy", cy);
-        setElementVisibility(touch, 1);
-
-    }
-}
 
 /** Sets the position of the FLING sensor in the Robobo view widget.
     It also makes the FLING sensor visible. */
@@ -110,30 +76,6 @@ function setFlingAngle(angle) {
         fling.setAttribute("transform", rotate);
 
         setElementVisibility(fling, 1);
-
-    }
-}
-
-/** Sets the position of the FACE sensor in the Robobo view widget.
-    It also makes the FACE sensor visible. */
-function setFacePosition(dist,x,y) {
-    if (faceLost==0 && dist != null && dist != "none" && x != null && y != null) {
-
-        bbEmotion = document.getElementById("robobo-view").getBBox();
-        xScale = bbEmotion.width / 100;
-        yScale = bbEmotion.height / 100;
-        var cx = xScale * x + bbEmotion.x;
-        var cy = yScale * y + bbEmotion.y;
-
-        face = document.getElementById("robobo-face");
-        bbFace = face.getBBox();
-        cx = cx - bbFace.width/2;
-        cy = cy - bbFace.height/2;
-
-        face.setAttribute("x", cx);
-        face.setAttribute("y", cy);
-
-        setElementVisibility(face, 1);
 
     }
 }
@@ -220,7 +162,7 @@ function registerRemoteCallbacks(rem) {
     rem.registerCallback("onLostFace",function() {
         faceNew = 0;
         faceLost = 1;
-        setElementVisibility(document.getElementById("robobo-face", 0));
+//        setElementVisibility(document.getElementById("robobo-face", 0));
     });
 
     rem.registerCallback("onFall",function() {});
@@ -248,7 +190,8 @@ function registerRemoteCallbacks(rem) {
     rem.registerCallback("onAccelChanged", function() {});
 
     rem.registerCallback("onObstacle", function() {
-        //TODO
+
+        setElementHTML("ir-sensor-distance-front-l", rem.getObstacle());
     });
 
     rem.registerCallback("onBrightnessChanged", function() {});
@@ -256,7 +199,9 @@ function registerRemoteCallbacks(rem) {
     rem.registerCallback("onError", function() {});
     rem.registerCallback("onConnectionChanges", function() {});
 
-    rem.registerCallback("onNewNote", function() {});
+    rem.registerCallback("onNewNote", function() {
+       setElementHTML("audio-sensor-music-note", rem.getLastNote());
+    });
 
 
 
@@ -270,26 +215,63 @@ function updateSensors() {
     setElementHTML("brightness-sensor-value", rem.getBrightness());
 
     //update acceleration sensor
-    var accelSensor = rem.getAcceleration('x') + ' | ' + rem.getAcceleration('y') + ' | ' + rem.getAcceleration('z');
-    setElementHTML("accel-sensor-value", accelSensor);
+    //var accelSensor = rem.getAcceleration('x') + ' | ' + rem.getAcceleration('y') + ' | ' + rem.getAcceleration('z');
+    setElementHTML("accel-sensor-x", rem.getAcceleration('x'));
+    setElementHTML("accel-sensor-y", rem.getAcceleration('y'));
+    setElementHTML("accel-sensor-z", rem.getAcceleration('z'));
 
     //update orientation sensor
-    var orSensor = rem.getOrientation('yaw') + ' | ' + rem.getOrientation('pitch') + ' | ' + rem.getOrientation('roll');
-    setElementHTML("orientation-sensor-value", orSensor);
+    //var orSensor = rem.getOrientation('yaw') + ' | ' + rem.getOrientation('pitch') + ' | ' + rem.getOrientation('roll');
+    setElementHTML("orientation-sensor-value-yaw", rem.getOrientation('yaw'));
+    setElementHTML("orientation-sensor-value-pitch", rem.getOrientation('pitch'));
+    setElementHTML("orientation-sensor-value-roll", rem.getOrientation('roll'));
 
     //update pan-tilt position
     setElementHTML("pan-sensor-value", rem.getPan());
-    setPanAngle(rem.getPan());
     setElementHTML("tilt-sensor-value", rem.getTilt());
-    setTiltAngle(rem.getTilt());
 
     //update face position
     var faceX = rem.getFaceCoord('x');
     var faceY = rem.getFaceCoord('y');
     var faceDist = rem.getFaceDist();
-    var faceSensor = faceX + ' | ' + faceY;
-    setElementHTML("facepos-sensor-value", faceSensor);
-    setFacePosition(faceDist, faceX, faceY);
+    setElementHTML("facepos-sensor-value-x", faceX);
+    setElementHTML("facepos-sensor-value-y", faceY);
+    //setFacePosition(faceDist, faceX, faceY);
     setElementHTML("facedist-sensor-value", rem.getFaceDist());
+
+    // update blob sensor values
+
+    setElementHTML("color-sensor-green-x", rem.getBlobCoord("green","x"));
+    setElementHTML("color-sensor-green-y", rem.getBlobCoord("green","y"));
+    setElementHTML("color-sensor-green-size", rem.getBlobSize("green"));
+    setElementHTML("color-sensor-blue-x", rem.getBlobCoord("blue","x"));
+    setElementHTML("color-sensor-blue-y", rem.getBlobCoord("blue","y"));
+    setElementHTML("color-sensor-blue-size", rem.getBlobSize("blue"));
+    setElementHTML("color-sensor-red-x", rem.getBlobCoord("red","x"));
+    setElementHTML("color-sensor-red-y", rem.getBlobCoord("red","y"));
+    setElementHTML("color-sensor-red-size", rem.getBlobSize("red"));
+
+    //Custom color --> TO DO
+    // setElementHTML("color-sensor-custom-x", rem.getBlobCoord("custom","x"));
+    // setElementHTML("color-sensor-custom-y", rem.getBlobCoord("custom","y"));
+    // setElementHTML("color-sensor-custom-size, rem.getBlobSize("custom"));
+
+    // update IR sensors raw value
+    setElementHTML("ir-sensor-raw-front-c", rem.getIRValue(frontCIR));
+    setElementHTML("ir-sensor-raw-front-l", rem.getIRValue(frontLIR));
+    setElementHTML("ir-sensor-raw-front-ll", rem.getIRValue(frontLLIR));
+    setElementHTML("ir-sensor-raw-front-r", rem.getIRValue(frontRIR));
+    setElementHTML("ir-sensor-raw-front-rr", rem.getIRValue(frontRRIR));
+    setElementHTML("ir-sensor-raw-back-c", rem.getIRValue(backCIR));
+    setElementHTML("ir-sensor-raw-back-r", rem.getIRValue(backRIR));
+    setElementHTML("ir-sensor-raw-back-l", rem.getIRValue(backLIR));
+
+    //Battery level
+    setElementHTML("obo-batery-value", rem.checkBatt());
+
+    //Wheel level
+    setElementHTML("wheel-right-position", rem.getWheel("right"));
+    setElementHTML("wheel-left-position", rem.getWheel("left"));
+
 
 }
