@@ -59,14 +59,23 @@
     $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/utilities.js", function(){});
 
 
-    // Cleanup function when the extension is unloaded
+    //Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
 
-    // Status reporting code
-    // Use this to report missing hardware, plugin or unsupported browser
-    /*ext._getStatus = function() {
-        return {status: 2, msg: 'Ready'};
-    };*/
+    //Status depends con connetion to the robot
+    ext._getStatus = function() {
+      switch (connectionStatus) {
+        case 0:
+          return {status: 0, msg: 'Error'};
+        case 1:
+          return {status: 1, msg: 'Device not connected'};
+        case 2:
+          return {status: 2, msg: 'Device connected'};
+      }
+    }
+
+
+    //CALLBACKS TO RECEIVE ROBOT STATUS
 
     //Callback for color
     ext.onNewColor = function () {
@@ -128,25 +137,29 @@
       obstacle = true;
 
     }
+
+    //Callback for musical notes
     ext.onNewNote = function () {
       newNote= true;
 
     }
 
+    //Callback for errors
     ext.onError = function () {
       error = true;
     }
 
-    ext.onVoice = function (text) {
-      console.log('onVoice');
-      voice = true;
-      lastphrase = text;
-    }
-
+    //Callback for connection status
     ext.onConnectionChanges = function (status) {
       connectionStatus = status;
     }
-    //Connection Block
+
+
+    
+    //BLOCKs FUNCTIONS
+
+    //CONNECTION BLOCKS
+    //BLOCK - Connection to robot
     ext.connectToRobobo = function(ip) {
         if (rem != undefined){
           console.log("Closing previous connection");
@@ -181,54 +194,325 @@
 
     };
 
-    //Close connection
+    //BLOCK - Close connection
     ext.disconnect = function () {
       rem.closeConnection(false);
 
     };
 
-    //Speech production function
-    ext.talkRobobo = function(text, callback){
-        rem.talk(text, callback);
 
+    //BASE ACTUATION BLOCKS
+
+    //BLOCK - Stop --> Emergency stop
+    ext.stopFun = function (what) {
+        if (what == 'all'){
+        rem.moveWheelsSeparated(10,10,0);
+        ext.movePanRoboboT(180,0);
+        ext.moveTiltRoboboT(90,0);
+      }else if (what == 'wheels') {
+        rem.moveWheelsSeparated(10,10,0);
+      }else if (what == 'pan') {
+        ext.movePanRoboboT(180,0);
+      }else if (what == 'tilt') {
+        ext.moveTiltRoboboT(90,0);
+      }
+    };
+
+    //BLOCK - Move wheels at speed 
+    ext.newMovementT = function(rSpeed,lSpeed,quantity,mode,callback){
+      if (mode == 'non-stop'){
+        rem.moveWheelsSeparated(lSpeed,rSpeed,2147483647); //TODO -> use rem.motorsOn
+        callback();
+      }else if (mode=='seconds') {
+        rem.moveWheelsSeparatedWait(lSpeed,rSpeed,quantity,callback);
+      }else if (mode=='degrees') {
+        callback();
+      }else if (mode=='centimeters') {
+        callback();
+      }
     };
 
 
-    ext._getStatus = function() {
-      switch (connectionStatus) {
-        case 0:
-          return {status: 0, msg: 'Error'};
-        case 1:
-          return {status: 1, msg: 'Device not connected'};
-        case 2:
-          return {status: 2, msg: 'Device connected'};
+    //BLOCK - Move pan --> Pan movement function (absolute)
+    ext.movePanRoboboNew = function(degrees, speed, block, callback){
+      if (block=="blocking"){
+        rem.movePanWait(degrees,speed,callback);
+
+      }else{
+        rem.movePan(degrees,speed);
+        callback();
       }
+    };
+
+
+    //BLOCK - Move tilt --> Tilt movement function (absolute)
+    ext.moveTiltRoboboNew = function(degrees,speed, block, callback){
+      if (block=="blocking"){
+        rem.moveTiltWait(degrees,speed,callback);
+      }else{
+        rem.moveTilt(degrees,speed);
+        callback();
+      }
+    };
+
+
+    //BLOCK - Set led color --> Function to change the led color
+    ext.setLedColor = function(led,color){
+      rem.setLedColor(led, color);
+    };
 
 
 
+    //BASE SENSING BLOCKS
+
+    //BLOCK - Reset sensor
+    ext.resetSensor = function(sensor) {
+      //  sensors: [''obstacles','pan','orientation','tap','tilt'],
+      if (sensor == 'all'){
+        lastIrChange = "";
+        lastFall = "";
+        lastGap = "";
+        lowbattery = false;
+        lowobobattery = false;
+        tap = false;
+        clap = false;
+        brightnessChange = false;
+        fling = false;
+        accelchange = false;
+        obstacle = false;
+        clapnumber = 0;
+        lastphrase = '';
+        ext.obstacle = false;
+  
+        rem.resetSensors();
+  
+      }else if (sensor == 'brightness') {
+        brightnessChange = false;
+  
+      }else if (sensor == 'claps') {
+        clapnumber = 0;
+  
+      }else if (sensor == 'face') {
+        rem.resetFaceSensor();
+  
+      }else if (sensor == 'fling') {
+        rem.resetFlingSensor();
+  
+      }else if (sensor == 'pan') {
+      }else if (sensor == 'tilt') {
+  
+      }else if (sensor == 'orientation') {
+        rem.resetOrientationSensor();
+  
+      }else if (sensor == 'tap') {
+        rem.resetTapSensor();
+  
+      }else if (sensor == 'acceleration') {
+        rem.resetAccelerationSensor();
+      }else if (sensor == "IR"){
+        rem.resetIRs();
+      }else if (sensor == "blob") {
+        rem.resetBlobSensor();
+      }else if (sensor == "note") {
+        rem.resetNoteSensor();
+      }
+  
+  
+    };
+
+    //BLOCK - Read wheel
+    ext.readWheel = function(wheel,type){
+      return rem.getWheel(wheel,type);
     }
 
-    //Movement function
-    ext.moveRobobo = function(wheel,quantity,mtype,speed){
+    //BLOCK - Read pan
+    ext.readPan = function () {
+      var value = 0;
+      value = rem.getPan()
+      return value;
+    };
 
-      if (mtype=='degrees'){
-        console.log('moveRobobo by '+mtype);
-        rem.moveWheelsByDegree(wheel,quantity,speed);
-      }else if (mtype=='seconds') {
-        console.log('moveRobobo by '+mtype);
-        rem.moveWheelsByTime(wheel,quantity,speed);
-      }else if (mtype=='centimeters'){
-        //TODO RELLENAR ESTO
+    //BLOCK - Read tilt
+    ext.readTilt = function () {
+      var value = 0;
+      value = rem.getTilt();
+      return value;
+    };
+
+    //BLOCK - raw value at sensor --> Reads IR value
+    ext.readObstacle = function (ir) {
+      var value = 0;
+      value = rem.getObstacle(ir);
+      return value;
+    };
+
+    //BLOCK - Base battery level --> Reporter function to get the ROB battery level
+    ext.readBatteryLevel = function () {
+      var value = 0;
+      value = rem.checkBatt();
+      return value;
+    };
+
+  
+
+
+    //SMARTPHONE ACTUATION BLOCKS
+
+    //BLOCK - Set emotion --> Function  to change the displayed emotion
+    ext.changeEmotion = function(emotion){
+      rem.changeEmotion(emotion);
+    };
+
+    //BLOCK - Say
+    ext.talkRobobo = function(text, callback){
+      rem.talk(text, callback);
+
+    };
+
+    //BLOCK - Play sound
+    ext.playSound = function (sound) {
+      rem.playEmotionSound(sound);
+    };
+
+
+    //BLOCK - Play note
+    ext.playNote = function(note, time, callback){
+      
+      tt = Math.round(time*1000);
+  
+      if (tt >= 50 && tt <=5000) { //do not accept more than 5 seconds or less than 50ms
+  
+        rem.playNote(note, Math.round(time*1000))
+        window.setTimeout(function() {
+                  callback();
+              }, Math.round((time*1000)-50));
       }
+    }
 
+
+    //SMARTPHONE SENSING BLOCKS
+
+    //BLOCK - Smarpthone battery level --> Reporter function to get the OBO battery level
+    ext.readOboBatteryLevel = function () {
+      var value = 0;
+      value = rem.checkOboBatt();
+      return value;
+    };
+
+    //BLOCK - Face positoin at --> Reporter function to get the detected face coordinates
+    ext.readFaceCoord = function (axis) {
+      var value = 0;
+      value = rem.getFaceCoord(axis);
+      return value;
+    };
+
+    //BLOCK - Face distance --> Reporter function to get the detected face distance
+    ext.readFaceDist= function () {
+      var value = 0;
+      value = rem.getFaceDist();
+      return value;
+    };
+
+    //BLOCK - Brightness --> Reporter function to get the ROB battery level
+    ext.readBrightnessLevel = function () {
+      var value = 0;
+      value = rem.getBrightness();
+      return value;
+    };
+
+    //BLOCK - When face is detected --> Hat function that checks for new faces
+    ext.newFaceFun = function() {
+      if (newface){
+        newface = false;
+        return true;
+      }else {
+        return false;
+      }
+    };
+
+    //BLOCK - When face is lost --> Hat function that checks for new facesd
+    ext.lostFace = function() {
+      if (lostface){
+        lostface = false;
+        return true;
+      }else {
+        return false;
+      }
+    };
+
+    //BLOCK - Clap counter
+    ext.readClap = function () {
+      var value = 0;
+      value = clapnumber;
+      return value;
+    };
+
+    //BLOCK - When note detected 
+    ext.newNoteFun = function() {
+      if (newNote){
+        newNote = false;
+        return true;
+      }else {
+        return false;
+      }
+    };
+
+    //BLOCK - Last note
+    ext.readLastNote = function(){
+      return rem.getLastNote();
+    }
+
+    //BLOCK - Blob position at 
+    ext.readBlobCoord = function(color, axis){
+      return rem.getBlobCoord(color,axis);
+    }
+  
+    //BLOCK - Blob area 
+    ext.readBlobSize = function(color){
+      return rem.getBlobSize(color);
+    }
+  
+    //BLOCK - Active blob colors 
+    ext.configBlob = function(r,g,b,c){
+      rem.configureBlobDetection(r,g,b,c);
+    }
+
+    //BLOCK - Fling angle
+    ext.readFlingAngle = function () {
+      return rem.checkFlingAngle();
+    };
+
+    //BLOCK - Tap position at...
+    ext.readTapCoord = function (axis) {
+      var value = 0;
+      value = rem.getTapCoord(axis);
+      return value;
+    };
+
+    //BLOCK - Tap zone
+    ext.readTapZone = function () {
+      var value = 0;
+      value = coordsToZone(rem.getTapCoord("x"),rem.getTapCoord("y"));
+      return value;
+    };
+
+    //BLOCK - Orientation at ...
+    ext.readOrientation = function (axis) {
+      var value = 0;
+      value = rem.getOrientation(axis);
+      return value;
+    };
+
+    //BLOCK - Acceleration at ...
+    ext.readAcceleration = function (axis) {
+      var value = 0;
+      value = rem.getAcceleration(axis);
+      return value;
     };
 
 
 
-    //Two wheels movement function
-    ext.moveRoboboWheels = function(lSpeed,rSpeed,time){
-      rem.moveWheelsSeparated(lSpeed,rSpeed,time);
-    };
+    //AUXILIARY FUNCTIONS
 
     //Pan movement function (absolute)
     ext.movePanRoboboT = function(degrees, speed){
@@ -250,16 +534,7 @@
       rem.moveTiltByDegrees(degrees,speed);
     };
 
-    //Function  to change the displayed emotion
-    ext.changeEmotion = function(emotion){
-      rem.changeEmotion(emotion);
-    };
-
-    //Function to change the led color
-    ext.setLedColor = function(led,color){
-      rem.setLedColor(led, color);
-    };
-
+    
     //Function to turn on and off the leds
     ext.changeLedStatus = function(led,status){
       rem.setLedColor(led,status);
@@ -298,90 +573,7 @@
       value = rem.getIRValue(ir);
       return value;
     };
-
-    //Reporter function to get the ROB battery level
-    ext.readBatteryLevel = function () {
-      var value = 0;
-      value = rem.checkBatt();
-      return value;
-    };
-
-    //Reporter function to get the OBO battery level
-    ext.readOboBatteryLevel = function () {
-      var value = 0;
-      value = rem.checkOboBatt();
-      return value;
-    };
-
-    //Reporter function to get the detected face coordinates
-    ext.readFaceCoord = function (axis) {
-      var value = 0;
-      value = rem.getFaceCoord(axis);
-      return value;
-    };
-
-    //Reporter function to get the detected face distance
-    ext.readFaceDist= function () {
-      var value = 0;
-      value = rem.getFaceDist();
-      return value;
-    };
-
-    //Reporter function to get the ROB battery level
-    ext.readBrightnessLevel = function () {
-      var value = 0;
-      value = rem.getBrightness();
-      return value;
-    };
-
-
-
-    //Hat function that checks for new facesd
-    ext.lostFace = function() {
-      if (lostface){
-        lostface = false;
-        return true;
-      }else {
-        return false;
-      }
-    };
-
-
-    //Hat function that checks falls
-    ext.changedFalls= function(fallpos) {
-      if (fallpos == lastFall){
-        return true;
-      }else {
-        lastFall = "";
-        return false;
-      }
-    };
-
-    //Hat function that checks for new faces
-    ext.newFaceFun = function() {
-      if (newface){
-        newface = false;
-        return true;
-      }else {
-        return false;
-      }
-    };
-    //Hat function that checks gaps
-    ext.changedGaps= function(gappos) {
-      if (gappos == lastGap){
-        return true;
-      }else {
-        lastGap = "";
-        return false;
-      }
-    };
-
-
-    //Reporter function that checks falls
-    ext.readFlingAngle = function () {
-      return rem.checkFlingAngle();
-    };
-
+    
 
     //Hat function that checks ROB the battery
     ext.lowBatt = function() {
@@ -441,61 +633,7 @@
         return false;
       }
     };
-
-
-    //Reporter function to get the detected face coordinates
-    ext.readTapCoord = function (axis) {
-      var value = 0;
-      value = rem.getTapCoord(axis);
-      return value;
-    };
-
-    //Reporter function to get the detected face zone
-    ext.readTapZone = function () {
-      var value = 0;
-      value = coordsToZone(rem.getTapCoord("x"),rem.getTapCoord("y"));
-      return value;
-    };
-
-    //Reporter function to get the orientation in one axis
-    ext.readOrientation = function (axis) {
-      var value = 0;
-      value = rem.getOrientation(axis);
-      return value;
-    };
-    //Reporter function to get the orientation in one axis
-    ext.readAcceleration = function (axis) {
-      var value = 0;
-      value = rem.getAcceleration(axis);
-      return value;
-    };
-
-
-
-    //Reporter function to get the orientation in one axis
-    ext.readObstacle = function (ir) {
-      var value = 0;
-      value = rem.getObstacle(ir);
-      return value;
-    };
-
-
-
-    //Emergency stop
-    ext.stopFun = function (what) {
-      if (what == 'all'){
-      rem.moveWheelsSeparated(10,10,0);
-      ext.movePanRoboboT(180,0);
-      ext.moveTiltRoboboT(90,0);
-    }else if (what == 'wheels') {
-      rem.moveWheelsSeparated(10,10,0);
-    }else if (what == 'pan') {
-      ext.movePanRoboboT(180,0);
-    }else if (what == 'tilt') {
-      ext.moveTiltRoboboT(90,0);
-    }
-
-    };
+    
 
     //Hat function that tracks brightness changes
     ext.changedBrightness = function() {
@@ -517,21 +655,11 @@
       }
     };
 
-    ext.playSound = function (sound) {
-      rem.playEmotionSound(sound);
-    };
-
 
     ext.setMotorsOn = function (lmotor, rmotor, speed) {
       rem.motorsOn(lmotor,rmotor, speed);
     };
 
-
-    ext.readClap = function () {
-      var value = 0;
-      value = clapnumber;
-      return value;
-    };
 
     ext.resetClap = function () {
       clapnumber = 0;
@@ -553,36 +681,6 @@
       return value;
     };
 
-    ext.readPhrase = function () {
-
-      return lastphrase;
-    };
-
-    ext.resetPhrase = function () {
-
-      lastphrase = '';
-    };
-
-    ext.detectedVoice = function() {
-      if (voice){
-        voice = false;
-        return true;
-      }else {
-        return false;
-      }
-    };
-
-
-    //Two wheels movement function
-    ext.moveRoboboWheelsWait = function(lSpeed,rSpeed,time,callback){
-      rem.moveWheelsSeparated(lSpeed,rSpeed,time);
-      window.setTimeout(function() {
-            callback();
-        }, (time*1000)-100);
-    };
-
-
-
 
     ext.blockFun = function(callback){
       ext.blockCallback = callback;
@@ -594,184 +692,15 @@
 
     };
 
-    ext.readPan = function () {
-      var value = 0;
-      value = rem.getPan()
-      return value;
+
+    //Dummy function for section BLOCKs
+    ext.dummyFun = function () {
+      return false;
     };
-
-    ext.readTilt = function () {
-      var value = 0;
-      value = rem.getTilt();
-      return value;
-    };
-
-
-    //Two wheels movement function
-    ext.moveRoboboWheelsWaitNew = function(lSpeed,rSpeed,time,callback){
-      console.log("moveRoboboWheelsWaitNew "+lSpeed+" "+rSpeed+" "+time);
-      rem.moveWheelsSeparatedWait(lSpeed,rSpeed,time,callback);
-
-    };
-
-    //TODO --> Remove?
-    ext.oldMovement = function(rSpeed,lSpeed,quantity,mode,callback){
-      if (mode == 'non-stop'){
-        rem.moveWheelsSeparated(rSpeed,lSpeed,2147483647)
-        callback();
-      }else if (mode=='seconds') {
-        rem.moveWheelsSeparated(lSpeed,rSpeed,quantity);
-        window.setTimeout(function() {
-              callback();
-          }, (quantity*1000)-100);
-      }else if (mode=='degrees') {
-
-      }else if (mode=='centimeters') {
-
-      }
-    };
-
-
-    ext.newMovementT = function(rSpeed,lSpeed,quantity,mode,callback){
-      if (mode == 'non-stop'){
-        rem.moveWheelsSeparated(lSpeed,rSpeed,2147483647); //TODO -> use rem.motorsOn
-        callback();
-      }else if (mode=='seconds') {
-        rem.moveWheelsSeparatedWait(lSpeed,rSpeed,quantity,callback);
-      }else if (mode=='degrees') {
-        callback();
-      }else if (mode=='centimeters') {
-        callback();
-      }
-    };
-
-
-
-    //Pan movement function (absolute)
-    ext.movePanRoboboNew = function(degrees, speed, block, callback){
-      if (block=="blocking"){
-        rem.movePanWait(degrees,speed,callback);
-
-      }else{
-        rem.movePan(degrees,speed);
-        callback();
-      }
-    };
-
-    //Tilt movement function (absolute)
-    ext.moveTiltRoboboNew = function(degrees,speed, block, callback){
-      if (block=="blocking"){
-        rem.moveTiltWait(degrees,speed,callback);
-      }else{
-        rem.moveTilt(degrees,speed);
-        callback();
-      }
-    };
-
-     //Hat function that checks for new faces
-    ext.newNoteFun = function() {
-      if (newNote){
-        newNote = false;
-        return true;
-      }else {
-        return false;
-      }
-    };
-
-
-
-    ext.resetSensor = function(sensor) {
-    //  sensors: [''obstacles','pan','orientation','tap','tilt'],
-    if (sensor == 'all'){
-      lastIrChange = "";
-      lastFall = "";
-      lastGap = "";
-      lowbattery = false;
-      lowobobattery = false;
-      tap = false;
-      clap = false;
-      brightnessChange = false;
-      fling = false;
-      accelchange = false;
-      obstacle = false;
-      clapnumber = 0;
-      lastphrase = '';
-      ext.obstacle = false;
-
-      rem.resetSensors();
-
-    }else if (sensor == 'brightness') {
-      brightnessChange = false;
-
-    }else if (sensor == 'claps') {
-      clapnumber = 0;
-
-    }else if (sensor == 'face') {
-      rem.resetFaceSensor();
-
-    }else if (sensor == 'fling') {
-      rem.resetFlingSensor();
-
-    }else if (sensor == 'pan') {
-    }else if (sensor == 'tilt') {
-
-    }else if (sensor == 'orientation') {
-      rem.resetOrientationSensor();
-
-    }else if (sensor == 'tap') {
-      rem.resetTapSensor();
-
-    }else if (sensor == 'acceleration') {
-      rem.resetAccelerationSensor();
-    }else if (sensor == "IR"){
-      rem.resetIRs();
-    }else if (sensor == "blob") {
-      rem.resetBlobSensor();
-    }else if (sensor == "note") {
-      rem.resetNoteSensor();
-    }
-
-
-  };
-
-  ext.dummyFun = function () {
-    return false;
-  };
  
 
-  ext.readBlobCoord = function(color, axis){
-    return rem.getBlobCoord(color,axis);
-  }
 
-  ext.readBlobSize = function(color){
-    return rem.getBlobSize(color);
-  }
-
-  ext.readLastNote = function(){
-    return rem.getLastNote();
-  }
-
-  ext.playNote = function(note, time, callback){
-    rem.playNote(note, Math.round(time*1000))
-    window.setTimeout(function() {
-              callback();
-          }, Math.round((time*1000)-50));
-    console.log('Note: '+note+' time '+time);
-  }
-
-
-
-
-  ext.configBlob = function(r,g,b,c){
-    rem.configureBlobDetection(r,g,b,c);
-  }
-
-  ext.readWheel = function(wheel,type){
-    return rem.getWheel(wheel,type);
-  }
-
-
-    // Block and block menu descriptions
+    // BLOCK AND MENU DESCRIPTIONS
     var descriptor = {
         blocks: [
 
@@ -800,7 +729,7 @@
 
           [' ', 'reset sensor %m.sensors','resetSensor','all'],          
 
-          ['r', 'read %m.individualwheel wheel %m.wheelmenu','readWheel','right','position'],
+          ['r', '%m.individualwheel wheel %m.wheelmenu','readWheel','right','position'],
 
           ['r', 'pan position','readPan'],
           ['r', 'tilt position','readTilt'],
