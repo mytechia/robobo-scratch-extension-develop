@@ -23,6 +23,7 @@
 (function(ext) {
 
     var rem; //remote connection to the robot
+    var monitorWindow;
 
     var commandid = 0;
 
@@ -197,14 +198,14 @@
         var width = 300
         var left = window.outerWidth - width;
         var options = "location=0, width="+width+",height="+height+", top=0, left ="+left
-        var myWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html", "_blank",options);
+        monitorWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+ip, "_blank",options);
 
     };
 
     //BLOCK - Close connection
     ext.disconnect = function () {
       rem.closeConnection(false);
-
+      monitorWindow.close();
     };
 
 
