@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Muuri - Responsive, sortable, filterable and draggable grid layouts</title>
+    <title>Robobo Monitor</title>
     <meta name="description" content="Muuri is a JavaScript library that creates responsive, sortable, filterable and draggable grid layouts.">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Niklas Rämö">
@@ -95,7 +95,7 @@
             <div class ="card-content">
               <id id="audio-sensor">
               Music Note: <span id="audio-sensor-music-note"></span><br>
-              Claps (0-1000): <span id="audio-sensor-claps"></span>
+              Claps: <span id="audio-sensor-claps"></span>
               </id>
             </div>
           </div>
@@ -111,8 +111,8 @@
 -->
                <id id="facedist-sensor">Distance: <span id="facedist-sensor-value"></span></id><br>
                <id id="facepos-sensor">
-                 X position (0-100): <span id="facepos-sensor-value-x"></span><br>
-                 Y position (0-100): <span id="facepos-sensor-value-y"></span>
+                 X position: <span id="facepos-sensor-value-x"></span><br>
+                 Y position: <span id="facepos-sensor-value-y"></span>
                </id>
             </div>
           </div>
@@ -123,18 +123,18 @@
             <div class="card-title">Blob Sensor</div>
             <div class="card-icon">R</div>
             <div class ="card-content">
-              Green Blob X (0-100): <span id="color-sensor-green-x"></span><br>
-              Green Blob Y (0-100): <span id="color-sensor-green-y"></span><br>
-              Green Blob Area (0-1000): <span id="color-sensor-green-size"></span> <br>
-              Blue Blob X (0-100): <span id="color-sensor-blue-x"></span><br>
-              Blue Blob Y (0-100): <span id="color-sensor-blue-y"></span><br>
-              Blue Blob Area (0-1000): <span id="color-sensor-blue-size"></span><br>
-              Red Blob X (0-100): <span id="color-sensor-red-x"></span><br>
-              Red Blob Y (0-100): <span id="color-sensor-red-y"></span><br>
-              Red Blob Area (0-1000): <span id="color-sensor-red-size"></span><br>
-              Custom BlobX (0-100):<span id="color-sensor-custom-x"></span><br>
-              Custom BlobY (0-100):<span id="color-sensor-custom-y"></span><br>
-              Custom Blob Area (0-1000):<span id="color-sensor-custom-size"></span><br>
+              Green Blob X: <span id="color-sensor-green-x"></span><br>
+              Green Blob Y: <span id="color-sensor-green-y"></span><br>
+              Green Blob Area: <span id="color-sensor-green-size"></span> <br>
+              Blue Blob X: <span id="color-sensor-blue-x"></span><br>
+              Blue Blob Y: <span id="color-sensor-blue-y"></span><br>
+              Blue Blob Area: <span id="color-sensor-blue-size"></span><br>
+              Red Blob X: <span id="color-sensor-red-x"></span><br>
+              Red Blob Y: <span id="color-sensor-red-y"></span><br>
+              Red Blob Area: <span id="color-sensor-red-size"></span><br>
+              Custom BlobX:<span id="color-sensor-custom-x"></span><br>
+              Custom BlobY:<span id="color-sensor-custom-y"></span><br>
+              Custom Blob Area:<span id="color-sensor-custom-size"></span><br>
             </div>
           </div>
         </div>
@@ -159,9 +159,9 @@
             <div class="card-icon">R</div>
             <div class ="card-content">
               <id id="accel-sensor">
-                X (0-1000): <span id="accel-sensor-x"></span> m/s<sup>2</sup> <br>
-                Y (0-1000): <span id="accel-sensor-y"></span> m/s<sup>2</sup><br>
-                Z (0-1000): <span id="accel-sensor-z"></span> m/s<sup>2</sup><br>
+                X: <span id="accel-sensor-x"></span> m/s<sup>2</sup> <br>
+                Y: <span id="accel-sensor-y"></span> m/s<sup>2</sup><br>
+                Z: <span id="accel-sensor-z"></span> m/s<sup>2</sup><br>
               </id>
             </div>
           </div>
@@ -172,7 +172,7 @@
             <div class="card-title">Touch Sensor</div>
             <div class="card-icon">R</div>
             <div class ="card-content">
-              Tap zone - texto (mouth, eye, left..)<br>
+              Tap zone: <br>
               <id id="tap-sensor">
                 Tap X: <span id="tap-sensor-x-value"></span><br>
                 Tap Y: <span id="tap-sensor-y-value"></span>
@@ -188,7 +188,7 @@
             <div class="card-title">Environment Light Sensor</div>
             <div class="card-icon">R</div>
             <div class ="card-content">
-              <id id="brightness-sensor">Brightness (0-10000): <span id="brightness-sensor-value"></span> Lux</id>
+              <id id="brightness-sensor">Brightness: <span id="brightness-sensor-value"></span> Lux</id>
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@
     <script src="lib/vendor/hammer.min.js"></script>
     <script src="lib/vendor/muuri.js"></script>
     <script src="lib/robobo-monitor-grid.js"></script>
-    <script src="https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js"></script>
+    <script src="../remote-library/remotelib-develop.js"></script>
     <script type="text/javascript" src="lib/robobo-monitor.js"></script>
 
     <script>

@@ -169,7 +169,12 @@ function registerRemoteCallbacks(rem) {
     rem.registerCallback("onGap",function() {});
     rem.registerCallback("onLowBatt",function() {});
     rem.registerCallback("onLowOboBatt",function() {});
-    rem.registerCallback("onNewClap",function() {});
+    rem.registerCallback("onNewClap",function() {
+
+      //setElementHTML("audio-sensor-claps", ());
+    });
+
+
 
     rem.registerCallback("onNewTap", function() {
         //update TAP position in robobo emotion face
@@ -270,8 +275,10 @@ function updateSensors() {
     setElementHTML("obo-batery-value", rem.checkBatt());
 
     //Wheel level
-    setElementHTML("wheel-right-position", rem.getWheel("right"));
-    setElementHTML("wheel-left-position", rem.getWheel("left"));
+    setElementHTML("wheel-right-position", rem.getWheel("right","position"));
+    setElementHTML("wheel-left-position", rem.getWheel("left","position"));
 
+    setElementHTML("wheel-right-speed", rem.getWheel("right","speed"));
+    setElementHTML("wheel-left-speed", rem.getWheel("left","speed"));
 
 }

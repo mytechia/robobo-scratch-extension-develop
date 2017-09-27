@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     grid = new Muuri(gridElement, {
       items: '.item',
       layout: {
-        fillGaps: true,
+        fillGaps: false,
         horizontal: false,
         alignRight: false,
         alignBottom: false,

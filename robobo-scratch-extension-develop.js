@@ -21,7 +21,7 @@
 
 //Scratch extension for the Robobo education robot - Version 0.9.1-dev
 (function(ext) {
-    
+
     var rem; //remote connection to the robot
 
     var commandid = 0;
@@ -155,7 +155,7 @@
     }
 
 
-    
+
     //BLOCKs FUNCTIONS
 
     //CONNECTION BLOCKS
@@ -192,6 +192,13 @@
 
         rem.waitForConnection();
 
+        //opens the monitor window
+        var height= window.outerHeight;
+        var width = 300
+        var left = window.outerWidth - width;
+        var options = "location=0, width="+width+",height="+height+", top=0, left ="+left
+        var myWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html", "_blank",options);
+
     };
 
     //BLOCK - Close connection
@@ -218,7 +225,7 @@
       }
     };
 
-    //BLOCK - Move wheels at speed 
+    //BLOCK - Move wheels at speed
     ext.newMovementT = function(rSpeed,lSpeed,quantity,mode,callback){
       if (mode == 'non-stop'){
         rem.moveWheelsSeparated(lSpeed,rSpeed,2147483647); //TODO -> use rem.motorsOn
@@ -283,30 +290,30 @@
         clapnumber = 0;
         lastphrase = '';
         ext.obstacle = false;
-  
+
         rem.resetSensors();
-  
+
       }else if (sensor == 'brightness') {
         brightnessChange = false;
-  
+
       }else if (sensor == 'claps') {
         clapnumber = 0;
-  
+
       }else if (sensor == 'face') {
         rem.resetFaceSensor();
-  
+
       }else if (sensor == 'fling') {
         rem.resetFlingSensor();
-  
+
       }else if (sensor == 'pan') {
       }else if (sensor == 'tilt') {
-  
+
       }else if (sensor == 'orientation') {
         rem.resetOrientationSensor();
-  
+
       }else if (sensor == 'tap') {
         rem.resetTapSensor();
-  
+
       }else if (sensor == 'acceleration') {
         rem.resetAccelerationSensor();
       }else if (sensor == "IR"){
@@ -316,8 +323,8 @@
       }else if (sensor == "note") {
         rem.resetNoteSensor();
       }
-  
-  
+
+
     };
 
     //BLOCK - Read wheel
@@ -353,7 +360,7 @@
       return value;
     };
 
-  
+
 
 
     //SMARTPHONE ACTUATION BLOCKS
@@ -377,11 +384,11 @@
 
     //BLOCK - Play note
     ext.playNote = function(note, time, callback){
-      
+
       tt = Math.round(time*1000);
-  
+
       if (tt >= 50 && tt <=5000) { //do not accept more than 5 seconds or less than 50ms
-  
+
         rem.playNote(note, Math.round(time*1000))
         window.setTimeout(function() {
                   callback();
@@ -447,7 +454,7 @@
       return value;
     };
 
-    //BLOCK - When note detected 
+    //BLOCK - When note detected
     ext.newNoteFun = function() {
       if (newNote){
         newNote = false;
@@ -462,17 +469,17 @@
       return rem.getLastNote();
     }
 
-    //BLOCK - Blob position at 
+    //BLOCK - Blob position at
     ext.readBlobCoord = function(color, axis){
       return rem.getBlobCoord(color,axis);
     }
-  
-    //BLOCK - Blob area 
+
+    //BLOCK - Blob area
     ext.readBlobSize = function(color){
       return rem.getBlobSize(color);
     }
-  
-    //BLOCK - Active blob colors 
+
+    //BLOCK - Active blob colors
     ext.configBlob = function(r,g,b,c){
       rem.configureBlobDetection(r,g,b,c);
     }
@@ -534,7 +541,7 @@
       rem.moveTiltByDegrees(degrees,speed);
     };
 
-    
+
     //Function to turn on and off the leds
     ext.changeLedStatus = function(led,status){
       rem.setLedColor(led,status);
@@ -573,7 +580,7 @@
       value = rem.getIRValue(ir);
       return value;
     };
-    
+
 
     //Hat function that checks ROB the battery
     ext.lowBatt = function() {
@@ -633,7 +640,7 @@
         return false;
       }
     };
-    
+
 
     //Hat function that tracks brightness changes
     ext.changedBrightness = function() {
@@ -697,7 +704,7 @@
     ext.dummyFun = function () {
       return false;
     };
- 
+
 
 
     // BLOCK AND MENU DESCRIPTIONS
@@ -720,14 +727,14 @@
           ['w', 'move pan to %s at speed %s %m.block','movePanRoboboNew','180','15','blocking'],
           ['w', 'move tilt to %s at speed %s %m.block','moveTiltRoboboNew','90','15','blocking'],
 
-          [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],                    
+          [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],
 
 
 
           //SECTION - ROBOBO BASE SENSING BLOCKS
           ['h', 'BASE SENSING BLOCKS','dummyFun'],
 
-          [' ', 'reset sensor %m.sensors','resetSensor','all'],          
+          [' ', 'reset sensor %m.sensors','resetSensor','all'],
 
           ['r', '%m.individualwheel wheel %m.wheelmenu','readWheel','right','position'],
 
@@ -739,7 +746,7 @@
 
           ['r', 'base battery level','readBatteryLevel'],
 
-          
+
 
           //SECTION - SMARTPHONE ACTUATION BLOCKS
           ['h', 'SMARTPHONE ACTUATION BLOCKS','dummyFun'],
@@ -771,7 +778,7 @@
           [' ', 'active blob colors R:%m.boolean G:%m.boolean B:%m.boolean C:%m.boolean','configBlob','false','true','false','false'],
 
           ['r', 'fling angle','readFlingAngle'],
-          
+
           ['r', 'tap position at %m.axis axis','readTapCoord','x'],
           ['r', 'tap zone','readTapZone'],
 

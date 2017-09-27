@@ -21,7 +21,7 @@
 
 //Javascript remote control library for the Robobo educational robot - Version 0.9.1-dev
 
-//Constructor of the remote control object 
+//Constructor of the remote control object
 function Remote(ip,passwd){
   this.ip = ip.trim();
   this.port = 40404;
@@ -71,9 +71,9 @@ function Remote(ip,passwd){
   //defaults and limits
   this.panSpeedLimit = 40;
   this.tiltSpeedLimit = 10;
-  
+
   this.wheelsSpeedLimit = 250;
-  
+
   this.panInferiorLimit = 26;
   this.panSuperiorLimit = 339;
 
@@ -193,7 +193,7 @@ Remote.prototype = {
       }
     }
 
-  }, //ENDOF waitForConnection 
+  }, //ENDOF waitForConnection
 
   /** Checks whether the connection is established or not */
   isConnected : function() {
@@ -205,7 +205,7 @@ Remote.prototype = {
     if (reconnect) {
       this.connectionState = Remote.ConnectionStateEnum.RECONNECTING;
     }
-    this.ws.close();    
+    this.ws.close();
   }, //ENDOF closeConnection
 
   /** Sends a message to the remote Robobo */
@@ -289,7 +289,7 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    
+
   },//ENDOF moveWheelsSeparated
 
 
@@ -318,7 +318,7 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    
+
   },//ENDOF moveWheelsSeparatedWait
 
 
@@ -334,7 +334,7 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    
+
   },//ENDOF motorsOn
 
 
@@ -374,11 +374,11 @@ Remote.prototype = {
     //  this.statusmap.set("panPos",pos);
     //}
     this.sendMessage(message);
-    
+
   }, //ENDOF movePan
 
 
-  /** Commands the robot to move the PAN to the specified position 
+  /** Commands the robot to move the PAN to the specified position
    * and waits until the movement finishes */
   movePanWait: function(pos, vel, callback) {
     s = ''+ vel;
@@ -413,7 +413,7 @@ Remote.prototype = {
     //  this.statusmap.set("panPos",pos);
     //}
     this.sendMessage(message);
-    
+
   },//ENDOF movePanWait
 
   /** Returns the current PAN position */
@@ -465,11 +465,11 @@ Remote.prototype = {
     //  this.statusmap.set("tiltPos",parseInt(pos));
     //}
     this.sendMessage(message);
-    
+
   },//ENDOF moveTilt
 
 
-  /** Commands the robot to move the TILT to an specified position 
+  /** Commands the robot to move the TILT to an specified position
    * and waits until the robot ends the movement */
   moveTiltWait: function (pos, vel, callback) {
     s = ''+ vel;
@@ -501,7 +501,7 @@ Remote.prototype = {
     //  this.statusmap.set("tiltPos",parseInt(pos));
     //}
     this.sendMessage(message);
-    
+
   },//ENDOF moveTiltWait
 
 
@@ -524,7 +524,7 @@ Remote.prototype = {
     this.moveTilt(newpos, speed);
 
   },//ENDOF moveTiltByDegrees
-  
+
 
   /** Returns the last value detected by the infrared senseor specified by 'irnumber' */
   getIRValue : function (irnumber) {
@@ -545,22 +545,23 @@ Remote.prototype = {
 
   /** Returns the last known position of the specified wheel */
   getWheel : function(wheel, type){
+    var value;
     if (type == "speed"){
       if (wheel == "right"){
-            this.statusmap.get("encoderSpeedR");
+          value = this.statusmap.get("wheelSpeedR");
       }else{
-              this.statusmap.get("encoderSpeedL");
+          value = this.statusmap.get("wheelSpeedL");
 
       }
     }else{
       if (wheel == "right"){
-        this.statusmap.get("encoderPosR");
+        value = this.statusmap.get("wheelPosR");
 
       }else{
-        this.statusmap.get("encoderPosL");
-
+        value = this.statusmap.get("wheelPosL");
       }
     }
+    return value;
   },
 
   /** Returns the last know color of the specified led */
@@ -598,7 +599,7 @@ Remote.prototype = {
   /** Returns the last known Robobo emotion */
   getEmotion : function (){
     return this.statusmap.get("emotion");
-  },  
+  },
 
 
   /** Commands the robot to play a prerecorded sound */
@@ -611,7 +612,7 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    
+
   },//ENDOF playEmotionSound
 
   /***************************************/
@@ -639,7 +640,7 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    
+
   },//ENDOF talk
 
 
@@ -698,7 +699,7 @@ Remote.prototype = {
     }else{
       return this.statusmap.get("roll");
     }
-    
+
   },//ENDOF getOrientation
 
 
@@ -713,7 +714,7 @@ Remote.prototype = {
     }else{
       return this.statusmap.get("zaccel");
     }
-    
+
   },//ENDOF getAcceleration
 
   /** Commands the robot to return the last known ambient light value */
@@ -741,7 +742,7 @@ Remote.prototype = {
     //END OF CHECKBATT FUNCTION
   },
 
-  
+
   /***************************************/
   /* ENDOF SMARTPHONE SENSORS FUNCTIONS  *
   /***************************************/
@@ -765,7 +766,7 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
-    
+
   },//ENDOF configureBlobDetection
 
 
@@ -777,7 +778,7 @@ Remote.prototype = {
     }else{
       return this.statusmap.get("facey");
     }
-    
+
   },//ENDOF getFaceCoord
 
   getBlobCoord : function(color, axis){
@@ -815,7 +816,7 @@ Remote.prototype = {
     }else{
       return this.statusmap.get("tapy");
     }
-    
+
   },//ENDOF getTapCoord
 
   /** Returns the last angle of a fling gesture in the smartphone screen */
@@ -895,19 +896,19 @@ Remote.prototype = {
   resetSensors : function () {
 
     this.resetFaceSensor();
-    
+
     this.resetFlingSensor();
 
     this.resetTapSensor();
 
     this.resetOrientationSensor();
-    
+
     this.resetAccelerationSensor();
 
     this.resetIRs();
 
     this.resetBlobSensor();
-    
+
     this.resetNoteSensor();
 
   },
@@ -940,7 +941,7 @@ Remote.prototype = {
   /******************************/
   /* MESSAGE PROCESSING         *
   /******************************/
-  
+
   /** Manages the processing of each different status message received from the remote robot */
   manageStatus : function (msg) {
 
@@ -962,10 +963,10 @@ Remote.prototype = {
 
 
       for (var key in msg.value) {
-            this.statusmap.set(key,msg.value[key]);  
+            this.statusmap.set(key,msg.value[key]);
           }
       }
-    
+
 
     else if (msg.name == "BATTLEV") {
       this.statusmap.set("batterylevel",parseInt(msg.value["level"]));
@@ -1155,16 +1156,13 @@ Remote.prototype = {
       console.log("END OF SPEECH");
       this.talkCallback();
       this.talkCallback = undefined;
-      
+
     }
     else if (msg.name == "WHEELSTATUS") {
-      this.statusmap.set("encoderPosR",msg.value['encoderPosR']);
-      this.statusmap.set("encoderPosL",msg.value['encoderPosL']);
-      this.statusmap.set("encoderSpeedR",msg.value['encoderSpeedR']);
-      this.statusmap.set("encoderSpeedL",msg.value['encoderSpeedL']);
-
-
-      
+      this.statusmap.set("wheelPosR",msg.value['wheelPosR']);
+      this.statusmap.set("wheelPosL",msg.value['wheelPosL']);
+      this.statusmap.set("wheelSpeedR",msg.value['wheelSpeedR']);
+      this.statusmap.set("wheelSpeedL",msg.value['wheelSpeedL']);
     }
     else if (msg.name == "OBSTACLES") {
 
@@ -1185,12 +1183,12 @@ Remote.prototype = {
       this.statusmap.set(msg.value['id']+"R",msg.value['R']);
       this.statusmap.set(msg.value['id']+"G",msg.value['G']);
       this.statusmap.set(msg.value['id']+"B",msg.value['B']);
- 
+
     }
     else if (msg.name == "EMOTIONSTATUS") {
       this.statusmap.set("emotion",msg.value['emotion']);
 
- 
+
     }
 
 
