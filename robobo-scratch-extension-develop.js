@@ -728,11 +728,16 @@
     }
 
     function setMonitorDisconnected() {
-      monitorWindow.document.querySelector('.monitor').classList.add('disconnected');
+      if (monitorWindow.document != undefined) {
+        monitorWindow.document.querySelector('.monitor').classList.add('disconnected');
+      }
+
     }
 
     function setMonitorConnected() {
-      monitorWindow.document.querySelector('.monitor').classList.remove('disconnected');
+      if (monitorWindow.document != undefined) {
+        monitorWindow.document.querySelector('.monitor').classList.remove('disconnected');
+      }
     }
 
     function refresWindowLocation() {
