@@ -216,7 +216,18 @@
 
     <script>
         //Lets create a new instance of the Robobo Remote JS Library and connect it to a Robobo
-        var rem = new Remote(getAllUrlParams().ip,"");
+
+        var params = getAllUrlParams();
+
+        if (params.status != undefined) {
+          if (params.status == 'disconnected') {
+            document.getElementById('monitor').classList.add('disconnected');
+          }
+        }else {
+          document.getElementById('monitor').classList.remove('disconnected');
+        }
+
+        var rem = new Remote(params.ip,"");
 
         //connect to the remote Robobo
         rem.connect();

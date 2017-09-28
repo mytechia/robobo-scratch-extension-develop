@@ -24,6 +24,7 @@
 
     var rem; //remote connection to the robot
     var monitorWindow;
+    var roboboMonitorIp;
 
     var commandid = 0;
 
@@ -205,7 +206,8 @@
 
         rem.waitForConnection();
 
-        connectMonitor(ip);
+        roboboMonitorIp = ip;
+        connectMonitor();
 
     };
 
@@ -718,32 +720,28 @@
 
 
 
-    function openMonitorWindow(ip) {
+    function openMonitorWindow() {
       //opens the monitor window
       var height= window.outerHeight;
       var width = 300
       var left = window.outerWidth - width;
       var options = "location=0, width="+width+",height="+height+", top=0, left ="+left
-      monitorWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+ip, "_blank",options);
+      monitorWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp, "_blank",options);
     }
 
-    function setMonitorDisconnected() {
-      if (monitorWindow.document != undefined) {
-        var element = monitorWindow.document.getElementById('monitor');
-        element.classList.add('disconnected');
+    function disconnectMonitor() {
+      if (monitorWindow!= undefined) {
+        monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&state=disconnected");
+        monitorWindow.location.reload();
       }
 
     }
 
-    function setMonitorConnected() {
-      if (monitorWindow.document != undefined) {
-        var element = monitorWindow.document.getElementById('monitor');
-        element.classList.remove('disconnected');
+    function reconnectMonitor() {
+      if (monitorWindow!= undefined) {
+        monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp);
+        monitorWindow.location.reload();
       }
-    }
-
-    function refresWindowLocation() {
-      monitorWindow.location.reload();
     }
 
     function connectMonitor(ip) {
@@ -752,19 +750,6 @@
        }else {
          reconnectMonitor();
        }
-    }
-
-    function reconnectMonitor() {
-      if (monitorWindow != undefined) {
-        setMonitorConnected();
-        refresWindowLocation()
-      }
-    }
-
-    function disconnectMonitor() {
-      if (monitorWindow != undefined) {
-        setMonitorDisconnected();
-      }
     }
 
     function closeMonitor() {
