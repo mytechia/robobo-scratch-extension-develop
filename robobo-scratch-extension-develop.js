@@ -756,7 +756,7 @@
 
     function disconnectMonitor() {
       if (monitorWindow != undefined) {
-        setMonitorDisconnected(win);
+        setMonitorDisconnected();
       }
     }
 
