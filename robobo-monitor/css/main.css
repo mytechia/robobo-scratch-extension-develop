@@ -25,6 +25,7 @@ body {
   margin: 0 20px;
   color: #6e6e6e;
 }
+
 a {
   color: #3396FF;
   text-decoration: none;
@@ -97,6 +98,11 @@ section.monitor {
   height: 100%;
   width: 100%;
 }
+
+.disconnected {
+  opacity: 0.2;
+}
+
 
 /* Section titles */
 

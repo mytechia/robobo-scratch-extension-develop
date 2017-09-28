@@ -155,9 +155,13 @@
       connectionStatus = status;
 
       if (connectionStatus == 0) {//error
-        alert("Error connecting with Robobo!");
+        //alert("Error connecting with Robobo!");
+        disconnectMonitor(monitorWindow);
       }else if (connectionStatus == 1) {//disconected
-        alert("Robobo has been disconected!");
+//        alert("Robobo has been disconected!");
+        disconnectMonitor(monitorWindow);
+      }else {
+        reconnectMonitor(monitorWindow);
       }
       //else --> connection succesfull
 
@@ -201,19 +205,14 @@
 
         rem.waitForConnection();
 
-        //opens the monitor window
-        var height= window.outerHeight;
-        var width = 300
-        var left = window.outerWidth - width;
-        var options = "location=0, width="+width+",height="+height+", top=0, left ="+left
-        monitorWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+ip, "_blank",options);
+        connectMonitor(monitorWindow, ip);
 
     };
 
     //BLOCK - Close connection
     ext.disconnect = function () {
       rem.closeConnection(false);
-      monitorWindow.close();
+      closeMonitor();
     };
 
 
@@ -714,6 +713,51 @@
       return false;
     };
 
+
+    // MONITOR WINDOW BEHAVIOR
+
+
+
+    function openMonitorWindow(win, ip) {
+      //opens the monitor window
+      var height= window.outerHeight;
+      var width = 300
+      var left = window.outerWidth - width;
+      var options = "location=0, width="+width+",height="+height+", top=0, left ="+left
+      win = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+ip, "_blank",options);
+    }
+
+    function setMonitorDisconnected(win) {
+      win.document.querySelector('.monitor').classList.add('disconnected');
+    }
+
+    function setMonitorConnected(win) {
+      win.document.querySelector('.monitor').classList.remove('disconnected');
+    }
+
+    function refresWindowLocation(win) {
+      win.location.reload();
+    }
+
+    function connectMonitor(win, ip) {
+       if (win == 'undefined') {
+          openMonitorWindow(win, ip);
+       }else {
+         reconnectMonitor(win);
+       }
+    }
+
+    function reconnectMonitor(win) {
+      if (win != 'undefined') {
+        setMonitorConnected(win);
+        refresWindowLocation(win);        
+      }
+    }
+
+
+    function closeMonitor() {
+       monitorWindow.close();
+    }
 
 
     // BLOCK AND MENU DESCRIPTIONS
