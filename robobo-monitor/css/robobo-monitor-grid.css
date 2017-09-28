@@ -106,6 +106,7 @@
   font-size: 12px;
   background-color: #3ca6ff;
 }
+
 .card-content-expanded {
   height: 100%;
   visibility: visible;
@@ -115,6 +116,46 @@
   height: 0;
   visibility: hidden;
 }
+
+.blob-color-container {
+  height: 130px;
+  width: 170px;
+  margin: auto;
+  text-align: center;
+  padding: auto;
+}
+
+.blob-color {
+   position: relative;
+   width: 70px;
+   height: 50px;
+   float:left;
+   margin: 7px;
+   text-align: center;
+   padding-top: 11px;
+   text-shadow: rgba(0,0,0,0.9) 0px 4px 30px;
+   line-height: 24px;
+}
+
+.blob-green {
+  background: url('../img/blob-green.png') center no-repeat;
+}
+
+.blob-blue {
+  background: url('../img/blob-blue-light.png') center no-repeat;
+}
+
+.blob-red {
+  background: url('../img/blob-red.png') center no-repeat;
+}
+
+.blob-custom {
+  background: url('../img/blob-custom.png') center no-repeat;
+}
+
+
+
+
 
 .card-icon {
   position: absolute;

@@ -37,6 +37,16 @@ var frontCIR = "Front-C",
     backLIR = "Back-L",
     backRIR = "Back-R";
 
+
+/** Format the value received as pameter to be shown in the page, converts undefined in '-'**/
+function formatValue (value) {
+  if (value == undefined) {
+    return '-';
+  }else {
+    return value;
+  }
+}
+
 /** Returns the GapKey string for the specified gap number */
 function getGapKey(gapNumber) {
     return "Gap"+gapNumber;
@@ -246,15 +256,15 @@ function updateSensors() {
 
     // update blob sensor values
 
-    setElementHTML("color-sensor-green-x", rem.getBlobCoord("green","x"));
-    setElementHTML("color-sensor-green-y", rem.getBlobCoord("green","y"));
-    setElementHTML("color-sensor-green-size", rem.getBlobSize("green"));
-    setElementHTML("color-sensor-blue-x", rem.getBlobCoord("blue","x"));
-    setElementHTML("color-sensor-blue-y", rem.getBlobCoord("blue","y"));
-    setElementHTML("color-sensor-blue-size", rem.getBlobSize("blue"));
-    setElementHTML("color-sensor-red-x", rem.getBlobCoord("red","x"));
-    setElementHTML("color-sensor-red-y", rem.getBlobCoord("red","y"));
-    setElementHTML("color-sensor-red-size", rem.getBlobSize("red"));
+    setElementHTML("color-sensor-green-x", formatValue(rem.getBlobCoord("green","x")));
+    setElementHTML("color-sensor-green-y", formatValue(rem.getBlobCoord("green","y")));
+    setElementHTML("color-sensor-green-size", formatValue(rem.getBlobSize("green")));
+    setElementHTML("color-sensor-blue-x", formatValue(rem.getBlobCoord("blue","x")));
+    setElementHTML("color-sensor-blue-y", formatValue(rem.getBlobCoord("blue","y")));
+    setElementHTML("color-sensor-blue-size", formatValue(rem.getBlobSize("blue")));
+    setElementHTML("color-sensor-red-x", formatValue(rem.getBlobCoord("red","x")));
+    setElementHTML("color-sensor-red-y", formatValue(rem.getBlobCoord("red","y")));
+    setElementHTML("color-sensor-red-size", formatValue(rem.getBlobSize("red")));
 
     //Custom color --> TO DO
     // setElementHTML("color-sensor-custom-x", rem.getBlobCoord("custom","x"));
@@ -262,14 +272,14 @@ function updateSensors() {
     // setElementHTML("color-sensor-custom-size, rem.getBlobSize("custom"));
 
     // update IR sensors raw value
-    setElementHTML("ir-sensor-raw-front-c", rem.getIRValue(frontCIR));
-    setElementHTML("ir-sensor-raw-front-l", rem.getIRValue(frontLIR));
-    setElementHTML("ir-sensor-raw-front-ll", rem.getIRValue(frontLLIR));
-    setElementHTML("ir-sensor-raw-front-r", rem.getIRValue(frontRIR));
-    setElementHTML("ir-sensor-raw-front-rr", rem.getIRValue(frontRRIR));
-    setElementHTML("ir-sensor-raw-back-c", rem.getIRValue(backCIR));
-    setElementHTML("ir-sensor-raw-back-r", rem.getIRValue(backRIR));
-    setElementHTML("ir-sensor-raw-back-l", rem.getIRValue(backLIR));
+    setElementHTML("ir-sensor-raw-front-c", formatValue(rem.getIRValue(frontCIR)));
+    setElementHTML("ir-sensor-raw-front-l", formatValue(rem.getIRValue(frontLIR)));
+    setElementHTML("ir-sensor-raw-front-ll", formatValue(rem.getIRValue(frontLLIR)));
+    setElementHTML("ir-sensor-raw-front-r", formatValue(rem.getIRValue(frontRIR)));
+    setElementHTML("ir-sensor-raw-front-rr", formatValue(rem.getIRValue(frontRRIR)));
+    setElementHTML("ir-sensor-raw-back-c", formatValue(rem.getIRValue(backCIR)));
+    setElementHTML("ir-sensor-raw-back-r", formatValue(rem.getIRValue(backRIR)));
+    setElementHTML("ir-sensor-raw-back-l", formatValue(rem.getIRValue(backLIR)));
 
     //Battery level
     setElementHTML("obo-batery-value", rem.checkBatt());
