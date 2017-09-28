@@ -135,17 +135,20 @@ Remote.prototype = {
               reason = "";
           else if(event.code == 1001)
               reason = "";
-          else if(event.code == 1002)
+          else if(event.code == 1002) {
               reason = "Protocol Error";
-          else if(event.code == 1003)
+              error = true;
+          }
+          else if(event.code == 1003) {
               reason = "Invalid data";
+              error = true;
+          }
           else if(event.code == 1004)
               reason = "";
           else if(event.code == 1005)
               reason = "";
           else if(event.code == 1006){
-             reason = "Lost connection";
-             error = true;
+             reason = "Lost connection";             
            }
           else if(event.code == 1007)
               reason = "";
@@ -157,10 +160,14 @@ Remote.prototype = {
               reason = "";
           else if(event.code == 1011)
               reason = "";
-          else if(event.code == 1015)
+          else if(event.code == 1015) {
               reason = "Failure to perform a TLS handshake";
-          else
+              error = true;
+          }
+          else {
               reason = "Unknown reason";
+              error = true;
+          }
       }
 
       if (error){
@@ -170,7 +177,7 @@ Remote.prototype = {
       }
 
       this.reconnecting = false;
-      console.log("Connection closed");
+      console.log("Connection closed because: "+event.code);
       this.connectionState = Remote.ConnectionStateEnum.DISCONNECTED;
     }.bind(this);
 

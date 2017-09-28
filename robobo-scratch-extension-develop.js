@@ -155,9 +155,9 @@
       connectionStatus = status;
 
       if (connectionStatus == 0) {//error
-        alert("Error connecting with Robobo");
+        alert("Error connecting with Robobo!");
       }else if (connectionStatus == 1) {//disconected
-        alert("Robobo has been disconected");
+        alert("Robobo has been disconected!");
       }
       //else --> connection succesfull
 
