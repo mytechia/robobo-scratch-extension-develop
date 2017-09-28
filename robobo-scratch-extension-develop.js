@@ -729,14 +729,16 @@
 
     function setMonitorDisconnected() {
       if (monitorWindow.document != undefined) {
-        monitorWindow.document.querySelector('.monitor').classList.add('disconnected');
+        var element = monitorWindow.document.getElementById('monitor');
+        element.classList.add('disconnected');
       }
 
     }
 
     function setMonitorConnected() {
       if (monitorWindow.document != undefined) {
-        monitorWindow.document.querySelector('.monitor').classList.remove('disconnected');
+        var element = monitorWindow.document.getElementById('monitor');
+        element.classList.remove('disconnected');
       }
     }
 
