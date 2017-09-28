@@ -754,6 +754,7 @@
 
     function closeMonitor() {
        monitorWindow.close();
+       monitorWindow = undefined;
     }
 
 
