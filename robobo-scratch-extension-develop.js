@@ -731,7 +731,7 @@
 
     function disconnectMonitor() {
       if (monitorWindow!= undefined) {
-        monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&state=disconnected");
+        monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected");
         monitorWindow.location.reload();
       }
 
