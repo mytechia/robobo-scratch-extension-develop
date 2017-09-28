@@ -727,7 +727,6 @@
       var left = window.outerWidth - width;
       var options = "location=0, width="+width+",height="+height+", top=0, left ="+left
       monitorWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp, "_blank",options);
-      window.outerWidth = window.outerWidth - with;
     }
 
     function disconnectMonitor() {
