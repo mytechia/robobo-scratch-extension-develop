@@ -740,7 +740,7 @@
     }
 
     function connectMonitor(win, ip) {
-       if (win == 'undefined') {
+       if (win == undefined) {
           openMonitorWindow(win, ip);
        }else {
          reconnectMonitor(win);
@@ -748,14 +748,14 @@
     }
 
     function reconnectMonitor(win) {
-      if (win != 'undefined') {
+      if (win != undefined) {
         setMonitorConnected(win);
         refresWindowLocation(win);
       }
     }
 
     function disconnectMonitor(win) {
-      if (win != 'undefined') {
+      if (win != undefined) {
         setMonitorDisconnected(win);
       }
     }
