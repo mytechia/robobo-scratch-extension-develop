@@ -764,7 +764,7 @@
           //SECTION - CONNECTION BLOCKS
           ['h', 'CONNECTION BLOCKS','dummyFun'],
 
-          [' ', 'connect to ROBOBO at %s %m.status','connectToRobobo','192.168.0.110','on'],
+          [' ', 'connect to ROBOBO at %s with monitor %m.status','connectToRobobo','192.168.0.110','on'],
           [' ', 'end connection','disconnect'],
 
 
