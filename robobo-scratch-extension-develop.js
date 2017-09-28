@@ -764,7 +764,7 @@
           //SECTION - CONNECTION BLOCKS
           ['h', 'CONNECTION BLOCKS','dummyFun'],
 
-          [' ', 'connect to ROBOBO at %s ','connectToRobobo','192.168.0.110'],
+          [' ', 'connect to ROBOBO at %s %m.status','connectToRobobo','192.168.0.110','on'],
           [' ', 'end connection','disconnect'],
 
 
@@ -792,7 +792,7 @@
           ['r', 'tilt position','readTilt'],
 
           //['r', 'distance at sensor %m.ir','readObstacle','Front-C'], --> not visible until calibration is ready
-          ['r', 'raw value at sensor %m.ir','readObstacle','Front-C'],
+          ['r', 'value at sensor %m.ir','readObstacle','Front-C'],
 
           ['r', 'base battery level','readBatteryLevel'],
 
