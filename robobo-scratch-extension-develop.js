@@ -750,10 +750,15 @@
     function reconnectMonitor(win) {
       if (win != 'undefined') {
         setMonitorConnected(win);
-        refresWindowLocation(win);        
+        refresWindowLocation(win);
       }
     }
 
+    funcion disconnectMonitor(win) {
+      if (win != 'undefined') {
+        setMonitorDisconnected(win);
+      }      
+    }
 
     function closeMonitor() {
        monitorWindow.close();
