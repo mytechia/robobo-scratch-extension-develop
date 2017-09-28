@@ -161,23 +161,23 @@ Remote.prototype = {
               reason = "Failure to perform a TLS handshake";
           else
               reason = "Unknown reason";
-          alert('Connection closed\n'+reason);
-          console.log("Code: "+event.code );
       }
+
       if (error){
         (this.callbackmap.get("onConnectionChanges"))(0);
       }else{
         (this.callbackmap.get("onConnectionChanges"))(1);
       }
+
       this.reconnecting = false;
-      console.log("Connection Closed");
+      console.log("Connection closed");
       this.connectionState = Remote.ConnectionStateEnum.DISCONNECTED;
     }.bind(this);
 
     this.ws.onerror = function(error){
       this.connectionState = Remote.ConnectionStateEnum.DISCONNECTED;
       (this.callbackmap.get("onConnectionChanges"))(0);
-      alert("Websocket Error");
+      console.log("Error in websocket connection to Robobo: "+error);
     }.bind(this);
 
   }, //ENDOF connect
@@ -221,7 +221,9 @@ Remote.prototype = {
     console.log("ERROR "+ err);
     this.statusmap.set("error",err);
 
-    (this.callbackmap.get("onError"))();
+    if (this.callbackmap.get("onError") != null) {
+      (this.callbackmap.get("onError"))();
+    }    
   },//ENDOF fireError
 
   /** Handles and processes an incoming message from the remote Robobo */

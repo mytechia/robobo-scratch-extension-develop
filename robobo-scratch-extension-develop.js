@@ -153,6 +153,14 @@
     //Callback for connection status
     ext.onConnectionChanges = function (status) {
       connectionStatus = status;
+
+      if (connectionStatus == 0) {//error
+        alert("Error connecting with Robobo");
+      }else if (connectionStatus == 1) {//disconected
+        alert("Robobo has been disconected");
+      }
+      //else --> connection succesfull
+
     }
 
 
