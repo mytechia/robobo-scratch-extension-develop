@@ -127,7 +127,7 @@ Remote.prototype = {
 
     this.ws.onclose = function(event) {
       var error = false;
-      if(this.connectionState != Remote.ConnectionStateEnum.RECONNECTING || 
+      if(this.connectionState != Remote.ConnectionStateEnum.RECONNECTING && 
         this.connectionState != Remote.ConnectionStateEnum.DISCONNECTED){
         var reason;
 
