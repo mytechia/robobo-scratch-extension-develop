@@ -754,10 +754,10 @@
       }
     }
 
-    funcion disconnectMonitor(win) {
+    function disconnectMonitor(win) {
       if (win != 'undefined') {
         setMonitorDisconnected(win);
-      }      
+      }
     }
 
     function closeMonitor() {
