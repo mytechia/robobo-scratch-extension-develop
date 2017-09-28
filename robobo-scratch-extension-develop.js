@@ -174,7 +174,7 @@
 
     //CONNECTION BLOCKS
     //BLOCK - Connection to robot
-    ext.connectToRobobo = function(ip) {
+    ext.connectToRobobo = function(ip, monitor) {
         if (rem != undefined){
           console.log("Closing previous connection");
           rem.closeConnection(true);
@@ -206,8 +206,10 @@
 
         rem.waitForConnection();
 
-        roboboMonitorIp = ip;
-        connectMonitor();
+        if (monitor == 'on') {
+          roboboMonitorIp = ip;
+          connectMonitor();
+        }
 
     };
 
@@ -718,8 +720,6 @@
 
     // MONITOR WINDOW BEHAVIOR
 
-
-
     function openMonitorWindow() {
       //opens the monitor window
       var height= window.outerHeight;
@@ -727,6 +727,7 @@
       var left = window.outerWidth - width;
       var options = "location=0, width="+width+",height="+height+", top=0, left ="+left
       monitorWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp, "_blank",options);
+      window.outerWidth = window.outerWidth - with;
     }
 
     function disconnectMonitor() {
