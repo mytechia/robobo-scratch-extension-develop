@@ -168,13 +168,15 @@ Remote.prototype = {
               reason = "Unknown reason";
               error = true;
           }
-      }
 
-      if (error){
-        (this.callbackmap.get("onConnectionChanges"))(0);
-      }else{
-        (this.callbackmap.get("onConnectionChanges"))(1);
-      }
+
+          if (error){
+            (this.callbackmap.get("onConnectionChanges"))(0);
+          }else{
+            (this.callbackmap.get("onConnectionChanges"))(1);
+          }
+
+      }      
 
       this.reconnecting = false;
       console.log("Connection closed because: "+event.code);
