@@ -116,6 +116,7 @@ Remote.prototype = {
       console.log("Connection Stablished");
       (this.callbackmap.get("onConnectionChanges"))(2);
       this.sendMessage("PASSWORD: "+this.password);
+      this.keepAlive();
       this.connectionState = Remote.ConnectionStateEnum.CONNECTED;
     }.bind(this);
 
@@ -847,6 +848,17 @@ Remote.prototype = {
   /**********************************************/
   /* UTILITY FUNCTIONS                          *
   /**********************************************/
+
+  /** Commands the robot to not enter in sleep mode*/
+  keepAlive : function () {
+    var message = JSON.stringify({
+        "name": "KEEP-ALIVE",
+        "parameters": {},
+        "id": this.commandid
+    });
+    this.sendMessage(message);
+
+  }, //ENDOF keepAlive
 
   resetFaceSensor : function() {
     //face sensor
