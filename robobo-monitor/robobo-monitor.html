@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/robobo-monitor-grid.css">
+    <link rel="stylesheet" href="css/piano.css">
   </head>
   <body>
     <section id ="monitor" class="monitor">
@@ -120,8 +121,22 @@
             <div class="card-icon">R</div>
             <div class ="card-content">
               <id id="audio-sensor">
-              Music Note: <span id="audio-sensor-music-note"></span><br>
-              Claps: <span id="audio-sensor-claps"></span>
+
+              <div class="container">
+                    <div id="keyboard">
+                        <div id="C" class="key-white key-white-unselected"><span class="music-note">C</span><div id="Cs" class="key-black key-black-unselected"><span class="music-note"></span></div></div>
+                        <div id="D" class="key-white key-white-unselected"><span class="music-note">D</span><div id="Ds" class="key-black key-black-unselected"><span></span></div></div>
+                        <div id="E" class="key-white key-white-unselected"><span class="music-note">E</span></div>
+                        <div id="F" class="key-white key-white-unselected"><span class="music-note">F</span><div id="Fs" class="key-black key-black-unselected"><span></span></div></div>
+                        <div id="G" class="key-white key-white-unselected"><span class="music-note">G</span><div id="Gs" class="key-black key-black-unselected"><span></span></div></div>
+                        <div id="A" class="key-white key-white-unselected"><span class="music-note">A</span><div id="As" class="key-black key-black-unselected"><span></span></div></div>
+                        <div id="B" class="key-white key-white-unselected"><span class="music-note">B</span></div>
+                </div>
+              </div>
+
+              <!-- Music Note: <span id="audio-sensor-music-note"></span><br>-->
+              &nbsp;&nbsp;&nbsp;Claps: <span id="audio-sensor-claps"></span>
+
               </id>
             </div>
           </div>
@@ -138,7 +153,7 @@
 -->
                <id id="facedist-sensor">Distance: <span id="facedist-sensor-value"></span></id><br>
                <id id="facepos-sensor">
-                 Position (x,y): <span id="facepos-sensor-value-x"></span>,<span id="facepos-sensor-value-y"></span>
+                 Position (x,y): <span id="facepos-sensor-value-x"></span>, <span id="facepos-sensor-value-y"></span>
                </id>
             </div>
           </div>

@@ -37,6 +37,9 @@ var frontCIR = "Front-C",
     backLIR = "Back-L",
     backRIR = "Back-R";
 
+// last note received
+var lastNote = undefined;
+
 
 /** Format the value received as pameter to be shown in the page, converts undefined in '-'**/
 function formatValue (value) {
@@ -208,12 +211,35 @@ function registerRemoteCallbacks(rem) {
     rem.registerCallback("onError", function() {});
     rem.registerCallback("onConnectionChanges", function() {});
 
+
     rem.registerCallback("onNewNote", function() {
-       setElementHTML("audio-sensor-music-note", rem.getLastNote());
+      if (lastNote != undefined) {
+        pianoLastKey = document.getElementById(lastNote);
+        if (isWhiteNote(lastNote)) {
+          pianoLastKey.classList.remove('key-white-selected');
+          pianoLastKey.classList.add('key-white-unselected');
+        }else {
+          pianoLastKey.classList.remove('key-black-selected');
+          pianoLastKey.classList.add('key-black-unselected')
+        }
+      }
+
+      lastNote = rem.getLastNote();
+      pianoKey = document.getElementById(rem.getLastNote());
+      if (isWhiteNote(lastNote)) {
+        pianoKey.classList.remove('key-white-unselected');
+        pianoKey.classList.add('key-white-selected')
+      }else {
+        pianoKey.classList.remove('key-black-unselected');
+        pianoKey.classList.add('key-black-selected');
+      }
+
+      setElementHTML("audio-sensor-music-note", rem.getLastNote());
     });
+}
 
-
-
+function isWhiteNote(note) {
+   return ((note=="C")||(note =="D")||(note =="E")||(note =="F")||(note =="G")||(note =="A")||(note =="B"))
 }
 
 /** This function updates sensing data by polling to the remote library.
@@ -221,13 +247,13 @@ function registerRemoteCallbacks(rem) {
 function updateSensors() {
 
     //update brightness sensor
-    setElementHTML("brightness-sensor-value", rem.getBrightness());
+    setElementHTML("brightness-sensor-value", formatValue(rem.getBrightness()));
 
     //update acceleration sensor
     //var accelSensor = rem.getAcceleration('x') + ' | ' + rem.getAcceleration('y') + ' | ' + rem.getAcceleration('z');
-    setElementHTML("accel-sensor-x", rem.getAcceleration('x'));
-    setElementHTML("accel-sensor-y", rem.getAcceleration('y'));
-    setElementHTML("accel-sensor-z", rem.getAcceleration('z'));
+    setElementHTML("accel-sensor-x", formatValue(rem.getAcceleration('x')));
+    setElementHTML("accel-sensor-y", formatValue(rem.getAcceleration('y')));
+    setElementHTML("accel-sensor-z", formatValue(rem.getAcceleration('z')));
 
     //update orientation sensor
     var orSensor = formatValue(rem.getOrientation('yaw')) + 'º, ' + formatValue(rem.getOrientation('pitch')) + 'º,' + formatValue(rem.getOrientation('roll'))+"º";
@@ -245,7 +271,7 @@ function updateSensors() {
     setElementHTML("facepos-sensor-value-x", faceX);
     setElementHTML("facepos-sensor-value-y", faceY);
     //setFacePosition(faceDist, faceX, faceY);
-    setElementHTML("facedist-sensor-value", rem.getFaceDist());
+    setElementHTML("facedist-sensor-value", formatValue(rem.getFaceDist()));
 
     // update blob sensor values
 
