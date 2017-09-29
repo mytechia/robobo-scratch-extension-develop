@@ -22,12 +22,19 @@
               <div class="card-title">WHEELS</div>
               <div class="card-icon">R</div>
               <div class ="card-content card-content-expanded">
-                <i id="wheel">
-                  Right Speed: <span id="wheel-right-speed"></span><br>
-                  Right Position: <span id="wheel-right-position"></span>º<br>
-                  Left Speed: <span id="wheel-left-speed"></span><br>
-                  Left Position: <span id="wheel-left-position"></span>º<br>
-                </i>
+                <i id="wheel"></i>
+                <div class="wheel-block-container">
+                    <div class="wheel-block">
+                      LEFT<br>
+                      Speed: <span id="wheel-left-speed"></span><br>
+                      Pos: <span id="wheel-left-position"></span>º<br>
+                    </div>
+                    <div class="wheel-block">
+                      RIGHT <br>
+                      Speed: <span id="wheel-right-speed"></span><br>
+                      Pos: <span id="wheel-right-position"></span>º<br>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
@@ -39,9 +46,9 @@
             <div class="card-title">PAN & TILT</div>
             <div class="card-icon">R</div>
             <div class ="card-content card-content-expanded">
-              <id id="pan-sensor">Pan: <span id="pan-sensor-value"></span></id>
-              </br>
-              <id id="tilt-sensor">Tilt: <span id="tilt-sensor-value"></span></id>
+              Pan, Tilt:
+              <id id="pan-sensor"> <span id="pan-sensor-value"></span></id>,
+              <id id="tilt-sensor"><span id="tilt-sensor-value"></span></id>
             </div>
           </div>
         </div>
@@ -66,14 +73,28 @@
             <div class="card-icon">R</div>
             <div class ="card-content">
               <i id = "ir-sensor-raw">
-                Front-C: <span id="ir-sensor-raw-front-c"></span><br>
-                Front-L: <span id="ir-sensor-raw-front-l"></span><br>
-                Front-LL: <span id="ir-sensor-raw-front-ll"></span><br>
-                Front-R: <span id="ir-sensor-raw-front-r"></span><br>
-                Front-RR: <span id="ir-sensor-raw-front-rr"></span><br>
-                Back-C: <span id="ir-sensor-raw-back-c"></span><br>
-                Back-L: <span id="ir-sensor-raw-back-l"></span><br>
-                Back-R: <span id="ir-sensor-raw-back-r"></span>
+                <div class="ir-block-container">
+                    <div class="ir-block-large">
+                      Front-C: <span id="ir-sensor-raw-front-c"></span><br>
+                    </div>
+                    <div class="ir-block">
+                      Front-L: <span id="ir-sensor-raw-front-l"></span><br>
+                      Front-LL: <span id="ir-sensor-raw-front-ll"></span><br>
+                    </div>
+                    <div class="ir-block">
+                      Front-R: <span id="ir-sensor-raw-front-r"></span><br>
+                      Front-RR: <span id="ir-sensor-raw-front-rr"></span><br>
+                    </div>
+                    <div class="ir-block-large">
+                      Back-C: <span id="ir-sensor-raw-back-c"></span><br>
+                    </div>
+                    <div class="ir-block">
+                      Back-L: <span id="ir-sensor-raw-back-l"></span><br>
+                    </div>
+                    <div class="ir-block">
+                      Back-R: <span id="ir-sensor-raw-back-r"></span>
+                    </div>
+                </div>
               </i>
             </div>
           </div>
@@ -117,8 +138,7 @@
 -->
                <id id="facedist-sensor">Distance: <span id="facedist-sensor-value"></span></id><br>
                <id id="facepos-sensor">
-                 X position: <span id="facepos-sensor-value-x"></span><br>
-                 Y position: <span id="facepos-sensor-value-y"></span>
+                 Position (x,y): <span id="facepos-sensor-value-x"></span>,<span id="facepos-sensor-value-y"></span>
                </id>
             </div>
           </div>
@@ -159,9 +179,7 @@
             <div class="card-icon">R</div>
             <div class ="card-content">
               <id id="orientation-sensor">
-                Yaw: <span id="orientation-sensor-value-yaw"></span>º<br>
-                Pitch: <span id="orientation-sensor-value-pitch"></span>º<br>
-                Roll: <span id="orientation-sensor-value-roll"></span>º
+                Yaw, Pitch, Roll: <span id="orientation-sensor-value">
               </id>
             </div>
           </div>
@@ -174,9 +192,10 @@
             <div class="card-icon">R</div>
             <div class ="card-content">
               <id id="accel-sensor">
-                X: <span id="accel-sensor-x"></span> m/s<sup>2</sup> <br>
-                Y: <span id="accel-sensor-y"></span> m/s<sup>2</sup><br>
-                Z: <span id="accel-sensor-z"></span> m/s<sup>2</sup><br>
+                x,y,z:
+                <span id="accel-sensor-x"></span> m/s<sup>2</sup>,
+                <span id="accel-sensor-y"></span>m/s<sup>2</sup>,
+                <span id="accel-sensor-z"></span>m/s<sup>2</sup>
               </id>
             </div>
           </div>
@@ -188,10 +207,9 @@
             <div class="card-title">TOUCH SENSOR</div>
             <div class="card-icon">R</div>
             <div class ="card-content">
-              Tap zone: <br>
               <id id="tap-sensor">
-                Tap X: <span id="tap-sensor-x-value"></span><br>
-                Tap Y: <span id="tap-sensor-y-value"></span>
+                  Tap x,y: <span id="tap-sensor-value"></span>
+                  - Tap zone:
               </id>
               <br>
               <id id="fling-sensor">Fling angle: <span id="fling-sensor-value"></span> º</id>
@@ -205,7 +223,7 @@
             <div class="card-title">ENVIROMENT LIGHT SENSOR</div>
             <div class="card-icon">R</div>
             <div class ="card-content">
-              <id id="brightness-sensor">Brightness: <span id="brightness-sensor-value"></span> Lux</id>
+              <id id="brightness-sensor">Brightness: <span id="brightness-sensor-value"> - </span> Lux</id>
             </div>
           </div>
         </div>

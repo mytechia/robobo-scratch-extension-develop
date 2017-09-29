@@ -184,15 +184,9 @@ function registerRemoteCallbacks(rem) {
       //setElementHTML("audio-sensor-claps", ());
     });
 
-
-
     rem.registerCallback("onNewTap", function() {
-        //update TAP position in robobo emotion face
-        var tapX = rem.getTapCoord('x');
-        var tapY = rem.getTapCoord('y');
-        setElementHTML("tap-sensor-x-value", tapX);
-        setElementHTML("tap-sensor-y-value", tapY);
-        //setTapPosition(tapX, tapY);
+        var sensorValue = rem.getTapCoord('x') + "," + rem.getTapCoord('y')
+        setElementHTML("tap-sensor-value", sensorValue);
     });
 
     rem.registerCallback("onNewFling",function() {
@@ -236,19 +230,18 @@ function updateSensors() {
     setElementHTML("accel-sensor-z", rem.getAcceleration('z'));
 
     //update orientation sensor
-    //var orSensor = rem.getOrientation('yaw') + ' | ' + rem.getOrientation('pitch') + ' | ' + rem.getOrientation('roll');
-    setElementHTML("orientation-sensor-value-yaw", rem.getOrientation('yaw'));
-    setElementHTML("orientation-sensor-value-pitch", rem.getOrientation('pitch'));
-    setElementHTML("orientation-sensor-value-roll", rem.getOrientation('roll'));
+    var orSensor = formatValue(rem.getOrientation('yaw')) + 'º, ' + formatValue(rem.getOrientation('pitch')) + 'º,' + formatValue(rem.getOrientation('roll'))+"º";
+    setElementHTML("orientation-sensor-value", orSensor);
 
     //update pan-tilt position
-    setElementHTML("pan-sensor-value", rem.getPan());
-    setElementHTML("tilt-sensor-value", rem.getTilt());
+
+    setElementHTML("pan-sensor-value", formatValue(rem.getPan()));
+    setElementHTML("tilt-sensor-value", formatValue(rem.getTilt()));
 
     //update face position
-    var faceX = rem.getFaceCoord('x');
-    var faceY = rem.getFaceCoord('y');
-    var faceDist = rem.getFaceDist();
+    var faceX = formatValue(rem.getFaceCoord('x'));
+    var faceY = formatValue(rem.getFaceCoord('y'));
+    var faceDist = formatValue(rem.getFaceDist());
     setElementHTML("facepos-sensor-value-x", faceX);
     setElementHTML("facepos-sensor-value-y", faceY);
     //setFacePosition(faceDist, faceX, faceY);
@@ -282,13 +275,13 @@ function updateSensors() {
     setElementHTML("ir-sensor-raw-back-l", formatValue(rem.getIRValue(backLIR)));
 
     //Battery level
-    setElementHTML("obo-batery-value", rem.checkBatt());
+    setElementHTML("obo-batery-value", formatValue(rem.checkBatt()));
 
     //Wheel level
-    setElementHTML("wheel-right-position", rem.getWheel("right","position"));
-    setElementHTML("wheel-left-position", rem.getWheel("left","position"));
+    setElementHTML("wheel-right-position", formatValue(rem.getWheel("right","position")));
+    setElementHTML("wheel-left-position", formatValue(rem.getWheel("left","position")));
 
-    setElementHTML("wheel-right-speed", rem.getWheel("right","speed"));
-    setElementHTML("wheel-left-speed", rem.getWheel("left","speed"));
+    setElementHTML("wheel-right-speed", formatValue(rem.getWheel("right","speed")));
+    setElementHTML("wheel-left-speed", formatValue(rem.getWheel("left","speed")));
 
 }

@@ -92,10 +92,11 @@
   right: 0;
   height: 20px;
   text-align: left;
-  padding-left: 25px;
+  padding-left: 23px;
   font-size: 12px;
   background-color: #0d2c67;
   color: #ffffff;
+  line-height: 20px;
 }
 
 .card-content, .card-content-collapsed, .card-content-expanded{
@@ -116,45 +117,6 @@
   height: 0;
   visibility: hidden;
 }
-
-.blob-color-container {
-  height: 130px;
-  width: 170px;
-  margin: auto;
-  text-align: center;
-  padding: auto;
-}
-
-.blob-color {
-   position: relative;
-   width: 70px;
-   height: 50px;
-   float:left;
-   margin: 7px;
-   text-align: center;
-   padding-top: 11px;
-   text-shadow: rgba(0,0,0,0.9) 0px 4px 30px;
-   line-height: 24px;
-}
-
-.blob-green {
-  background: url('../img/blob-green.png') center no-repeat;
-}
-
-.blob-blue {
-  background: url('../img/blob-blue-light.png') center no-repeat;
-}
-
-.blob-red {
-  background: url('../img/blob-red.png') center no-repeat;
-}
-
-.blob-custom {
-  background: url('../img/blob-custom.png') center no-repeat;
-}
-
-
-
 
 
 .card-icon {
@@ -196,7 +158,99 @@
   height: 20px;
 }
 
-/* Styles for robobo status*/
+/* Styles for the robobo sensors content blocks*/
+
+/* BLOB COLOR */
+
+.blob-color-container {
+  height: 130px;
+  width: 170px;
+  margin: auto;
+  text-align: center;
+  padding: auto;
+}
+
+.blob-color {
+   position: relative;
+   width: 70px;
+   height: 50px;
+   float:left;
+   margin: 7px;
+   text-align: center;
+   padding-top: 11px;
+   text-shadow: rgba(0,0,0,0.9) 0px 4px 30px;
+   line-height: 24px;
+}
+
+.blob-green {
+  background: url('../img/blob-green.png') center no-repeat;
+}
+
+.blob-blue {
+  background: url('../img/blob-blue-light.png') center no-repeat;
+}
+
+.blob-red {
+  background: url('../img/blob-red.png') center no-repeat;
+}
+
+.blob-custom {
+  background: url('../img/blob-custom.png') center no-repeat;
+}
+
+/* WHEELS */
+
+.wheel-block-container {
+  height: 80px;
+  width: 190px;
+  margin: auto;
+  text-align: center;
+  padding: auto;
+}
+
+.wheel-block {
+   position: relative;
+   width: 80px;
+   height: 50px;
+   float:left;
+   margin: 7px;
+   text-align: left;
+   padding-top: 0px;
+   padding-left: 5px;
+   line-height: 24px;
+}
+
+/* IR SENSORS */
+
+.ir-block-container {
+  height: 130px;
+  width: 190px;
+  margin: auto;
+  text-align: center;
+  padding: auto;
+}
+
+.ir-block-large {
+  position: relative;
+  width: 190px;
+  height: 20px;
+  float:left;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.ir-block {
+  position: relative;
+  width: 80px;
+  height: 20px;
+  float:left;
+  margin: 7px;
+  text-align: left;
+  padding-top: 0px;
+}
+
+
+/* BATTERY */
 
 .batery-normal {
   color: #333;
