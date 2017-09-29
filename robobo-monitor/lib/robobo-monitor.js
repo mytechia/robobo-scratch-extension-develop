@@ -291,14 +291,14 @@ function updateSensors() {
     // setElementHTML("color-sensor-custom-size, rem.getBlobSize("custom"));
 
     // update IR sensors raw value
-    setElementHTML("ir-sensor-raw-front-c", formatValue(rem.getIRValue(frontCIR)));
-    setElementHTML("ir-sensor-raw-front-l", formatValue(rem.getIRValue(frontLIR)));
-    setElementHTML("ir-sensor-raw-front-ll", formatValue(rem.getIRValue(frontLLIR)));
-    setElementHTML("ir-sensor-raw-front-r", formatValue(rem.getIRValue(frontRIR)));
-    setElementHTML("ir-sensor-raw-front-rr", formatValue(rem.getIRValue(frontRRIR)));
-    setElementHTML("ir-sensor-raw-back-c", formatValue(rem.getIRValue(backCIR)));
-    setElementHTML("ir-sensor-raw-back-r", formatValue(rem.getIRValue(backRIR)));
-    setElementHTML("ir-sensor-raw-back-l", formatValue(rem.getIRValue(backLIR)));
+    setElementHTML("ir-sensor-raw-front-c", formatValue(rem.getObstacle(frontCIR)));
+    setElementHTML("ir-sensor-raw-front-l", formatValue(rem.getObstacle(frontLIR)));
+    setElementHTML("ir-sensor-raw-front-ll", formatValue(rem.getObstacle(frontLLIR)));
+    setElementHTML("ir-sensor-raw-front-r", formatValue(rem.getObstacle(frontRIR)));
+    setElementHTML("ir-sensor-raw-front-rr", formatValue(rem.getObstacle(frontRRIR)));
+    setElementHTML("ir-sensor-raw-back-c", formatValue(rem.getObstacle(backCIR)));
+    setElementHTML("ir-sensor-raw-back-r", formatValue(rem.getObstacle(backRIR)));
+    setElementHTML("ir-sensor-raw-back-l", formatValue(rem.getObstacle(backLIR)));
 
     //Battery level
     setElementHTML("obo-batery-value", formatValue(rem.checkBatt()));
