@@ -823,15 +823,13 @@
 
       showMonitorButton= document.createElement("DIV");
       showMonitorButton.style.position = "absolute";
-      showMonitorButton.style.top = "50px";
+      showMonitorButton.style.top = "60px";
       showMonitorButton.style.right = "0";
       showMonitorButton.style.width = "30px";
       showMonitorButton.style.height = "150px";
       showMonitorButton.style.backgroundColor = "#cccccc";
       showMonitorButton.style.borderRadius="10px 0px 0px 10px";
-      showMonitorButton.style.border="1px solid black";
-      showMonitorButton.style.opacity="0.5";
-      //showMonitorButton.style.textAlign = "center";
+      showMonitorButton.style.border="1px solid eeeeee";
       showMonitorButton.style.visibility = "hidden";
       showMonitorButton.style.cursor="pointer";
       showMonitorButton.addEventListener("click", showDiv);
@@ -839,7 +837,6 @@
       buttonTxtDiv = document.createElement("DIV");
       buttonTxtDiv.style.fontFamily="Helvetica, Arial, sans-serif";
       buttonTxtDiv.style.fontSize = "12px";
-      buttonTxtDiv.style.fontWeight = "300";
       buttonTxtDiv.style.lineHeight="30px";
       buttonTxtDiv.style.textAlign="center";
       buttonTxtDiv.style.width = "150px";
