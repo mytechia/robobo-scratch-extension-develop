@@ -23,10 +23,16 @@
 (function(ext) {
 
     var rem; //remote connection to the robot
+
+    // Variables required for monitor panel
     var monitorWindow;
     var monitorDiv;
     var monitorIFrame;
     var roboboMonitorIp;
+    var monitorIFrame = undefined;
+    var monitorDiv = undefined;
+    var showMonitorButton = undefined;
+    var monitorDivWidth = 240;
 
     var commandid = 0;
 
@@ -744,29 +750,110 @@
     // MONITOR WINDOW BEHAVIOR
 
     function createMonitorDiv() {
-        monitorDiv = document.createElement("DIV");
+      mainWindowWidth = window.innerWidth;
+      monitorHeaderHeight = 30;  // 5 is the padding
+      monitorDivTop = 50;
+      monitorDivBottom = 2;
+      monitorDivHeight = window.innerHeight -  monitorDivTop - monitorDivBottom;
 
-        monitorIFrame = document.createElement("IFRAME")
-        monitorIFrame.src="http://pruebas.local/monitor/robobo-monitor.html";
-        monitorIFrame.style.width ="100%";
-        monitorIFrame.style.height="100%";
-        monitorIFrame.style.position="absolute";
-        monitorIFrame.style.display="block";
-        monitorIFrame.style.margin = "0";
-        monitorIFrame.style.top="0";
-        monitorIFrame.style.left="0";
-        monitorIFrame.style.border = "0";
-        monitorDiv.appendChild(monitorIFrame);
+      monitorDiv = document.createElement("DIV");
+      monitorDiv.style.position = "absolute";
+      monitorDiv.style.width = monitorDivWidth + "px";
+      monitorDiv.style.height = monitorDivHeight + "px";
+      monitorDiv.style.right = 0;
+      monitorDiv.style.top = monitorDivTop + "px";
+      monitorDiv.style.bottom = monitorDivBottom+"px";
+      monitorDiv.style.padding="0";
+      monitorDiv.style.border="1px solid #bcbdbe";
+      monitorDiv.style.borderRadius="10px";
 
-        monitorDiv.style.position = "absolute";
-        monitorDiv.style.width = "240px";
-        monitorDiv.style.height = window.innerHeight - 30 + "px";
-        monitorDiv.style.left="0";
-        monitorDiv.style.top = "30px";
-        monitorDiv.style.padding="0";
-        monitorDiv.style.margin="0";
-        document.body.appendChild(monitorDiv);
-        document.getElementsByTagName("BODY")[0].appendChild(monitorDiv);
+      // Header
+      var headerDiv = document.createElement("DIV");
+      headerDiv.style.width = monitorDivWidth + "px";
+      headerDiv.style.backgroundColor = "#dddede";
+      // 5 is the top padding
+      headerDiv.style.height = monitorHeaderHeight+ "px";
+      headerDiv.style.textAlign = "center";
+      headerDiv.style.fontFamily="Helvetica, Arial, sans-serif";
+      headerDiv.style.fontSize = "12px";
+      headerDiv.style.lineHeight="30px";
+      headerDiv.style.borderRadius="10px 10px 0 0 ";
+
+
+      var hideIcon = document.createElement("DIV");
+      hideIcon.style.width = "20px";
+      hideIcon.style.height = "20px";
+      hideIcon.style.position = "absolute";
+      hideIcon.style.left = "5px";
+      hideIcon.style.top = "5px";
+      hideIcon.style.background = "url('http://firmware.theroboboproject.com/monitor/img/plegar-monitor.png') center";
+      hideIcon.style.zIndex = 120;
+      hideIcon.style.cursor="pointer";
+      hideIcon.addEventListener("click", hideDiv);
+      headerDiv.appendChild(hideIcon);
+
+
+
+      var headerText = document.createTextNode("ROBOBO MONITOR");
+      headerDiv.appendChild(headerText);
+      monitorDiv.appendChild(headerDiv);
+
+      // Content
+      var contentDiv = document.createElement("DIV");
+      contentDiv.style.width = monitorDivWidth + "px";
+      contentDiv.style.height= (monitorDivHeight - monitorHeaderHeight) + "px";
+
+
+      monitorIFrame = document.createElement("IFRAME")
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html";
+      //monitorIFrame.src="http://pruebas.local/monitor/robobo-monitor.html";
+      monitorIFrame.style.width ="100%";
+      monitorIFrame.style.height="100%";
+      monitorIFrame.style.display="block";
+      monitorIFrame.style.margin = "0";
+      monitorIFrame.style.top="0";
+      monitorIFrame.style.left="0";
+      monitorIFrame.style.border = "0";
+      contentDiv.appendChild(monitorIFrame);
+      monitorDiv.appendChild(contentDiv);
+
+      document.body.appendChild(monitorDiv);
+
+      // button showed when div is hidden
+
+      showMonitorButton= document.createElement("DIV");
+      showMonitorButton.style.position = "absolute";
+      showMonitorButton.style.top = "50px";
+      showMonitorButton.style.right = "0";
+      showMonitorButton.style.width = "30px";
+      showMonitorButton.style.height = "150px";
+      showMonitorButton.style.backgroundColor = "#cccccc";
+      showMonitorButton.style.borderRadius="10px 0px 0px 10px";
+      showMonitorButton.style.border="1px solid black";
+      showMonitorButton.style.opacity="0.5";
+      //showMonitorButton.style.textAlign = "center";
+      showMonitorButton.style.visibility = "hidden";
+      showMonitorButton.style.cursor="pointer";
+      showMonitorButton.addEventListener("click", showDiv);
+
+      buttonTxtDiv = document.createElement("DIV");
+      buttonTxtDiv.style.fontFamily="Helvetica, Arial, sans-serif";
+      buttonTxtDiv.style.fontSize = "12px";
+      buttonTxtDiv.style.fontWeight = "300";
+      buttonTxtDiv.style.lineHeight="30px";
+      buttonTxtDiv.style.textAlign="center";
+      buttonTxtDiv.style.width = "150px";
+      buttonTxtDiv.style.height = "30px";
+      buttonTxtDiv.style.color = "#000000";
+      buttonTxtDiv.style.transform="rotate(-90deg)";
+      buttonTxtDiv.style.transformOrigin="75px 75px";
+      buttonTxtDiv.style.float = "left";
+
+      var buttonTxt = document.createTextNode("ROBOBO MONITOR");
+      buttonTxtDiv.appendChild(buttonTxt);
+      showMonitorButton.appendChild(buttonTxtDiv);
+
+      document.body.appendChild(showMonitorButton);
     }
 
     function openMonitorWindow() {
@@ -812,13 +899,21 @@
 
     function closeMonitor() {
       monitorDiv.style.display="none";
+      showMonitorButton.style.display = "none";
       monitorDiv = undefined;
       monitorIFrame = undefined;
-      /*
-       monitorWindow.close();
-       monitorWindow = undefined;
-      */
+      showMonitorButton = undefined;
     }
+
+    function hideDiv() {
+      monitorDiv.style.visibility = "hidden";
+      showMonitorButton.style.visibility = "visible";
+    }
+
+    function showDiv() {
+      showMonitorButton.style.visibility = "hidden";
+      monitorDiv.style.visibility = "visible";
+    }    
 
 
     // BLOCK AND MENU DESCRIPTIONS

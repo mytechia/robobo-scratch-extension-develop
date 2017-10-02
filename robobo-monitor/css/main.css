@@ -22,7 +22,6 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  margin: 0 20px;
   color: #6e6e6e;
 }
 
@@ -50,42 +49,6 @@ a:hover {
   clear: both;
 }
 
-/* Header
-
-@media (max-width: 600px) {
-  header {
-    margin-bottom: 0;
-  }
-  header h2 {
-    font-size: 21px;
-  }
-  header h2 > span {
-    margin-top: 20px;
-  }
-  header h2 > span > i {
-    display: none;
-  }
-  header h2 > span > span {
-    display: block;
-  }
-  header nav {
-    margin-top: 20px;
-    border-bottom: 0;
-    border-top: 1px solid #e5e5e5;
-  }
-  header nav a {
-    display: block;
-    vertical-align: top;
-    padding: 10px 20px;
-    border-bottom: 1px solid #e5e5e5;
-  }
-  header nav a i {
-    bottom: -1px;
-    left: 0;
-    right: 0;
-  }
-}
-*/
 
 /* Sections */
 
@@ -102,72 +65,3 @@ section.monitor {
 .disconnected {
   opacity: 0.2;
 }
-
-
-/* Section titles
-
-.section-title {
-  color: #3e3e3e;
-  font-size: 26px;
-  font-weight: 700;
-  margin: 40px 0;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-align: center;
-}
-.section-title > span {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-}
-.section-title > span:after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 10px;
-  bottom: 0;
-  right: 10px;
-  height: 2px;
-  background: #3e3e3e;
-}
-*/
-/* Feature list
-
-.feature-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.feature-list-item {
-  position: relative;
-  padding-left: 80px;
-  margin: 30px 0;
-  overflow: hidden;
-}
-.feature-list-icon {
-  display: block;
-  float: left;
-  margin-left: -80px;
-  width: 80px;
-  font-size: 48px;
-  line-height: 48px;
-  text-align: left;
-  color: #3396FF;
-}
-.feature-list-text h4 {
-  margin: 0 0 15px 0;
-  font-weight: 500;
-  font-size: 20px;
-}
-@media (max-width: 600px) {
-  .feature-list-item {
-    padding-left: 0;
-  }
-  .feature-list-icon {
-    margin: -4px 10px 0 0;
-    width: 24px;
-    font-size: 24px;
-    line-height: inherit;
-  }
-}
- */
