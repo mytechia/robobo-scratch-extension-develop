@@ -791,7 +791,6 @@
 
     function reconnectMonitor() {
       monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp;
-      monitorIFrame.reload();
   /*
       if (monitorWindow!= undefined) {
         monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp);
