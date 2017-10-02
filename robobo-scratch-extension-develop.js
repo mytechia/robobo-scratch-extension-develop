@@ -752,9 +752,9 @@
     function createMonitorDiv() {
       mainWindowWidth = window.innerWidth;
       monitorHeaderHeight = 30;  // 5 is the padding
-      monitorDivTop = 50;
+      monitorDivTop = 60;
       monitorDivBottom = 2;
-      monitorDivHeight = window.innerHeight -  monitorDivTop - monitorDivBottom;
+      monitorDivHeight = window.innerHeight*0.95 -  monitorDivTop - monitorDivBottom;
 
       monitorDiv = document.createElement("DIV");
       monitorDiv.style.position = "absolute";
@@ -807,8 +807,8 @@
       monitorIFrame = document.createElement("IFRAME")
       monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html";
       //monitorIFrame.src="http://pruebas.local/monitor/robobo-monitor.html";
-      monitorIFrame.style.width ="100%";
-      monitorIFrame.style.height="100%";
+      monitorIFrame.style.width ="99%";
+      monitorIFrame.style.height="99%";
       monitorIFrame.style.display="block";
       monitorIFrame.style.margin = "0";
       monitorIFrame.style.top="0";
@@ -913,7 +913,7 @@
     function showDiv() {
       showMonitorButton.style.visibility = "hidden";
       monitorDiv.style.visibility = "visible";
-    }    
+    }
 
 
     // BLOCK AND MENU DESCRIPTIONS
