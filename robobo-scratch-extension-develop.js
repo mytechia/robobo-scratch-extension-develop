@@ -756,7 +756,7 @@
         monitorIFrame.style.top="0";
         monitorIFrame.style.left="0";
         monitorIFrame.style.border = "0";
-        monitorDiv.appendChild(myIframe);
+        monitorDiv.appendChild(monitorIFrame);
 
         monitorDiv.style.position = "absolute";
         monitorDiv.style.width = "240px";
@@ -765,6 +765,7 @@
         monitorDiv.style.top = "30px";
         monitorDiv.style.padding="0";
         monitorDiv.style.margin="0";
+        document.body.appendChild(monitorDiv);
         document.getElementsByTagName("BODY")[0].appendChild(monitorDiv);
     }
 
