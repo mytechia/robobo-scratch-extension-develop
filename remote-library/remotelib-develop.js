@@ -872,7 +872,7 @@ Remote.prototype = {
     newKeepAliveTime = this.timestamp();
     if ((newKeepAliveTime - this.lastKeepAliveTime) > this.maxKeepAlivePeriod) {
       this.lastKeepAliveTime = newKeepAliveTime;
-      keepAliveMsg();
+      this.keepAliveMsg();
     }
   }, //ENDOF keepAlive
 
