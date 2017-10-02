@@ -801,7 +801,8 @@
     }
 
     function connectMonitor(ip) {
-       if (monitorWindow == undefined) {
+//       if (monitorWindow == undefined) {
+      if (monitorDiv == undefined) {
           createMonitorDiv(ip);
           //openMonitorWindow(ip);
        }else {
