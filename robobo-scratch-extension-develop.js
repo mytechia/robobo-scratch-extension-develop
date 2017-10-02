@@ -341,11 +341,13 @@
 
     //BLOCK - Read wheel
     ext.readWheel = function(wheel,type){
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getWheel(wheel,type);
     }
 
     //BLOCK - Read pan
     ext.readPan = function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getPan()
       return value;
@@ -353,6 +355,7 @@
 
     //BLOCK - Read tilt
     ext.readTilt = function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getTilt();
       return value;
@@ -360,6 +363,7 @@
 
     //BLOCK - raw value at sensor --> Reads IR value
     ext.readObstacle = function (ir) {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getObstacle(ir);
       return value;
@@ -367,6 +371,7 @@
 
     //BLOCK - Base battery level --> Reporter function to get the ROB battery level
     ext.readBatteryLevel = function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.checkBatt();
       return value;
@@ -413,6 +418,7 @@
 
     //BLOCK - Smarpthone battery level --> Reporter function to get the OBO battery level
     ext.readOboBatteryLevel = function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.checkOboBatt();
       return value;
@@ -420,6 +426,7 @@
 
     //BLOCK - Face positoin at --> Reporter function to get the detected face coordinates
     ext.readFaceCoord = function (axis) {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getFaceCoord(axis);
       return value;
@@ -427,6 +434,7 @@
 
     //BLOCK - Face distance --> Reporter function to get the detected face distance
     ext.readFaceDist= function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getFaceDist();
       return value;
@@ -434,6 +442,7 @@
 
     //BLOCK - Brightness --> Reporter function to get the ROB battery level
     ext.readBrightnessLevel = function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getBrightness();
       return value;
@@ -441,6 +450,7 @@
 
     //BLOCK - When face is detected --> Hat function that checks for new faces
     ext.newFaceFun = function() {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       if (newface){
         newface = false;
         return true;
@@ -451,6 +461,7 @@
 
     //BLOCK - When face is lost --> Hat function that checks for new facesd
     ext.lostFace = function() {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       if (lostface){
         lostface = false;
         return true;
@@ -461,6 +472,7 @@
 
     //BLOCK - Clap counter
     ext.readClap = function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = clapnumber;
       return value;
@@ -468,6 +480,7 @@
 
     //BLOCK - When note detected
     ext.newNoteFun = function() {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       if (newNote){
         newNote = false;
         return true;
@@ -478,16 +491,19 @@
 
     //BLOCK - Last note
     ext.readLastNote = function(){
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getLastNote();
     }
 
     //BLOCK - Blob position at
     ext.readBlobCoord = function(color, axis){
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getBlobCoord(color,axis);
     }
 
     //BLOCK - Blob area
     ext.readBlobSize = function(color){
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getBlobSize(color);
     }
 
@@ -498,11 +514,13 @@
 
     //BLOCK - Fling angle
     ext.readFlingAngle = function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.checkFlingAngle();
     };
 
     //BLOCK - Tap position at...
     ext.readTapCoord = function (axis) {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getTapCoord(axis);
       return value;
@@ -510,6 +528,7 @@
 
     //BLOCK - Tap zone
     ext.readTapZone = function () {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = coordsToZone(rem.getTapCoord("x"),rem.getTapCoord("y"));
       return value;
@@ -517,6 +536,7 @@
 
     //BLOCK - Orientation at ...
     ext.readOrientation = function (axis) {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getOrientation(axis);
       return value;
@@ -524,6 +544,7 @@
 
     //BLOCK - Acceleration at ...
     ext.readAcceleration = function (axis) {
+      rem.keepAlive(); //keep the robot alive to receive stats updates
       var value = 0;
       value = rem.getAcceleration(axis);
       return value;
@@ -854,7 +875,7 @@
           individualwheel: ['right', 'left'],
           mtype: ['non-stop','seconds'],
           orientation: ['yaw','pitch','roll'],
-          emotions: ['happy','laughting','sad','angry','surprised','normal'],
+          emotions: ['happy','laugthing','sad','angry','surprised','normal'],
           colors: ['off','white','red','blue','cyan','magenta','yellow','green','orange'],
           status: ['on','off'],
           leds: ['Front-C','Front-L','Front-LL','Front-R','Front-RR','Back-L','Back-R','all'],

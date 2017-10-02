@@ -26,6 +26,10 @@ function Remote(ip,passwd){
   this.ip = ip.trim();
   this.port = 40404;
 
+  //Last keep-alive message timestamp
+  this.lastKeepAliveTime = 0;
+  this.maxKeepAlivePeriod = 2000;
+
   //WebSocket to stablish the connection
   this.ws = undefined;
 
@@ -850,7 +854,7 @@ Remote.prototype = {
   /**********************************************/
 
   /** Commands the robot to not enter in sleep mode*/
-  keepAlive : function () {
+  keepAliveMsg : function () {
     var message = JSON.stringify({
         "name": "KEEP-ALIVE",
         "parameters": {},
@@ -858,6 +862,18 @@ Remote.prototype = {
     });
     this.sendMessage(message);
 
+  }, //ENDOF keepAliveMsg
+
+  /** Sends a keep alive message if, and only if, have elapsed
+   * more than this.maxKeepAlivePeriod millisends since the last
+   * keep alive message sent.
+   */
+  keepAlive : function() {
+    newKeepAliveTime = this.timestamp();
+    if ((newKeepAliveTime - this.lastKeepAliveTime) > this.maxKeepAlivePeriod) {
+      this.lastKeepAliveTime = newKeepAliveTime;
+      keepAliveMsg();
+    }
   }, //ENDOF keepAlive
 
   resetFaceSensor : function() {
@@ -941,6 +957,11 @@ Remote.prototype = {
     return this.statusmap.get("error");
     //END OF GETCOLOR FUNCTION
   },
+
+  timestamp : function() {
+    return (new Date()).getTime();
+  },
+
 
   /**********************************************/
   /* ENDOF UTILITY FUNCTIONS                    *
