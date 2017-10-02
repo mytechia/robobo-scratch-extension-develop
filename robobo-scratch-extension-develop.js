@@ -24,6 +24,8 @@
 
     var rem; //remote connection to the robot
     var monitorWindow;
+    var monitorDiv;
+    var monitorIFrame;
     var roboboMonitorIp;
 
     var commandid = 0;
@@ -741,6 +743,31 @@
 
     // MONITOR WINDOW BEHAVIOR
 
+    function createMonitorDiv() {
+        monitorDiv = document.createElement("DIV");
+
+        monitorIFrame = document.createElement("IFRAME")
+        monitorIFrame.src="http://pruebas.local/monitor/robobo-monitor.html";
+        monitorIFrame.style.width ="100%";
+        monitorIFrame.style.height="100%";
+        monitorIFrame.style.position="absolute";
+        monitorIFrame.style.display="block";
+        monitorIFrame.style.margin = "0";
+        monitorIFrame.style.top="0";
+        monitorIFrame.style.left="0";
+        monitorIFrame.style.border = "0";
+        monitorDiv.appendChild(myIframe);
+
+        monitorDiv.style.position = "absolute";
+        monitorDiv.style.width = "240px";
+        monitorDiv.style.height = window.innerHeight - 30 + "px";
+        monitorDiv.style.left="0";
+        monitorDiv.style.top = "30px";
+        monitorDiv.style.padding="0";
+        monitorDiv.style.margin="0";
+        document.getElementsByTagName("BODY")[0].appendChild(monitorDiv);
+    }
+
     function openMonitorWindow() {
       //opens the monitor window
       var height= window.outerHeight;
@@ -751,31 +778,45 @@
     }
 
     function disconnectMonitor() {
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected";
+      monitorIFrame.reload();
+  /*
       if (monitorWindow!= undefined) {
         monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected");
         monitorWindow.location.reload();
       }
+  */
 
     }
 
     function reconnectMonitor() {
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp;
+      monitorIFrame.reload();
+  /*
       if (monitorWindow!= undefined) {
         monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp);
         monitorWindow.location.reload();
       }
+  */
     }
 
     function connectMonitor(ip) {
        if (monitorWindow == undefined) {
-          openMonitorWindow(ip);
+          createMonitorDiv(ip);
+          //openMonitorWindow(ip);
        }else {
          reconnectMonitor();
        }
     }
 
     function closeMonitor() {
+      monitorDiv.style.display="none";
+      monitorDiv = undefined;
+      monitorIFrame = undefined;
+      /*
        monitorWindow.close();
        monitorWindow = undefined;
+      */
     }
 
 

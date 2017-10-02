@@ -50,7 +50,7 @@ a:hover {
   clear: both;
 }
 
-/* Header */
+/* Header
 
 @media (max-width: 600px) {
   header {
@@ -85,12 +85,12 @@ a:hover {
     right: 0;
   }
 }
-
+*/
 
 /* Sections */
 
 section {
-  padding: 5px;
+  padding: 0px;
 }
 
 section.monitor {
@@ -104,7 +104,7 @@ section.monitor {
 }
 
 
-/* Section titles */
+/* Section titles
 
 .section-title {
   color: #3e3e3e;
@@ -130,8 +130,8 @@ section.monitor {
   height: 2px;
   background: #3e3e3e;
 }
-
-/* Feature list */
+*/
+/* Feature list
 
 .feature-list {
   margin: 0;
@@ -170,3 +170,4 @@ section.monitor {
     line-height: inherit;
   }
 }
+ */
