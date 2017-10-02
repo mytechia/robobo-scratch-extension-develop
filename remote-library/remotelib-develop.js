@@ -28,7 +28,7 @@ function Remote(ip,passwd){
 
   //Last keep-alive message timestamp
   this.lastKeepAliveTime = 0;
-  this.maxKeepAlivePeriod = 2000;
+  this.maxKeepAlivePeriod = 1000*1*60; //1 minutes
 
   //WebSocket to stablish the connection
   this.ws = undefined;
