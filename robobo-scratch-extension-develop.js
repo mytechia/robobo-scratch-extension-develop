@@ -766,6 +766,7 @@
       monitorDiv.style.padding="0";
       monitorDiv.style.border="1px solid #bcbdbe";
       monitorDiv.style.borderRadius="10px";
+      monitorDiv.style.backgroundColor = "#ffffff";
 
       // Header
       var headerDiv = document.createElement("DIV");
@@ -863,8 +864,7 @@
     }
 
     function disconnectMonitor() {
-      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected";
-      monitorIFrame.reload();
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected";  
   /*
       if (monitorWindow!= undefined) {
         monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected");

@@ -234,7 +234,7 @@ function registerRemoteCallbacks(rem) {
         pianoKey.classList.add('key-black-selected');
       }
 
-      setElementHTML("audio-sensor-music-note", rem.getLastNote());
+      //setElementHTML("audio-sensor-music-note", rem.getLastNote());
     });
 }
 
