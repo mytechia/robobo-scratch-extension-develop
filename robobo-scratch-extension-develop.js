@@ -898,6 +898,7 @@
     function closeMonitor() {
       disconnectMonitor();
       monitorDiv.style.visibility = "hidden";
+      showMonitorButton.style.visibility = "visible";
     }
 
     function hideDiv() {
