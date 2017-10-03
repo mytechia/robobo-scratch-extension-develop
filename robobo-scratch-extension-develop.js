@@ -209,9 +209,8 @@
 
         if (monitor == 'on') {
           roboboMonitorIp = ip;
-          if (rem.isConnected()) {
-             connectMonitor();
-          }else {
+          connectMonitor();
+          if (!rem.isConnected()) {
              disconnectMonitor();
           }
         }
