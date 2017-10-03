@@ -154,15 +154,16 @@
       connectionStatus = status;
 
       if (connectionStatus == 0) {//error
-        //alert("Error connecting with Robobo!");
+        alert("Error connecting with Robobo!");
         disconnectMonitor();
       }else if (connectionStatus == 1) {//disconected
-//        alert("Robobo has been disconected!");
+        alert("Robobo has been disconected!");
         disconnectMonitor();
       }else {
+        //else --> connection succesfull
         reconnectMonitor();
       }
-      //else --> connection succesfull
+
 
     }
 
