@@ -806,7 +806,7 @@
 
 
     monitorIFrame = document.createElement("IFRAME")
-    monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html";
+    monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?status=disconnected";
     //monitorIFrame.src="http://pruebas.local/monitor/robobo-monitor.html";
     monitorIFrame.style.width ="99%";
     monitorIFrame.style.height="99%";
