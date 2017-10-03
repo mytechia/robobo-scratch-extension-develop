@@ -258,9 +258,45 @@
 
 /* BATTERY */
 
-.batery-normal {
+.battery {
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+}
+
+
+.battery-normal {
   color: #333;
 }
-.batery-low {
+
+.battery-low {
   color: red;
+}
+
+.battery-full {
+  color: green;
+}
+
+.battery-no-value {
+  color: #cccccc;
+}
+
+.battery-block-container {
+  height: 70px;
+  width: 190px;
+  margin: auto;
+  text-align: center;
+  padding: auto;
+}
+
+.battery-block {
+   position: relative;
+   width: 80px;
+   height: 50px;
+   float:left;
+   margin: 5px;
+   text-align: center;
+   padding-top: 0px;
+   padding-left: 5px;
+   line-height: 15px;
 }

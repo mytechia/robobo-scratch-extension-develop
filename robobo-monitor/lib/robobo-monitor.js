@@ -301,7 +301,49 @@ function updateSensors() {
     setElementHTML("ir-sensor-raw-back-l", formatValue(rem.getObstacle(backLIR)));
 
     //Battery level
-    setElementHTML("obo-batery-value", formatValue(rem.checkBatt()));
+
+    battery0 = "&#xf244";
+    battery25 = "&#xf243";
+    battery50 = "&#xf242";
+    batter75 = "&#xf241";
+    battery100 = "&#xf240";
+
+
+    robBattery = rem.checkBatt();
+    if (robBattery == undefined) {
+      document.getElementById('rob-battery-icon').classList.add('battery-no-value');
+      document.getElementById('rob-battery-icon').classList.remove('battery-full');
+      document.getElementById('rob-battery-icon').classList.remove('battery-normal');
+      document.getElementById('rob-battery-icon').classList.remove('battery-low');
+    }else {
+        document.getElementById('rob-battery-icon').classList.remove('battery-no-value');
+        if (robBattery < 50) {
+          document.getElementById('rob-battery-icon').innerHTML=battery25;
+          document.getElementById('rob-battery-icon').classList.remove('battery-full');
+          document.getElementById('rob-battery-icon').classList.remove('battery-normal');
+          document.getElementById('rob-battery-icon').classList.add('battery-low');
+        } else
+        if (robBattery >= 50 && robBattery<75) {
+          document.getElementById('rob-battery-icon').innerHTML=battery50;
+          document.getElementById('rob-battery-icon').classList.add('battery-full');
+          document.getElementById('rob-battery-icon').classList.remove('battery-low');
+          document.getElementById('rob-battery-icon').classList.remove('battery-normal');
+        } else
+        if (robBattery >= 75 && robBattery<100) {
+          document.getElementById('rob-battery-icon').innerHTML=battery75;
+          document.getElementById('rob-battery-icon').classList.add('battery-full');
+          document.getElementById('rob-battery-icon').classList.remove('battery-low');
+          document.getElementById('rob-battery-icon').classList.remove('battery-normal');
+        } else 
+        if (robBattery == 100) {
+          document.getElementById('rob-battery-icon').innerHTML=battery100;
+          document.getElementById('rob-battery-icon').classList.add('battery-full');
+          document.getElementById('rob-battery-icon').classList.remove('battery-low');
+          document.getElementById('rob-battery-icon').classList.remove('battery-normal');
+        }
+    }
+
+    setElementHTML("rob-battery-value", formatValue(rem.checkBatt()));
 
     //Wheel level
     setElementHTML("wheel-right-position", formatValue(rem.getWheel("right","position")));
