@@ -825,7 +825,7 @@
       showMonitorButton= document.createElement("DIV");
       showMonitorButton.style.position = "absolute";
       showMonitorButton.style.top = monitorDivTop + "px";
-      showMonitorButton.style.right = "6px";
+      showMonitorButton.style.right = "10px";
       showMonitorButton.style.width = "30px";
       showMonitorButton.style.height = "150px";
       showMonitorButton.style.backgroundColor = "#3ca6ff";
@@ -842,7 +842,7 @@
       buttonTxtDiv.style.textAlign="center";
       buttonTxtDiv.style.width = "150px";
       buttonTxtDiv.style.height = "30px";
-      buttonTxtDiv.style.color = "#000000";
+      buttonTxtDiv.style.color = "#ffffff";
       buttonTxtDiv.style.transform="rotate(-90deg)";
       buttonTxtDiv.style.transformOrigin="75px 75px";
       buttonTxtDiv.style.float = "left";
