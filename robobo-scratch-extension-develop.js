@@ -752,9 +752,9 @@
     function createMonitorDiv() {
       mainWindowWidth = window.innerWidth;
       monitorHeaderHeight = 30;  // 5 is the padding
-      monitorDivTop = 60;
+      monitorDivTop = 80;
       monitorDivBottom = 2;
-      monitorDivHeight = window.innerHeight*0.95 -  monitorDivTop - monitorDivBottom;
+      monitorDivHeight = window.innerHeight*0.90 -  monitorDivTop - monitorDivBottom;
 
       monitorDiv = document.createElement("DIV");
       monitorDiv.style.position = "absolute";
@@ -824,13 +824,13 @@
 
       showMonitorButton= document.createElement("DIV");
       showMonitorButton.style.position = "absolute";
-      showMonitorButton.style.top = "60px";
-      showMonitorButton.style.right = "0";
+      showMonitorButton.style.top = monitorDivTop + "px";
+      showMonitorButton.style.right = "6px";
       showMonitorButton.style.width = "30px";
       showMonitorButton.style.height = "150px";
-      showMonitorButton.style.backgroundColor = "#cccccc";
+      showMonitorButton.style.backgroundColor = "#3ca6ff";
       showMonitorButton.style.borderRadius="10px 0px 0px 10px";
-      showMonitorButton.style.border="1px solid eeeeee";
+      showMonitorButton.style.border="1px solid #eeeeee";
       showMonitorButton.style.visibility = "hidden";
       showMonitorButton.style.cursor="pointer";
       showMonitorButton.addEventListener("click", showDiv);
@@ -864,7 +864,7 @@
     }
 
     function disconnectMonitor() {
-      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected";  
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected";
   /*
       if (monitorWindow!= undefined) {
         monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected");

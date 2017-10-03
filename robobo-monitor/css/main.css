@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 /* Base */
 
 * {
@@ -19,7 +21,7 @@ html.dragging body {
 }
 body {
   position: relative;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Roboto;
   font-size: 14px;
   line-height: 1.5;
   color: #6e6e6e;
