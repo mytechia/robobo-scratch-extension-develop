@@ -173,7 +173,7 @@
 
     //CONNECTION BLOCKS
     //BLOCK - Connection to robot
-    ext.connectToRobobo = function(ip, monitor) {
+    ext.connectToRobobo = function(ip) {
         if (rem != undefined){
           console.log("Closing previous connection");
           rem.closeConnection(true);
@@ -206,13 +206,11 @@
         rem.waitForConnection();
 
 
-
-        if (monitor == 'on') {
-          roboboMonitorIp = ip;
-          connectMonitor();
-          if (!rem.isConnected()) {
-             disconnectMonitor();
-          }
+        //open monitor
+        roboboMonitorIp = ip;
+        connectMonitor();
+        if (!rem.isConnected()) {
+            disconnectMonitor();
         }
 
     };
@@ -925,7 +923,7 @@
           //SECTION - CONNECTION BLOCKS
           ['h', 'CONNECTION BLOCKS','dummyFun'],
 
-          [' ', 'connect to ROBOBO at %s with monitor %m.status','connectToRobobo','192.168.0.110','on'],
+          [' ', 'connect to ROBOBO at %s','connectToRobobo','192.168.0.110'],
           [' ', 'end connection','disconnect'],
 
 
