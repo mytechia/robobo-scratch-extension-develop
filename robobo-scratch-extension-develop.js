@@ -760,7 +760,7 @@
       monitorDiv.style.position = "absolute";
       monitorDiv.style.width = monitorDivWidth + "px";
       monitorDiv.style.height = monitorDivHeight + "px";
-      monitorDiv.style.right = 0;
+      monitorDiv.style.right = "3px";
       monitorDiv.style.top = monitorDivTop + "px";
       monitorDiv.style.bottom = monitorDivBottom+"px";
       monitorDiv.style.padding="0";
