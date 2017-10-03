@@ -896,11 +896,8 @@
     }
 
     function closeMonitor() {
-      monitorDiv.style.display="none";
-      showMonitorButton.style.display = "none";
-      monitorDiv = undefined;
-      monitorIFrame = undefined;
-      showMonitorButton = undefined;
+      disconnectMonitor();
+      monitorDiv.style.visibility = "hidden";
     }
 
     function hideDiv() {
