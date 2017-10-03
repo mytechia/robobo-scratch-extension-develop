@@ -205,9 +205,15 @@
 
         rem.waitForConnection();
 
+
+
         if (monitor == 'on') {
           roboboMonitorIp = ip;
-          connectMonitor();
+          if (rem.isConnected()) {
+             connectMonitor();
+          }else {
+             disconnectMonitor();
+          }
         }
 
     };
