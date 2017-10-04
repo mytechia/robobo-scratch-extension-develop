@@ -709,7 +709,7 @@ Remote.prototype = {
 
   getClaps : function() {
     return this.statusmap.get("claps");
-  }
+  },
   
 
   /*********************************************/
