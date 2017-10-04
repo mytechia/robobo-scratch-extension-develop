@@ -982,6 +982,12 @@ Remote.prototype = {
     //END OF GETCOLOR FUNCTION
   },
 
+  callCallback : function(callbackName) {
+    if (this.callbackmap.get(callbackName) != null) {
+      this.callbackmap.get(callbackName)();
+    }
+  },
+
 
   /******************************/
   /* MESSAGE PROCESSING         *
@@ -1085,8 +1091,7 @@ Remote.prototype = {
     }
 
     else if (msg.name == "CLAP") {
-      //TODO --> add null calback check
-      (this.callbackmap.get("onNewClap"))();
+      this.callCallback("onNewClap");
     }
 
     else if (msg.name == "BRIGHTNESS") {
