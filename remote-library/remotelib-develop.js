@@ -699,6 +699,7 @@ Remote.prototype = {
   processClapStatus : function() {
 
     claps = this.statusmap.get("claps");
+    if (claps == null) claps = 0;
     claps++;
 
     this.statusmap.set("claps", claps);    
