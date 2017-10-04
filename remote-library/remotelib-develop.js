@@ -1104,7 +1104,7 @@ Remote.prototype = {
       this.statusmap.set("flingtime",parseInt(msg.value["time"]));
       this.statusmap.set("flingdistance",parseInt(msg.value["distance"]));
 
-      this.callCallback("onNewFling"));
+      this.callCallback("onNewFling");
     }
 
     else if (msg.name == "CLAP") {
