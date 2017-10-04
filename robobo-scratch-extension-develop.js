@@ -529,9 +529,7 @@
     //BLOCK - Tap zone
     ext.readTapZone = function () {
       rem.keepAlive(); //keep the robot alive to receive stats updates
-      var value = 0;
-      value = coordsToZone(rem.getTapCoord("x"),rem.getTapCoord("y"));
-      return value;
+      return rem.getTapZone();
     };
 
     //BLOCK - Orientation at ...

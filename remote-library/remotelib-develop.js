@@ -854,6 +854,18 @@ Remote.prototype = {
 
   },//ENDOF getTapCoord
 
+  getTapZone : function() {
+    x = this.getTapCoord("x");
+    y = this.getTapCoord("y");
+
+    if (x!=null && y!=null) {
+      return this.coordsToZone(x, y);
+    }
+    else {
+      return this.coordsToZone(0,0);
+    }
+  },
+
   /** Returns the last angle of a fling gesture in the smartphone screen */
   checkFlingAngle : function () {
     return this.statusmap.get("flingangle");
@@ -978,6 +990,26 @@ Remote.prototype = {
 
   timestamp : function() {
     return (new Date()).getTime();
+  },
+
+  /** Tranforms TAP coords to "face zones" */
+ coordsToZone : function(x, y){
+  
+    if (y == 0 && x == 0) {
+      return "none";
+    }else if (y<17){
+        return "forehead";
+    }else if (rangeFun(y,"between",17,56) && rangeFun(x,"between", 15, 85)){
+        return "eye";
+    }else if (rangeFun(y,"between",65,77) && rangeFun(x,"between", 25, 75)){
+        return "mouth";
+    }else if (rangeFun(x,"between",0,15)){
+        return "left";
+    }else if (rangeFun(x,"between",85,100)){
+        return "right";
+    }else if (rangeFun(y,"between",77,100) && rangeFun(x,"between", 15, 85)){
+        return "chin";
+    }
   },
 
 
