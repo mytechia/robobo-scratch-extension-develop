@@ -24,21 +24,21 @@
                 <i id="wheel"></i>
                 <div class="wheel-block-container">
                     <div class="wheel-block">
-                      LEFT<br>
+                      LEFT
                       <div>
-                        <canvas width="85" height="50" id="wheel-left-speed-gauge"></canvas>
+                        <canvas width="90" height="55" id="wheel-left-speed-gauge"></canvas>
                         <div id="wheel-left-speed" class="wheel-speed-txt">50</div>
                       </div>
                       <!--Speed: <span id="wheel-left-speed"></span>-->
-                      Pos: <span id="wheel-left-position"></span>º<br>
+                      <div class="wheel-position">Pos: <span class="value" id="wheel-left-position"></span></div>
                     </div>
                     <div class="wheel-block">
-                      RIGHT <br>
+                      RIGHT
                       <div>
-                        <canvas width="80" height="50" id="wheel-right-speed-gauge"></canvas>
+                        <canvas width="90" height="55" id="wheel-right-speed-gauge"></canvas>
                         <div id="wheel-right-speed" class="wheel-speed-txt">50</div>
                       </div>
-                      Pos: <span id="wheel-right-position"></span>º<br>
+                      <div class="wheel-position">Pos: <span class="value" id="wheel-right-position"></span><br></div>
                     </div>
                 </div>
               </div>
@@ -52,8 +52,8 @@
             <div class="card-title">PAN & TILT</div>
             <div class="card-icon">R</div>
             <div class ="card-content card-content-expanded">
-              Pan: <id id="pan-sensor"> <span id="pan-sensor-value"></span></id><br>
-              Tilt: <id id="tilt-sensor"><span id="tilt-sensor-value"></span></id>
+              <div class="label-value">Pan: <id id="pan-sensor"> <span class="value" id="pan-sensor-value"></span></id></div>
+              <div class="label-value">Tilt: <id id="tilt-sensor"><span class="value" id="tilt-sensor-value"></span></id></div>
             </div>
           </div>
         </div>
@@ -80,24 +80,28 @@
               <i id = "ir-sensor-raw">
                 <div class="ir-block-container">
                     <div class="ir-block-large">
-                      Front-C: <span id="ir-sensor-raw-front-c"></span><br>
+                      Front-C: <span class="value" id="ir-sensor-raw-front-c"></span>
                     </div>
                     <div class="ir-block">
-                      Front-L: <span id="ir-sensor-raw-front-l"></span><br>
-                      Front-LL: <span id="ir-sensor-raw-front-ll"></span><br>
+                      Front-L: <span class="value" id="ir-sensor-raw-front-l"></span>
                     </div>
                     <div class="ir-block">
-                      Front-R: <span id="ir-sensor-raw-front-r"></span><br>
-                      Front-RR: <span id="ir-sensor-raw-front-rr"></span><br>
+                      Front-LL: <span class="value" id="ir-sensor-raw-front-ll"></span>
+                    </div>
+                    <div class="ir-block">
+                      Front-R: <span class="value" id="ir-sensor-raw-front-r"></span>
+                    </div>
+                    <div class="ir-block">
+                      Front-RR: <span class="value" id="ir-sensor-raw-front-rr"></span>
+                    </div>
+                    <div class="ir-block">
+                      Back-L: <span class="value" id="ir-sensor-raw-back-l"></span>
+                    </div>
+                    <div class="ir-block">
+                      Back-R: <span class="value" id="ir-sensor-raw-back-r"></span>
                     </div>
                     <div class="ir-block-large">
-                      Back-C: <span id="ir-sensor-raw-back-c"></span><br>
-                    </div>
-                    <div class="ir-block">
-                      Back-L: <span id="ir-sensor-raw-back-l"></span><br>
-                    </div>
-                    <div class="ir-block">
-                      Back-R: <span id="ir-sensor-raw-back-r"></span>
+                      Back-C: <span class="value" id="ir-sensor-raw-back-c"></span>
                     </div>
                 </div>
               </i>
@@ -146,10 +150,8 @@
                         <div id="B" class="key-white key-white-unselected"><span class="music-note">B</span></div>
                 </div>
               </div>
-
-              <!-- Music Note: <span id="audio-sensor-music-note"></span><br>-->
-              &nbsp;&nbsp;&nbsp;Claps: <span id="audio-sensor-claps"></span>
-
+              <br>
+              <div class="label-value claps">Claps: <span class="value" id="audio-sensor-claps"></span></div>
               </id>
             </div>
           </div>
@@ -161,12 +163,9 @@
             <div class="card-title">FACE SENSOR</div>
             <div class="card-icon">R</div>
             <div class ="card-content">
-<!--
-               <id id="facedist-sensor">Distance (0-100): <span id="facedist-sensor-value"></span> cm</id><br>
--->
-               <id id="facedist-sensor">Distance: <span id="facedist-sensor-value"></span></id><br>
+               <div class="label-value"><id id="facedist-sensor">Distance: <span class="value" id="facedist-sensor-value"></span></id></div>
                <id id="facepos-sensor">
-                 Position (x,y): <span id="facepos-sensor-value-x"></span>, <span id="facepos-sensor-value-y"></span>
+                 <div class="label-value">Position (x,y): <span class="value" id="facepos-sensor-value"></span></div>
                </id>
             </div>
           </div>
@@ -180,20 +179,20 @@
             <div class ="card-content">
               <div class="blob-color-container">
                 <div class="blob-color blob-green">
-                  <span id="color-sensor-green-size"></span> m<sup>2</sup><br>
-                  x,y: <span id="color-sensor-green-x"></span>, <span id="color-sensor-green-y"></span>
+                  <span id="color-sensor-green-size">-</span><br>
+                  x,y: <span id="color-sensor-green-x">-</span>, <span id="color-sensor-green-y">-</span>
                 </div>
                 <div class="blob-color blob-blue">
-                  <span id="color-sensor-blue-size"></span> m<sup>2</sup><br>
-                  x,y: <span id="color-sensor-blue-x"></span>, <span id="color-sensor-blue-y"></span>
+                  <span id="color-sensor-blue-size">-</span><br>
+                  x,y: <span id="color-sensor-blue-x">-</span>, <span id="color-sensor-blue-y">-</span>
                 </div>
                 <div class="blob-color blob-red">
-                  <span id="color-sensor-red-size"></span> m<sup>2</sup><br>
-                  x,y: <span id="color-sensor-red-x"></span>, <span id="color-sensor-red-y"></span>
+                  <span id="color-sensor-red-size">-</span><br>
+                  x,y: <span id="color-sensor-red-x">-</span>, <span id="color-sensor-red-y">-</span>
                 </div>
                 <div class="blob-color blob-custom">
-                  <span id="color-sensor-custom-size"></span> m<sup>2</sup><br>
-                  x,y: <span id="color-sensor-custom-x"></span>, <span id="color-sensor-custom-y"></span>
+                  <span id="color-sensor-custom-size">-</span><br>
+                  x,y: <span id="color-sensor-custom-x">-</span>, <span id="color-sensor-custom-y">-</span>
                 </div>
               </div>
             </div>
@@ -207,7 +206,9 @@
             <div class="card-icon">R</div>
             <div class ="card-content">
               <id id="orientation-sensor">
-                Yaw, Pitch, Roll: <span id="orientation-sensor-value">
+                <div class="label-value">
+                  Yaw, Pitch, Roll: <span class="value" id="orientation-sensor-value">
+                </div>
               </id>
             </div>
           </div>
@@ -220,10 +221,9 @@
             <div class="card-icon">R</div>
             <div class ="card-content">
               <id id="accel-sensor">
-                x,y,z:
-                <span id="accel-sensor-x"></span> m/s<sup>2</sup>,
-                <span id="accel-sensor-y"></span>m/s<sup>2</sup>,
-                <span id="accel-sensor-z"></span>m/s<sup>2</sup>
+                <div class="label-value">x: <span class="value" id="accel-sensor-x"></span></div>
+                <div class="label-value">y: <span class="value" id="accel-sensor-y"></span></div>
+                <div class="label-value">z: <span class="value" id="accel-sensor-z"></span></div>
               </id>
             </div>
           </div>
@@ -236,11 +236,12 @@
             <div class="card-icon">R</div>
             <div class ="card-content">
               <id id="tap-sensor">
-                  Tap x,y: <span id="tap-sensor-value"></span>
-                  - Tap zone:
+                  <div class="label-value">Tap x,y: <span class="value" id="tap-sensor-value"></span></div>
+                  <div class="label-value">Tap zone: <span class="value" id="tap-zone-value"></span></div>
               </id>
-              <br>
-              <id id="fling-sensor">Fling angle: <span id="fling-sensor-value"></span> º</id>
+              <id id="fling-sensor">
+                  <div class="label-value">Fling angle: <span class="value" id="fling-sensor-value"></span></div>
+              </id>
             </div>
           </div>
         </div>
@@ -251,7 +252,9 @@
             <div class="card-title">ENVIROMENT LIGHT SENSOR</div>
             <div class="card-icon">R</div>
             <div class ="card-content">
-              <id id="brightness-sensor">Brightness: <span id="brightness-sensor-value"> - </span> Lux</id>
+              <id id="brightness-sensor">
+                <div class="label-value">Brightness: <span class="value" id="brightness-sensor-value"></span></div>
+              </id>
             </div>
           </div>
         </div>
@@ -265,6 +268,7 @@
     <script src="lib/vendor/gauge.min.js"></script>
     <script src="lib/robobo-monitor-grid.js"></script>
     <script src="https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js"></script>
+    <script src="https://mytechia.github.io/robobo-scratch-extension-develop/utilities.js"></script>
     <script type="text/javascript" src="lib/robobo-monitor.js"></script>
 
     <script>

@@ -49,27 +49,37 @@ var wheelRightSpeedGauge;
 /* Creates gauge elements to show the wheels speed */
 function createGaugeElements() {
   var opts = {
-    angle: -0.5, // The span of the gauge arc
+    angle: 0, // The span of the gauge arc
     lineWidth: 0.08, // The line thickness
-    radiusScale: 1.2, // Relative radius
+    radiusScale: 0.7, // Relative radius
     pointer: {
       length: 0.6, // // Relative to gauge radius
-      strokeWidth: 0.00, // The thickness
-      color: '#000000' // Fill color
+      strokeWidth: 0.05, // The thickness
+      color: '#dddddd' // Fill color
     },
+    staticLabels: {
+      font: "10px Roboto",  // Specifies font
+      labels: [-100, 0,100],  // Print labels at these values
+      color: "#424242",  // Optional: Label text color
+      fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+    },
+    staticZones: [
+       {strokeStyle: "#8ac2e9", min: -120, max: 0}, // Red from 100 to 130
+       {strokeStyle: "#b5d8f1", min: 0, max: 120}, // Yellow
+    ],
     limitMax: false,     // If false, max value increases automatically if value > maxValue
     limitMin: false,     // If true, the min value of the gauge will be fixed
     colorStart: '#ffffff', //'#6FADCF',   // Colors
     colorStop: '#ffffff', //'#8FC0DA',    // just experiment with them
-    strokeColor: '#3ca6ff',  // to see which ones work best for you
+    strokeColor: '#ffffff',  // to see which ones work best for you
     generateGradient: true,
     highDpiSupport: true     // High resolution support
   };
 
   var target = document.getElementById('wheel-left-speed-gauge'); // your canvas element
   wheelLeftSpeedGauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-  wheelLeftSpeedGauge.setMinValue(-100);  // Prefer setter over gauge.minValue = 0
-  wheelLeftSpeedGauge.maxValue = 100; // set max gauge value
+  wheelLeftSpeedGauge.setMinValue(-120);  // Prefer setter over gauge.minValue = 0
+  wheelLeftSpeedGauge.maxValue = 120; // set max gauge value
   wheelLeftSpeedGauge.animationSpeed = 1; // set animation speed (32 is default value)
   wheelLeftSpeedGauge.setTextField(document.getElementById("wheel-left-speed"));
   wheelLeftSpeedGauge.set(50); // set actual value
@@ -77,19 +87,30 @@ function createGaugeElements() {
 
   var target2 = document.getElementById('wheel-right-speed-gauge'); // your canvas element
   wheelRightSpeedGauge = new Gauge(target2).setOptions(opts); // create sexy gauge!
-  wheelRightSpeedGauge.setMinValue(-100);  // Prefer setter over gauge.minValue = 0
-  wheelRightSpeedGauge.maxValue = 100; // set max gauge value
+  wheelRightSpeedGauge.setMinValue(-120);  // Prefer setter over gauge.minValue = 0
+  wheelRightSpeedGauge.maxValue = 120; // set max gauge value
   wheelRightSpeedGauge.animationSpeed = 1; // set animation speed (32 is default value)
   wheelRightSpeedGauge.setTextField(document.getElementById("wheel-right-speed"));
   wheelRightSpeedGauge.set(100); // set actual value
 }
 
-/** Format the value received as pameter to be shown in the page, converts undefined in '-'**/
-function formatValue (value) {
+/** Converts undefined in ' ' **/
+function replaceUndefined (value) {
   if (value == undefined) {
-    return '-';
+    return '&nbsp;&nbsp;';
   }else {
     return value;
+  }
+}
+
+/* Converts a number with many decimals to a fixed number of decimal places
+   @param decimals: the number of decimal places
+*/
+function formatNumber(value, decimals) {
+  if (value == undefined) {
+    return '&nbsp;&nbsp;';
+  }else {
+    return parseFloat(value).toFixed(decimals);
   }
 }
 
@@ -156,7 +177,7 @@ function setBatteryLevel(batteryIconId, batteryValueId, statusValue) {
         document.getElementById(batteryIconId).classList.remove('battery-normal');
       }
   }
-  setElementHTML(batteryValueId, formatValue(statusValue));
+  setElementHTML(batteryValueId, replaceUndefined(statusValue));
 
 }
 
@@ -253,20 +274,20 @@ function registerRemoteCallbacks(rem) {
     rem.registerCallback("onLowBatt",function() {});
     rem.registerCallback("onLowOboBatt",function() {});
     rem.registerCallback("onNewClap",function() {
-
-      //setElementHTML("audio-sensor-claps", ());
+        setElementHTML("audio-sensor-claps", replaceUndefined(rem.getClaps()));
     });
 
     rem.registerCallback("onNewTap", function() {
         var sensorValue = rem.getTapCoord('x') + "," + rem.getTapCoord('y')
         setElementHTML("tap-sensor-value", sensorValue);
+        setElementHTML("tap-zone-value", rem.getTapZone());
     });
 
     rem.registerCallback("onNewFling",function() {
         //update fling angle in robobo emotion face
         var flingAngle = rem.checkFlingAngle();
         //setFlingAngle(flingAngle);
-        setElementHTML("fling-sensor-value", rem.checkFlingAngle());
+        setElementHTML("fling-sensor-value", rem.checkFlingAngle()+' º');
     });
 
     rem.registerCallback("onAccelChanged", function() {});
@@ -318,56 +339,57 @@ function isWhiteNote(note) {
 function updateSensors() {
 
     //update brightness sensor
-    setElementHTML("brightness-sensor-value", formatValue(rem.getBrightness()));
+    setElementHTML("brightness-sensor-value", replaceUndefined(rem.getBrightness())+ " Lux");
 
     //update acceleration sensor
     //var accelSensor = rem.getAcceleration('x') + ' | ' + rem.getAcceleration('y') + ' | ' + rem.getAcceleration('z');
-    setElementHTML("accel-sensor-x", formatValue(rem.getAcceleration('x')));
-    setElementHTML("accel-sensor-y", formatValue(rem.getAcceleration('y')));
-    setElementHTML("accel-sensor-z", formatValue(rem.getAcceleration('z')));
+    setElementHTML("accel-sensor-x", formatNumber(rem.getAcceleration('x'),3) +' m/s<sup>2</sup>');
+    setElementHTML("accel-sensor-y", formatNumber(rem.getAcceleration('y'),3) +' m/s<sup>2</sup>');
+    setElementHTML("accel-sensor-z", formatNumber(rem.getAcceleration('z'),3) +' m/s<sup>2</sup>');
 
     //update orientation sensor
-    var orSensor = formatValue(rem.getOrientation('yaw')) + 'º, ' + formatValue(rem.getOrientation('pitch')) + 'º,' + formatValue(rem.getOrientation('roll'))+"º";
+    var orSensor = replaceUndefined(rem.getOrientation('yaw')) + 'º, ' + replaceUndefined(rem.getOrientation('pitch')) + 'º, ' + replaceUndefined(rem.getOrientation('roll'))+"º";
     setElementHTML("orientation-sensor-value", orSensor);
 
     //update pan-tilt position
 
-    setElementHTML("pan-sensor-value", formatValue(rem.getPan()));
-    setElementHTML("tilt-sensor-value", formatValue(rem.getTilt()));
+    setElementHTML("pan-sensor-value", replaceUndefined(rem.getPan()));
+    setElementHTML("tilt-sensor-value", replaceUndefined(rem.getTilt()));
 
     //update face position
-    var faceX = formatValue(rem.getFaceCoord('x'));
-    var faceY = formatValue(rem.getFaceCoord('y'));
-    var faceDist = formatValue(rem.getFaceDist());
-    setElementHTML("facepos-sensor-value-x", faceX);
-    setElementHTML("facepos-sensor-value-y", faceY);
+    var faceX = replaceUndefined(rem.getFaceCoord('x'));
+    var faceY = replaceUndefined(rem.getFaceCoord('y'));
+    var faceDist = replaceUndefined(rem.getFaceDist());
+    var value = faceX + ", " + faceY;
+    setElementHTML("facepos-sensor-value", value);
+
     //setFacePosition(faceDist, faceX, faceY);
-    setElementHTML("facedist-sensor-value", formatValue(rem.getFaceDist()));
+    setElementHTML("facedist-sensor-value", replaceUndefined(rem.getFaceDist()));
 
     // update blob sensor values
 
-    setElementHTML("color-sensor-green-x", formatValue(rem.getBlobCoord("green","x")));
-    setElementHTML("color-sensor-green-y", formatValue(rem.getBlobCoord("green","y")));
-    setElementHTML("color-sensor-green-size", formatValue(rem.getBlobSize("green")));
-    setElementHTML("color-sensor-blue-x", formatValue(rem.getBlobCoord("blue","x")));
-    setElementHTML("color-sensor-blue-y", formatValue(rem.getBlobCoord("blue","y")));
-    setElementHTML("color-sensor-blue-size", formatValue(rem.getBlobSize("blue")));
-    setElementHTML("color-sensor-red-x", formatValue(rem.getBlobCoord("red","x")));
-    setElementHTML("color-sensor-red-y", formatValue(rem.getBlobCoord("red","y")));
-    setElementHTML("color-sensor-red-size", formatValue(rem.getBlobSize("red")));
-    setElementHTML("color-sensor-custom-x", formatValue(rem.getBlobCoord("custom","x")));
-    setElementHTML("color-sensor-custom-y", formatValue(rem.getBlobCoord("custom","y")));
-    setElementHTML("color-sensor-custom-size", formatValue(rem.getBlobSize("custom")));
+    setElementHTML("color-sensor-green-x", replaceUndefined(rem.getBlobCoord("green","x")));
+    setElementHTML("color-sensor-green-y", replaceUndefined(rem.getBlobCoord("green","y")));
+    setElementHTML("color-sensor-green-size", replaceUndefined(rem.getBlobSize("green")));
+    setElementHTML("color-sensor-blue-x", replaceUndefined(rem.getBlobCoord("blue","x")));
+    setElementHTML("color-sensor-blue-y", replaceUndefined(rem.getBlobCoord("blue","y")));
+    setElementHTML("color-sensor-blue-size", replaceUndefined(rem.getBlobSize("blue")));
+    setElementHTML("color-sensor-red-x", replaceUndefined(rem.getBlobCoord("red","x")));
+    setElementHTML("color-sensor-red-y", replaceUndefined(rem.getBlobCoord("red","y")));
+    setElementHTML("color-sensor-red-size", replaceUndefined(rem.getBlobSize("red")));
+    setElementHTML("color-sensor-custom-x", replaceUndefined(rem.getBlobCoord("custom","x")));
+    setElementHTML("color-sensor-custom-y", replaceUndefined(rem.getBlobCoord("custom","y")));
+    setElementHTML("color-sensor-custom-size", replaceUndefined(rem.getBlobSize("custom")));
 
     // update IR sensors raw value
-    setElementHTML("ir-sensor-raw-front-c", formatValue(rem.getObstacle(frontCIR)));
-    setElementHTML("ir-sensor-raw-front-l", formatValue(rem.getObstacle(frontLIR)));
-    setElementHTML("ir-sensor-raw-front-ll", formatValue(rem.getObstacle(frontLLIR)));
-    setElementHTML("ir-sensor-raw-front-r", formatValue(rem.getObstacle(frontRIR)));
-    setElementHTML("ir-sensor-raw-front-rr", formatValue(rem.getObstacle(frontRRIR)));
-    setElementHTML("ir-sensor-raw-back-c", formatValue(rem.getObstacle(backCIR)));
-    setElementHTML("ir-sensor-raw-back-r", formatValue(rem.getObstacle(backRIR)));
-    setElementHTML("ir-sensor-raw-back-l", formatValue(rem.getObstacle(backLIR)));
+    setElementHTML("ir-sensor-raw-front-c", replaceUndefined(rem.getObstacle(frontCIR)));
+    setElementHTML("ir-sensor-raw-front-l", replaceUndefined(rem.getObstacle(frontLIR)));
+    setElementHTML("ir-sensor-raw-front-ll", replaceUndefined(rem.getObstacle(frontLLIR)));
+    setElementHTML("ir-sensor-raw-front-r", replaceUndefined(rem.getObstacle(frontRIR)));
+    setElementHTML("ir-sensor-raw-front-rr", replaceUndefined(rem.getObstacle(frontRRIR)));
+    setElementHTML("ir-sensor-raw-back-c", replaceUndefined(rem.getObstacle(backCIR)));
+    setElementHTML("ir-sensor-raw-back-r", replaceUndefined(rem.getObstacle(backRIR)));
+    setElementHTML("ir-sensor-raw-back-l", replaceUndefined(rem.getObstacle(backLIR)));
 
     //Battery level
     setBatteryLevel("rob-battery-icon", "rob-battery-value", rem.checkBatt());
@@ -375,14 +397,14 @@ function updateSensors() {
 
 
     //Wheel level
-    setElementHTML("wheel-right-position", formatValue(rem.getWheel("right","position")));
-    setElementHTML("wheel-left-position", formatValue(rem.getWheel("left","position")));
+    setElementHTML("wheel-right-position", replaceUndefined(rem.getWheel("right","position"))+"º");
+    setElementHTML("wheel-left-position", replaceUndefined(rem.getWheel("left","position"))+"º");
 
-    //setElementHTML("wheel-right-speed", formatValue(rem.getWheel("right","speed")));
+    //setElementHTML("wheel-right-speed", replaceUndefined(rem.getWheel("right","speed")));
 
     var leftSpeed = rem.getWheel("left","speed");
     var rightSpeed = rem.getWheel("right","speed");
-    //setElementHTML("wheel-left-speed", formatValue(leftSpeed));
+    //setElementHTML("wheel-left-speed", replaceUndefined(leftSpeed));
 
     if (leftSpeed != undefined) {
       wheelLeftSpeedGauge.set(leftSpeed); // set actual value

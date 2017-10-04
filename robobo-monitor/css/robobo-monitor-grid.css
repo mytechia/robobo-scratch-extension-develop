@@ -165,6 +165,27 @@
 
 /* Styles for the robobo sensors content blocks*/
 
+.value {
+  background-color: #c4e8fe;
+  border-color: 1px solid #c4e8fe;
+  border-radius: 4px;
+  padding: 2px 5px 2px 5px;
+  color: #002c67;
+  font-size: 12px;
+  width: 100%;
+  margin-left: 2px;
+}
+
+.label-value {
+  width: 100%;
+  margin-top:  5px;
+}
+
+.claps {
+  padding-left: 10px;
+  margin-top:  50px;
+}
+
 /* BLOB COLOR */
 
 .blob-color-container {
@@ -206,7 +227,7 @@
 /* WHEELS */
 
 .wheel-block-container {
-  height: 100px;
+  height: 120px;
   width: 190px;
   margin: auto;
   text-align: center;
@@ -216,7 +237,7 @@
 .wheel-block {
    position: relative;
    width: 90px;
-   height: 80px;
+   height: 100px;
    float:left;
    margin: 2px;
    text-align: center;
@@ -228,16 +249,21 @@
 .wheel-speed-txt {
   font-size: 18px;
   text-align: center;
-  margin-top: -45px;
-  margin-bottom: 20px;
+  margin-top: -10px;
+  margin-bottom: 0px;
 }
 
+.wheel-position {
+    width:100%;
+    text-align: left;
+    padding-left: 10px;
+}
 
 /* IR SENSORS */
 
 .ir-block-container {
   height: 120px;
-  width: 190px;
+  width: 200px;
   margin: auto;
   text-align: center;
   padding: auto;
@@ -250,16 +276,16 @@
   float:left;
   text-align: center;
   padding-top: 0px;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .ir-block {
   position: relative;
-  width: 80px;
+  width: 90px;
   height: 20px;
   float:left;
-  margin: 7px;
-  text-align: center;
+  margin: 2px 2px;
+  text-align: left;
   padding-top: 0px;
 }
 
