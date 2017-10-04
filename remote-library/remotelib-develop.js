@@ -1169,9 +1169,9 @@ Remote.prototype = {
 
     else if (msg.name == "ACCELERATION") {
       //console.log(msg);
-      this.statusmap.set("xaccel",parseInt(msg.value["xaccel"]));
-      this.statusmap.set("yaccel",parseInt(msg.value["yaccel"]));
-      this.statusmap.set("zaccel",parseInt(msg.value["zaccel"]));
+      this.statusmap.set("xaccel",parseFloat(msg.value["xaccel"]));
+      this.statusmap.set("yaccel",parseFloat(msg.value["yaccel"]));
+      this.statusmap.set("zaccel",parseFloat(msg.value["zaccel"]));
 
     }
 
