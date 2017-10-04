@@ -49,7 +49,6 @@
     var fling = false;
     var accelchange = false;
     var obstacle = false;
-    var clapnumber = 0;
     var lastphrase = '';
 
     var blockCallback = undefined;
@@ -120,7 +119,6 @@
     //Callback for taps
     ext.onNewClap = function () {
       clap = true;
-      clapnumber = clapnumber + 1;
     }
     //Callback for brightness
     ext.onBrightnessChanged = function () {
@@ -301,7 +299,6 @@
         fling = false;
         accelchange = false;
         obstacle = false;
-        clapnumber = 0;
         lastphrase = '';
         ext.obstacle = false;
 
@@ -311,7 +308,7 @@
         brightnessChange = false;
 
       }else if (sensor == 'claps') {
-        clapnumber = 0;
+        rem.resetClapSensor();
 
       }else if (sensor == 'face') {
         rem.resetFaceSensor();
@@ -700,7 +697,7 @@
 
 
     ext.resetClap = function () {
-      clapnumber = 0;
+      rem.resetClapSensor();
     };
 
     //Hat function that checks for errors

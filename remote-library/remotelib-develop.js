@@ -963,6 +963,10 @@ Remote.prototype = {
     this.statusmap.set("lastNote",0);
   },
 
+  resetClapSensor : function() {
+    this.statusmap.set("claps", 0);
+  },
+
   resetSensors : function () {
 
     this.resetFaceSensor();
@@ -980,6 +984,8 @@ Remote.prototype = {
     this.resetBlobSensor();
 
     this.resetNoteSensor();
+
+    this.resetClapSensor();
 
   },
 
