@@ -206,7 +206,7 @@
 /* WHEELS */
 
 .wheel-block-container {
-  height: 80px;
+  height: 100px;
   width: 190px;
   margin: auto;
   text-align: center;
@@ -215,15 +215,23 @@
 
 .wheel-block {
    position: relative;
-   width: 80px;
-   height: 50px;
+   width: 90px;
+   height: 80px;
    float:left;
-   margin: 7px;
-   text-align: left;
+   margin: 2px;
+   text-align: center;
    padding-top: 0px;
-   padding-left: 5px;
+   padding-left: 0px;
    line-height: 24px;
 }
+
+.wheel-speed-txt {
+  font-size: 18px;
+  text-align: center;
+  margin-top: -45px;
+  margin-bottom: 20px;
+}
+
 
 /* IR SENSORS */
 

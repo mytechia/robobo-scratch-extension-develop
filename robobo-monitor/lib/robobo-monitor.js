@@ -40,6 +40,49 @@ var frontCIR = "Front-C",
 // last note received
 var lastNote = undefined;
 
+// gauge
+
+var wheelLeftSpeedGauge;
+var wheelRightSpeedGauge;
+
+
+/* Creates gauge elements to show the wheels speed */
+function createGaugeElements() {
+  var opts = {
+    angle: -0.5, // The span of the gauge arc
+    lineWidth: 0.08, // The line thickness
+    radiusScale: 1.2, // Relative radius
+    pointer: {
+      length: 0.6, // // Relative to gauge radius
+      strokeWidth: 0.00, // The thickness
+      color: '#000000' // Fill color
+    },
+    limitMax: false,     // If false, max value increases automatically if value > maxValue
+    limitMin: false,     // If true, the min value of the gauge will be fixed
+    colorStart: '#ffffff', //'#6FADCF',   // Colors
+    colorStop: '#ffffff', //'#8FC0DA',    // just experiment with them
+    strokeColor: '#3ca6ff',  // to see which ones work best for you
+    generateGradient: true,
+    highDpiSupport: true     // High resolution support
+  };
+
+  var target = document.getElementById('wheel-left-speed-gauge'); // your canvas element
+  wheelLeftSpeedGauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+  wheelLeftSpeedGauge.setMinValue(-100);  // Prefer setter over gauge.minValue = 0
+  wheelLeftSpeedGauge.maxValue = 100; // set max gauge value
+  wheelLeftSpeedGauge.animationSpeed = 1; // set animation speed (32 is default value)
+  wheelLeftSpeedGauge.setTextField(document.getElementById("wheel-left-speed"));
+  wheelLeftSpeedGauge.set(50); // set actual value
+
+
+  var target2 = document.getElementById('wheel-right-speed-gauge'); // your canvas element
+  wheelRightSpeedGauge = new Gauge(target2).setOptions(opts); // create sexy gauge!
+  wheelRightSpeedGauge.setMinValue(-100);  // Prefer setter over gauge.minValue = 0
+  wheelRightSpeedGauge.maxValue = 100; // set max gauge value
+  wheelRightSpeedGauge.animationSpeed = 1; // set animation speed (32 is default value)
+  wheelRightSpeedGauge.setTextField(document.getElementById("wheel-right-speed"));
+  wheelRightSpeedGauge.set(100); // set actual value
+}
 
 /** Format the value received as pameter to be shown in the page, converts undefined in '-'**/
 function formatValue (value) {
@@ -70,28 +113,55 @@ function setElementHTML(element, html) {
     document.getElementById(element).innerHTML = html;
 }
 
+/*
+  Sets the value of battery status.
+  @param the id of the battery element
+*/
+function setBatteryLevel(batteryIconId, batteryValueId, statusValue) {
+  var battery0 = "&#xf244";
+  var battery25 = "&#xf243";
+  var battery50 = "&#xf242";
+  var battery75 = "&#xf241";
+  var battery100 = "&#xf240";
 
-/** Sets the position of the FLING sensor in the Robobo view widget.
-    It also makes the FLING sensor visible. */
-function setFlingAngle(angle) {
-    if (angle != null) {
+  if (statusValue == undefined) {
+    document.getElementById(batteryIconId).classList.add('battery-no-value');
+    document.getElementById(batteryIconId).classList.remove('battery-full');
+    document.getElementById(batteryIconId).classList.remove('battery-normal');
+    document.getElementById(batteryIconId).classList.remove('battery-low');
+  }else {
+      document.getElementById(batteryIconId).classList.remove('battery-no-value');
+      if (statusValue < 50) {
+        document.getElementById(batteryIconId).innerHTML=battery25;
+        document.getElementById(batteryIconId).classList.remove('battery-full');
+        document.getElementById(batteryIconId).classList.remove('battery-normal');
+        document.getElementById(batteryIconId).classList.add('battery-low');
+      } else
+      if (statusValue >= 50 && statusValue<75) {
+        document.getElementById(batteryIconId).innerHTML=battery50;
+        document.getElementById(batteryIconId).classList.add('battery-full');
+        document.getElementById(batteryIconId).classList.remove('battery-low');
+        document.getElementById(batteryIconId).classList.remove('battery-normal');
+      } else
+      if (statusValue >= 75 && statusValue<100) {
+        document.getElementById(batteryIconId).innerHTML=battery75;
+        document.getElementById(batteryIconId).classList.add('battery-full');
+        document.getElementById(batteryIconId).classList.remove('battery-low');
+        document.getElementById(batteryIconId).classList.remove('battery-normal');
+      } else
+      if (statusValue == 100) {
+        document.getElementById(batteryIconId).innerHTML=battery100;
+        document.getElementById(batteryIconId).classList.add('battery-full');
+        document.getElementById(batteryIconId).classList.remove('battery-low');
+        document.getElementById(batteryIconId).classList.remove('battery-normal');
+      }
+  }
+  setElementHTML(batteryValueId, formatValue(statusValue));
 
-        angle += 90;
-        angle = 360 - angle;
-
-        fling = document.getElementById("robobo-fling");
-
-        var bb = fling.getBBox();
-        var cx = bb.x + bb.width/2;
-        var cy = bb.y + bb.height/2;
-
-        rotate = "rotate("+angle+" "+cx+" "+cy+")";
-        fling.setAttribute("transform", rotate);
-
-        setElementVisibility(fling, 1);
-
-    }
 }
+
+
+
 
 
 /** Returns all the parameters of an URL */
@@ -238,6 +308,7 @@ function registerRemoteCallbacks(rem) {
     });
 }
 
+
 function isWhiteNote(note) {
    return ((note=="C")||(note =="D")||(note =="E")||(note =="F")||(note =="G")||(note =="A")||(note =="B"))
 }
@@ -284,11 +355,9 @@ function updateSensors() {
     setElementHTML("color-sensor-red-x", formatValue(rem.getBlobCoord("red","x")));
     setElementHTML("color-sensor-red-y", formatValue(rem.getBlobCoord("red","y")));
     setElementHTML("color-sensor-red-size", formatValue(rem.getBlobSize("red")));
-
-    //Custom color --> TO DO
-    // setElementHTML("color-sensor-custom-x", rem.getBlobCoord("custom","x"));
-    // setElementHTML("color-sensor-custom-y", rem.getBlobCoord("custom","y"));
-    // setElementHTML("color-sensor-custom-size, rem.getBlobSize("custom"));
+    setElementHTML("color-sensor-custom-x", formatValue(rem.getBlobCoord("custom","x")));
+    setElementHTML("color-sensor-custom-y", formatValue(rem.getBlobCoord("custom","y")));
+    setElementHTML("color-sensor-custom-size", formatValue(rem.getBlobSize("custom")));
 
     // update IR sensors raw value
     setElementHTML("ir-sensor-raw-front-c", formatValue(rem.getObstacle(frontCIR)));
@@ -301,55 +370,25 @@ function updateSensors() {
     setElementHTML("ir-sensor-raw-back-l", formatValue(rem.getObstacle(backLIR)));
 
     //Battery level
+    setBatteryLevel("rob-battery-icon", "rob-battery-value", rem.checkBatt());
+    setBatteryLevel("obo-battery-icon", "obo-battery-value", rem.checkOboBatt());
 
-    battery0 = "&#xf244";
-    battery25 = "&#xf243";
-    battery50 = "&#xf242";
-    batter75 = "&#xf241";
-    battery100 = "&#xf240";
-
-
-    robBattery = rem.checkBatt();
-    if (robBattery == undefined) {
-      document.getElementById('rob-battery-icon').classList.add('battery-no-value');
-      document.getElementById('rob-battery-icon').classList.remove('battery-full');
-      document.getElementById('rob-battery-icon').classList.remove('battery-normal');
-      document.getElementById('rob-battery-icon').classList.remove('battery-low');
-    }else {
-        document.getElementById('rob-battery-icon').classList.remove('battery-no-value');
-        if (robBattery < 50) {
-          document.getElementById('rob-battery-icon').innerHTML=battery25;
-          document.getElementById('rob-battery-icon').classList.remove('battery-full');
-          document.getElementById('rob-battery-icon').classList.remove('battery-normal');
-          document.getElementById('rob-battery-icon').classList.add('battery-low');
-        } else
-        if (robBattery >= 50 && robBattery<75) {
-          document.getElementById('rob-battery-icon').innerHTML=battery50;
-          document.getElementById('rob-battery-icon').classList.add('battery-full');
-          document.getElementById('rob-battery-icon').classList.remove('battery-low');
-          document.getElementById('rob-battery-icon').classList.remove('battery-normal');
-        } else
-        if (robBattery >= 75 && robBattery<100) {
-          document.getElementById('rob-battery-icon').innerHTML=battery75;
-          document.getElementById('rob-battery-icon').classList.add('battery-full');
-          document.getElementById('rob-battery-icon').classList.remove('battery-low');
-          document.getElementById('rob-battery-icon').classList.remove('battery-normal');
-        } else 
-        if (robBattery == 100) {
-          document.getElementById('rob-battery-icon').innerHTML=battery100;
-          document.getElementById('rob-battery-icon').classList.add('battery-full');
-          document.getElementById('rob-battery-icon').classList.remove('battery-low');
-          document.getElementById('rob-battery-icon').classList.remove('battery-normal');
-        }
-    }
-
-    setElementHTML("rob-battery-value", formatValue(rem.checkBatt()));
 
     //Wheel level
     setElementHTML("wheel-right-position", formatValue(rem.getWheel("right","position")));
     setElementHTML("wheel-left-position", formatValue(rem.getWheel("left","position")));
 
-    setElementHTML("wheel-right-speed", formatValue(rem.getWheel("right","speed")));
-    setElementHTML("wheel-left-speed", formatValue(rem.getWheel("left","speed")));
+    //setElementHTML("wheel-right-speed", formatValue(rem.getWheel("right","speed")));
+
+    var leftSpeed = rem.getWheel("left","speed");
+    var rightSpeed = rem.getWheel("right","speed");
+    //setElementHTML("wheel-left-speed", formatValue(leftSpeed));
+
+    if (leftSpeed != undefined) {
+      wheelLeftSpeedGauge.set(leftSpeed); // set actual value
+    }
+    if (rightSpeed != undefined) {
+      wheelRightSpeedGauge.set(rightSpeed);
+    }
 
 }

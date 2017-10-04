@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/robobo-monitor-grid.css">
     <link rel="stylesheet" href="css/piano.css">
   </head>
-  <body>
+  <body onLoad="createGaugeElements()">
     <section id ="monitor" class="monitor">
       <div class="grid">
         <div class="item" data-id="1">
@@ -25,12 +25,19 @@
                 <div class="wheel-block-container">
                     <div class="wheel-block">
                       LEFT<br>
-                      Speed: <span id="wheel-left-speed"></span><br>
+                      <div>
+                        <canvas width="85" height="50" id="wheel-left-speed-gauge"></canvas>
+                        <div id="wheel-left-speed" class="wheel-speed-txt">50</div>
+                      </div>
+                      <!--Speed: <span id="wheel-left-speed"></span>-->
                       Pos: <span id="wheel-left-position"></span>º<br>
                     </div>
                     <div class="wheel-block">
                       RIGHT <br>
-                      Speed: <span id="wheel-right-speed"></span><br>
+                      <div>
+                        <canvas width="80" height="50" id="wheel-right-speed-gauge"></canvas>
+                        <div id="wheel-right-speed" class="wheel-speed-txt">50</div>
+                      </div>
                       Pos: <span id="wheel-right-position"></span>º<br>
                     </div>
                 </div>
@@ -45,9 +52,8 @@
             <div class="card-title">PAN & TILT</div>
             <div class="card-icon">R</div>
             <div class ="card-content card-content-expanded">
-              Pan, Tilt:
-              <id id="pan-sensor"> <span id="pan-sensor-value"></span></id>,
-              <id id="tilt-sensor"><span id="tilt-sensor-value"></span></id>
+              Pan: <id id="pan-sensor"> <span id="pan-sensor-value"></span></id><br>
+              Tilt: <id id="tilt-sensor"><span id="tilt-sensor-value"></span></id>
             </div>
           </div>
         </div>
@@ -107,13 +113,13 @@
             <div class ="card-content">
               <div class="battery-block-container">
                   <div class="battery-block">
-                    ROB<br>
+                    BASE<br>
                     <div id="rob-battery-icon" class="fa fa-5 battery battery-no-value">&#xf244</div>
                     <span id="rob-battery-value">-</span>%
                   </div>
                   <div class="battery-block">
-                    OBO<br>
-                    <div class="fa fa-5 battery battery-no-value">&#xf244</div>
+                    SMARTPHONE<br>
+                    <div id="obo-battery-icon" class="fa fa-5 battery battery-no-value">&#xf244</div>
                     <span id="obo-battery-value">-</span> %
                   </div>
               </div>
@@ -256,13 +262,13 @@
     <script src="lib/vendor/velocity.min.js"></script>
     <script src="lib/vendor/hammer.min.js"></script>
     <script src="lib/vendor/muuri.js"></script>
+    <script src="lib/vendor/gauge.min.js"></script>
     <script src="lib/robobo-monitor-grid.js"></script>
     <script src="https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js"></script>
     <script type="text/javascript" src="lib/robobo-monitor.js"></script>
 
     <script>
         //Lets create a new instance of the Robobo Remote JS Library and connect it to a Robobo
-
         var params = getAllUrlParams();
 
         if (params.status != undefined) {
@@ -274,6 +280,7 @@
         }
 
         var rem = new Remote(params.ip,"");
+
 
         //connect to the remote Robobo
         rem.connect();
