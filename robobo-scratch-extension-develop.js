@@ -475,9 +475,7 @@
     //BLOCK - Clap counter
     ext.readClap = function () {
       rem.keepAlive(); //keep the robot alive to receive stats updates
-      var value = 0;
-      value = clapnumber;
-      return value;
+      return rem.getClaps();
     };
 
     //BLOCK - When note detected

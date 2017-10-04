@@ -695,6 +695,23 @@ Remote.prototype = {
     return this.statusmap.get("lastNote");
   },//ENDOF getLastNote
 
+
+  processClapStatus : function() {
+
+    claps = this.statusmap.get("claps");
+    claps++;
+
+    this.statusmap.set("claps", claps);    
+
+    this.callCallback("onNewClap");
+
+  },
+
+  getClaps : function() {
+    return this.statusmap.get("claps");
+  }
+  
+
   /*********************************************/
   /* ENDOF SOUND-BASED INTERACTION FUNCTIONS   *
   /*********************************************/
@@ -1087,11 +1104,11 @@ Remote.prototype = {
       this.statusmap.set("flingtime",parseInt(msg.value["time"]));
       this.statusmap.set("flingdistance",parseInt(msg.value["distance"]));
 
-      (this.callbackmap.get("onNewFling"))();
+      this.callCallback("onNewFling"));
     }
 
     else if (msg.name == "CLAP") {
-      this.callCallback("onNewClap");
+      this.processClapStatus();
     }
 
     else if (msg.name == "BRIGHTNESS") {
