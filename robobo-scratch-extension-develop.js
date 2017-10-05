@@ -851,44 +851,19 @@
     document.body.appendChild(showMonitorButton);
     //}
 
-    function openMonitorWindow() {
-      //opens the monitor window
-      var height= window.outerHeight;
-      var width = 300
-      var left = window.outerWidth - width;
-      var options = "location=0, width="+width+",height="+height+", top=0, left ="+left
-      monitorWindow = window.open("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp, "_blank",options);
-    }
 
     function disconnectMonitor() {
-      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected";
-      rem.closeConnection(false);
-  /*
-      if (monitorWindow!= undefined) {
-        monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected");
-        monitorWindow.location.reload();
-      }
-  */
-
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?status=disconnected";
     }
 
     function reconnectMonitor() {
       monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp;
       showDiv();
-
-  /*
-      if (monitorWindow!= undefined) {
-        monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp);
-        monitorWindow.location.reload();
-      }
-  */
     }
 
     function connectMonitor(ip) {
-//       if (monitorWindow == undefined) {
       if (monitorDiv == undefined) {
           createMonitorDiv(ip);
-          //openMonitorWindow(ip);
        }else {
          reconnectMonitor();
        }
