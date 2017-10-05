@@ -862,6 +862,7 @@
 
     function disconnectMonitor() {
       monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected";
+      rem.closeConnection(false);
   /*
       if (monitorWindow!= undefined) {
         monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp+"&status=disconnected");
@@ -874,6 +875,7 @@
     function reconnectMonitor() {
       monitorIFrame.src="http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp;
       showDiv();
+
   /*
       if (monitorWindow!= undefined) {
         monitorWindow.location.replace("http://firmware.theroboboproject.com/monitor/robobo-monitor.html?ip="+roboboMonitorIp);
