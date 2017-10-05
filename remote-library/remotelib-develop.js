@@ -1082,7 +1082,7 @@ Remote.prototype = {
       }
     }
 
-    else if (msg.name == "OBOBATTLEV") {
+    else if (msg.name == "BAT_PHONE") {
       this.statusmap.set("obobatterylevel",parseInt(msg.value["level"]));
       if (parseInt(msg.value["level"])<20){
         this.callbackmap.get("onLowOboBatt")();
@@ -1150,14 +1150,9 @@ Remote.prototype = {
       this.processClapStatus();
     }
 
-    else if (msg.name == "BRIGHTNESS") {
+    else if (msg.name == "AMBIENTLIGHT") {
       this.statusmap.set("brightness",parseInt(msg.value["level"]));
 
-    }
-
-    else if (msg.name == "BRIGHTNESSCHANGED") {
-
-      (this.callbackmap.get("onBrightnessChanged"))();
     }
 
     else if (msg.name == "ORIENTATION") {
@@ -1181,11 +1176,6 @@ Remote.prototype = {
       this.statusmap.set("colorg",parseInt(msg.value["G"]));
       this.statusmap.set("colorb",parseInt(msg.value["B"]));
 
-    }
-
-    else if (msg.name == "ACCELCHANGED") {
-
-      (this.callbackmap.get("onAccelChanged"))();
     }
 
     else if (msg.name == "DIE") {
