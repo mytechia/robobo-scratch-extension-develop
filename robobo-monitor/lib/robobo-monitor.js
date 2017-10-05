@@ -94,6 +94,10 @@ function createGaugeElements() {
   wheelRightSpeedGauge.set(100); // set actual value
 }
 
+function createElements() {
+  createGaugeElements();
+}
+
 /** Converts undefined in ' ' **/
 function replaceUndefined (value) {
   if (value == undefined) {

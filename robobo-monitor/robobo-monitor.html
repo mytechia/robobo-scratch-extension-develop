@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/robobo-monitor-grid.css">
     <link rel="stylesheet" href="css/piano.css">
   </head>
-  <body onLoad="createGaugeElements()">
+  <body onLoad="createElements()">
     <section id ="monitor" class="monitor">
       <div class="grid">
         <div class="item" data-id="1">
@@ -57,20 +57,6 @@
             </div>
           </div>
         </div>
-
-        <div class="item" data-id="3">
-          <div class="item-content">
-            <div class="card-left-icon"><img src="img/icon.png"></div>
-            <div class="card-title">CONTROL</div>
-            <div class="card-icon">R</div>
-            <div class ="card-content card-content-expanded">
-              <br>
-              Aquí el joystick virtual
-              <br><br>
-            </div>
-          </div>
-        </div>
-
         <div class="item" data-id="4">
           <div class="item-content">
             <div class="card-left-icon"><img src="img/icon.png"></div>
@@ -264,29 +250,29 @@
 
     </section>
 
-    <script src="lib/vendor/velocity.min.js"></script>
-    <script src="lib/vendor/hammer.min.js"></script>
-    <script src="lib/vendor/muuri.js"></script>
-    <script src="lib/vendor/gauge.min.js"></script>
-    <script src="lib/robobo-monitor-grid.js"></script>
-    <script src="https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js"></script>
-    <script src="https://mytechia.github.io/robobo-scratch-extension-develop/utilities.js"></script>
+    <script type="text/javascript" src="lib/vendor/velocity.min.js"></script>
+    <script type="text/javascript" src="lib/vendor/hammer.min.js"></script>
+    <script type="text/javascript" src="lib/vendor/muuri.js"></script>
+    <script type="text/javascript" src="lib/vendor/gauge.min.js"></script>
+    <script type="text/javascript" src="lib/robobo-monitor-grid.js"></script>
+    <script type="text/javascript" src="https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js"></script>
+    <script type="text/javascript" src="https://mytechia.github.io/robobo-scratch-extension-develop/utilities.js"></script>
     <script type="text/javascript" src="lib/robobo-monitor.js"></script>
 
     <script>
         //Lets create a new instance of the Robobo Remote JS Library and connect it to a Robobo
         var params = getAllUrlParams();
 
+
         if (params.status != undefined) {
           if (params.status == 'disconnected') {
             document.getElementById('monitor').classList.add('disconnected');
           }
         }else {
-          document.getElementById('monitor').classList.remove('disconnected');
+          document.getElementById('monitor').classList.remove('disconnected')
         }
 
         var rem = new Remote(params.ip,"");
-
 
         //connect to the remote Robobo
         rem.connect();
@@ -299,6 +285,7 @@
 
         //start polling status values
         setInterval(updateSensors, 100); //10 per second
+
     </script>
 
   </body>

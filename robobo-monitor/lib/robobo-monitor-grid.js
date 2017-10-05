@@ -74,10 +74,15 @@ document.addEventListener('DOMContentLoaded', function () {
       dragEnabled: true,
       dragSortInterval: 50,
       dragContainer: document.body,
+      dragStartPredicate: {
+        handle: '.card-title'
+      },
+/*
       dragStartPredicate: function (item, event) {
         var isCollapseAction = elementMatches(event.target, '.card-icon, .card-icon i');
         return !isCollapseAction ? Muuri.ItemDrag.defaultStartPredicate(item, event) : false;
       },
+      */
       dragReleaseDuration: 400,
       dragReleseEasing: 'ease'
     })
