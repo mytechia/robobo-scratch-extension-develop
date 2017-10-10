@@ -982,7 +982,7 @@
           individualwheel: ['right', 'left'],
           mtype: ['non-stop','seconds'],
           orientation: ['yaw','pitch','roll'],
-          emotions: ['happy','laugthing','sad','angry','surprised','normal','sleeping'],
+          emotions: ['happy','sad','angry','normal','sleeping'],
           colors: ['off','white','red','blue','cyan','magenta','yellow','green','orange'],
           status: ['on','off'],
           leds: ['Front-C','Front-L','Front-LL','Front-R','Front-RR','Back-L','Back-R','all'],

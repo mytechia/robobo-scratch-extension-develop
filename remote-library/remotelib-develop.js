@@ -84,6 +84,8 @@ function Remote(ip,passwd){
   this.tiltInferiorLimit = 26;
   this.tiltSuperiorLimit = 109;
 
+  this.minIRValue = 20;
+
 //END OF REMOTE OBJECT
 };
 
@@ -547,6 +549,15 @@ Remote.prototype = {
   getIRValue : function (irnumber) {
     return this.statusmap.get("IRSensorStatus"+irnumber);
   },//ENDOF getIRValue
+
+  /** Sets the value of an IR sensor using its key from IRSTATUS */
+  setIRValue : function(key, value) {
+    if (value <= this.minIRValue) { //limit the minimun value
+      value = 0;
+    }
+
+    this.statusmap.set(key,value);
+  }, //ENDOF setIRValue
 
 
   /** Returns the last value detected by the infrared senseor specified by 'irnumber' */
@@ -1067,12 +1078,10 @@ Remote.prototype = {
     }
 
     else if (msg.name == "IRSTATUS"){
-
-
-      for (var key in msg.value) {
-            this.statusmap.set(key,msg.value[key]);
-          }
-      }
+        for (var key in msg.value) {
+            this.setIRValue(key,msg.value[key]);
+        }
+    }
 
 
     else if (msg.name == "BATTLEV") {

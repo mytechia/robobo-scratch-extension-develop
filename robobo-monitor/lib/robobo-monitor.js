@@ -82,7 +82,7 @@ function createGaugeElements() {
   wheelLeftSpeedGauge.maxValue = 120; // set max gauge value
   wheelLeftSpeedGauge.animationSpeed = 1; // set animation speed (32 is default value)
   wheelLeftSpeedGauge.setTextField(document.getElementById("wheel-left-speed"));
-  wheelLeftSpeedGauge.set(50); // set actual value
+  wheelLeftSpeedGauge.set(0); // set actual value
 
 
   var target2 = document.getElementById('wheel-right-speed-gauge'); // your canvas element
@@ -91,7 +91,7 @@ function createGaugeElements() {
   wheelRightSpeedGauge.maxValue = 120; // set max gauge value
   wheelRightSpeedGauge.animationSpeed = 1; // set animation speed (32 is default value)
   wheelRightSpeedGauge.setTextField(document.getElementById("wheel-right-speed"));
-  wheelRightSpeedGauge.set(100); // set actual value
+  wheelRightSpeedGauge.set(0); // set actual value
 }
 
 function createElements() {
