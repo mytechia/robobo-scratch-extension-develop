@@ -226,14 +226,14 @@
     ext.stopFun = function (what) {
         if (what == 'all'){
         rem.moveWheelsSeparated(10,10,0);
-        ext.movePanRoboboT(180,0);
-        ext.moveTiltRoboboT(90,0);
+        ext.movePanRobobo(180,0);
+        ext.moveTiltRobobo(90,0);
       }else if (what == 'wheels') {
         rem.moveWheelsSeparated(10,10,0);
       }else if (what == 'pan') {
-        ext.movePanRoboboT(180,0);
+        ext.movePanRobobo(180,0);
       }else if (what == 'tilt') {
-        ext.moveTiltRoboboT(90,0);
+        ext.moveTiltRobobo(90,0);
       }
     };
 
@@ -550,7 +550,7 @@
     //AUXILIARY FUNCTIONS
 
     //Pan movement function (absolute)
-    ext.movePanRoboboT = function(degrees, speed){
+    ext.movePanRobobo = function(degrees, speed){
       rem.movePan(degrees,speed);
     };
 
