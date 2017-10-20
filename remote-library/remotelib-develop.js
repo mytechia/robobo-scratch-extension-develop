@@ -403,7 +403,6 @@ Remote.prototype = {
    * and waits until the movement finishes */
   movePanWait: function(pos, vel, callback) {
     s = ''+ vel;
-    pos = scratchToRoboboAngle(pos);    
     if (pos > this.panSuperiorLimit){
       pos = this.panSuperiorLimit;
     }
@@ -411,6 +410,8 @@ Remote.prototype = {
     if (pos < this.panInferiorLimit){
       pos = this.panInferiorLimit;
     }
+    pos = scratchToRoboboAngle(pos);    
+    
 
 
     this.lastblock = this.lastblock+1;
