@@ -78,8 +78,8 @@ function Remote(ip,passwd){
 
   this.wheelsSpeedLimit = 250;
 
-  this.panInferiorLimit = 10;
-  this.panSuperiorLimit = 345;
+  this.panInferiorLimit = -160// 10;
+  this.panSuperiorLimit = 160// 345;
 
   this.tiltInferiorLimit = 5;
   this.tiltSuperiorLimit = 105;
@@ -374,7 +374,6 @@ Remote.prototype = {
   /** Commands the robot to move the PAN to the specified position */
   movePan: function(pos, vel) {
     s = ''+ vel;
-    pos = scratchToRoboboAngle(pos);
     if (pos > this.panSuperiorLimit){
       pos = this.panSuperiorLimit;
     }
@@ -382,6 +381,8 @@ Remote.prototype = {
     if (pos < this.panInferiorLimit){
       pos = this.panInferiorLimit;
     }
+    pos = scratchToRoboboAngle(pos);
+    
     var message = JSON.stringify({
         "name": "MOVEPAN",
         "parameters": {
