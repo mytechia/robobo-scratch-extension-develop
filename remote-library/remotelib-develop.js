@@ -78,11 +78,11 @@ function Remote(ip,passwd){
 
   this.wheelsSpeedLimit = 250;
 
-  this.panInferiorLimit = 26;
-  this.panSuperiorLimit = 339;
+  this.panInferiorLimit = 10;
+  this.panSuperiorLimit = 345;
 
-  this.tiltInferiorLimit = 26;
-  this.tiltSuperiorLimit = 109;
+  this.tiltInferiorLimit = 5;
+  this.tiltSuperiorLimit = 105;
 
   this.minIRValue = 20;
 
@@ -374,6 +374,7 @@ Remote.prototype = {
   /** Commands the robot to move the PAN to the specified position */
   movePan: function(pos, vel) {
     s = ''+ vel;
+    pos = scratchToRoboboAngle(pos);
     if (pos > this.panSuperiorLimit){
       pos = this.panSuperiorLimit;
     }
@@ -401,6 +402,7 @@ Remote.prototype = {
    * and waits until the movement finishes */
   movePanWait: function(pos, vel, callback) {
     s = ''+ vel;
+    pos = scratchToRoboboAngle(pos);    
     if (pos > this.panSuperiorLimit){
       pos = this.panSuperiorLimit;
     }
@@ -471,6 +473,8 @@ Remote.prototype = {
   /** Commands the robot to move the TILT to an specified position */
   moveTilt: function (pos, vel) {
     s = ''+ vel;
+    pos = scratchToRoboboAngle(pos);
+    
 
     var message = JSON.stringify({
         "name": "MOVETILT",
@@ -491,6 +495,8 @@ Remote.prototype = {
   /** Commands the robot to move the TILT to an specified position
    * and waits until the robot ends the movement */
   moveTiltWait: function (pos, vel, callback) {
+    pos = scratchToRoboboAngle(pos);
+    
     s = ''+ vel;
     if (pos > this.tiltSuperiorLimit){
       pos = this.tiltSuperiorLimit;
@@ -1233,13 +1239,13 @@ Remote.prototype = {
 
     else if (msg.name == "PANSTATUS") {
       //console.log("PANSTATUS "+msg.value['panPos']);
-      this.statusmap.set("panPos",msg.value['panPos']);
+      this.statusmap.set("panPos",parseInt(msg.value['panPos']));
     }
 
     else if (msg.name == "TILTSTATUS") {
       //console.log("TILTSTATUS "+msg.value['tiltPos']);
 
-      this.statusmap.set("tiltPos",msg.value['tiltPos']);
+      this.statusmap.set("tiltPos",parseInt(msg.value['tiltPos']));
     }
     else if (msg.name == "COLORBLOB") {
       console.log(msg.value['color']+'  '+msg.value['posx']+'  '+msg.value['posy']+'  '+msg.value['size']);
@@ -1264,10 +1270,10 @@ Remote.prototype = {
 
     }
     else if (msg.name == "WHEELSTATUS") {
-      this.statusmap.set("wheelPosR",msg.value['wheelPosR']);
-      this.statusmap.set("wheelPosL",msg.value['wheelPosL']);
-      this.statusmap.set("wheelSpeedR",msg.value['wheelSpeedR']);
-      this.statusmap.set("wheelSpeedL",msg.value['wheelSpeedL']);
+      this.statusmap.set("wheelPosR",parseInt(msg.value['wheelPosR']));
+      this.statusmap.set("wheelPosL",parseInt(msg.value['wheelPosL']));
+      this.statusmap.set("wheelSpeedR",parseInt(msg.value['wheelSpeedR']));
+      this.statusmap.set("wheelSpeedL",parseInt(msg.value['wheelSpeedL']));
     }
     else if (msg.name == "OBSTACLES") {
 
