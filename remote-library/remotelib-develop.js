@@ -1241,7 +1241,7 @@ Remote.prototype = {
 
     else if (msg.name == "PANSTATUS") {
       //console.log("PANSTATUS "+msg.value['panPos']);
-      this.statusmap.set("panPos",parseInt(msg.value['panPos']));
+      this.statusmap.set("panPos",roboboToScratchAngle(parseInt(msg.value['panPos'])));
     }
 
     else if (msg.name == "TILTSTATUS") {
