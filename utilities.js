@@ -55,6 +55,7 @@ function rangeFun(input,type,r1,r2) {
   };
   
   function scratchToRoboboAngle(angle){
+    console.log("Angle: " +angle+ "RobAngle: "+(angle+180));
     return angle +180;
   }
 
