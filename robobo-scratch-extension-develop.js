@@ -53,6 +53,9 @@
 
     var blockCallback = undefined;
 
+    var panHighLimit = 160;
+    var panLowLimit = -160;
+
     //load required libraries
     $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js", function(){});
     $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/utilities.js", function(){});
@@ -254,6 +257,12 @@
 
     //BLOCK - Move pan --> Pan movement function (absolute)
     ext.movePanRoboboNew = function(degrees, speed, block, callback){
+      if (degrees > panHighLimit){
+        degrees = panHighLimit;
+      }
+      if (degrees < panLowLimit){
+        degrees = panLowLimit;
+      }
       if (block=="blocking"){
         rem.movePanWait(degrees,speed,callback);
 
