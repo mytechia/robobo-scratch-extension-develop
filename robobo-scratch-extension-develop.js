@@ -333,7 +333,10 @@
         rem.resetBlobSensor();
       }else if (sensor == "note") {
         rem.resetNoteSensor();
+      }else if (sensor == "wheels") {
+        rem.resetEncoders();
       }
+
 
 
     };
@@ -993,7 +996,7 @@
           axis3d: ['x','y','z'],
           sounds: ['moan','purr',"angry","approve","disapprove","discomfort","doubtful","laugh","likes","mumble","ouch","thinking","various"],
           colorchan: ['red','green','blue'],
-          sensors: ['all','acceleration','blob','brighness','claps','face','fling','IR','note','pan','orientation','tap','tilt'],
+          sensors: ['all','acceleration','blob','brighness','claps','face','fling','IR','note','pan','orientation','tap','tilt','wheels'],
           block: ['blocking','non-blocking'],
           range: ['between', 'out'],
           stop: ['all','wheels','pan','tilt'],

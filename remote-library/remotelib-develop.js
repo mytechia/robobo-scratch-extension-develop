@@ -260,6 +260,16 @@ Remote.prototype = {
   /*********************************/
   /* ROBOT BASE FUNCTIONS *
   /*********************************/
+  /** Resets the robot encoder count */
+  resetEncoders: function(){
+    var message = JSON.stringify({
+      "name": "RESET-WHEELS",
+      "parameters": {},
+      "id": this.commandid
+  });
+  this.sendMessage(message);
+  //ENDOF resetEncoders
+  },
 
   /** Commands the robot to move the wheel by some angle */
   moveWheelsByDegree: function(wheel,degrees,speed) {
