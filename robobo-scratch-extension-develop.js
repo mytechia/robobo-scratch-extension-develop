@@ -914,8 +914,8 @@
 
           [' ', 'stop %m.stop motors','stopFun','all'],
           ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovementT','30','30','1','seconds'],
-          ['w', 'move pan to %s at speed %s %m.block','movePanRoboboNew','180','15','blocking'],
-          ['w', 'move tilt to %s at speed %s %m.block','moveTiltRoboboNew','90','15','blocking'],
+          ['w', 'move pan to %d at speed %n %m.block','movePanRoboboNew','180','15','blocking'],
+          ['w', 'move tilt to %d at speed %n %m.block','moveTiltRoboboNew','90','15','blocking'],
 
           [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],
 
