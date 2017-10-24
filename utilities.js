@@ -55,9 +55,9 @@ function rangeFun(input,type,r1,r2) {
   };
   
   function scratchToRoboboAngle(angle){
-    return angle +180;
+    return 180+angle;
   }
 
   function roboboToScratchAngle(angle){
-    return angle-180;
+    return 180-angle;
   }
