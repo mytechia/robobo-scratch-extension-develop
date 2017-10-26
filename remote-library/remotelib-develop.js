@@ -86,6 +86,8 @@ function Remote(ip,passwd){
 
   this.minIRValue = 20;
 
+  this.lostFace = true;
+
 //END OF REMOTE OBJECT
 };
 
@@ -1118,20 +1120,30 @@ Remote.prototype = {
       }
     }
 
-    else if (msg.name == "NEWFACE") {
+    else if (msg.name == "FACE") {
       this.statusmap.set("facex",parseInt(msg.value["coordx"]));
       this.statusmap.set("facey",parseInt(msg.value["coordy"]));
-
-      if (parseInt(msg.value["distance"])>45){
-        this.statusmap.set("facedist","close");
-      }else if (parseInt(msg.value["distance"])<25){
-        this.statusmap.set("facedist","far");
-      } else {
-        this.statusmap.set("facedist","mid");
+      if (parseInt(msg.value["distance"])==-1){
+        (this.callbackmap.get("onLostFace"))();
+        this.lostFace = true;        
+      }else{
+        if (this.lostFace){
+          (this.callbackmap.get("onNewFace"))();
+          this.lostFace = false;        
+          
+        }
+        if (parseInt(msg.value["distance"])>45){
+          this.statusmap.set("facedist","close");
+        }else if (parseInt(msg.value["distance"])<25){
+          this.statusmap.set("facedist","far");
+        } else {
+          this.statusmap.set("facedist","mid");
+        }
       }
 
 
     }
+
 
     else if (msg.name == "FALLSTATUS"){
       //console.log(msg);
@@ -1212,15 +1224,7 @@ Remote.prototype = {
       this.closeConnection(false);
     }
 
-    else if (msg.name == "FOUNDFACE") {
-      //console.log("FOUNDFACE");
-      (this.callbackmap.get("onNewFace"))();
-    }
-
-    else if (msg.name == "LOSTFACE") {
-      //console.log("LOSTFACE");
-      (this.callbackmap.get("onLostFace"))();
-    }
+    
 
     else if (msg.name == "ONERROR") {
       console.log("ERROR "+ msg.value['error']);
