@@ -489,7 +489,7 @@ Remote.prototype = {
   /** Commands the robot to move the TILT to an specified position */
   moveTilt: function (pos, vel) {
     s = ''+ vel;
-    pos = scratchToRoboboAngle(pos);
+ 
     
 
     var message = JSON.stringify({
@@ -511,7 +511,7 @@ Remote.prototype = {
   /** Commands the robot to move the TILT to an specified position
    * and waits until the robot ends the movement */
   moveTiltWait: function (pos, vel, callback) {
-    pos = scratchToRoboboAngle(pos);
+    
     
     s = ''+ vel;
     if (pos > this.tiltSuperiorLimit){
