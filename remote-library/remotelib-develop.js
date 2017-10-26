@@ -1126,6 +1126,8 @@ Remote.prototype = {
       if (parseInt(msg.value["distance"])==-1){
         (this.callbackmap.get("onLostFace"))();
         this.lostFace = true;        
+        this.statusmap.set("facedist","none");
+        
       }else{
         if (this.lostFace){
           (this.callbackmap.get("onNewFace"))();
