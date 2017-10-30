@@ -1340,7 +1340,7 @@ Remote.prototype = {
       this.statusmap.set(msg.value['id']+"B",msg.value['B']);
 
     }
-    else if (msg.name == "EMOTIONSTATUS") {
+    else if (msg.name == "EMOTION") {
       this.statusmap.set("emotion",msg.value['emotion']);
 
 
