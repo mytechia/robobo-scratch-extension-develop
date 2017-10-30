@@ -635,7 +635,7 @@ Remote.prototype = {
   /** Commands the robot to change its face/emotion */
   changeEmotion : function (emotion) {
     var message = JSON.stringify({
-        "name": "CHANGEEMOTION",
+        "name": "SET-EMOTION",
         "parameters": {
             emotion: emotion
         },
