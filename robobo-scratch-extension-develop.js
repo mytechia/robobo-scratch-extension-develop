@@ -796,7 +796,7 @@
     hideIcon.style.position = "absolute";
     hideIcon.style.left = "5px";
     hideIcon.style.top = "5px";
-    hideIcon.style.background = "url('https://mytechia.github.io/robobo-scratch-extension-develop/robobo-monitor/img/plegar-monitor.png') center";
+    hideIcon.style.background = "url('http://firmware.theroboboproject.com/monitor/develop/img/plegar-monitor.png') center";
     hideIcon.style.zIndex = 120;
     hideIcon.style.cursor="pointer";
     hideIcon.addEventListener("click", hideDiv);
@@ -814,7 +814,7 @@
 
 
     monitorIFrame = document.createElement("IFRAME")
-    monitorIFrame.src="https://mytechia.github.io/robobo-scratch-extension-develop/robobo-monitor/robobo-monitor.html?status=disconnected";
+    monitorIFrame.src="http://firmware.theroboboproject.com/monitor/develop/robobo-monitor.html?status=disconnected";
     //monitorIFrame.src="http://pruebas.local/monitor/robobo-monitor.html";
     monitorIFrame.style.width ="99%";
     monitorIFrame.style.height="99%";
@@ -864,11 +864,11 @@
 
 
     function disconnectMonitor() {
-      monitorIFrame.src="https://mytechia.github.io/robobo-scratch-extension-develop/robobo-monitor/robobo-monitor.html?status=disconnected";
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/develop/robobo-monitor.html?status=disconnected";
     }
 
     function reconnectMonitor() {
-      monitorIFrame.src="https://mytechia.github.io/robobo-scratch-extension-develop/robobo-monitor/robobo-monitor.html?ip="+roboboMonitorIp;
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/develop/robobo-monitor.html?ip="+roboboMonitorIp;
       showDiv();
     }
 
