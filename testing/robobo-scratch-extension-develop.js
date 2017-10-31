@@ -57,8 +57,8 @@
     var panLowLimit = -160;
 
     //load required libraries
-    $.getScript("remote-library/remotelib-develop.js", function(){});
-    $.getScript("utilities.js", function(){});
+    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/testing/remote-library/remotelib-develop.js", function(){});
+    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/testing/utilities.js", function(){});
 
 
     //Cleanup function when the extension is unloaded

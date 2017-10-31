@@ -207,7 +207,7 @@ Remote.prototype = {
     var startTime = new Date().getTime();
     while(true) {
       var currentTime = new Date().getTime();
-      if (startTime+1000 < currentTime) {
+      if (startTime + 1000 < currentTime) {
         break;
       }
     }
