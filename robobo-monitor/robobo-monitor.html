@@ -249,20 +249,35 @@
       </div>
 
     </section>
-
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>    
     <script type="text/javascript" src="lib/vendor/velocity.min.js"></script>
     <script type="text/javascript" src="lib/vendor/hammer.min.js"></script>
     <script type="text/javascript" src="lib/vendor/muuri.js"></script>
     <script type="text/javascript" src="lib/vendor/gauge.min.js"></script>
     <script type="text/javascript" src="lib/robobo-monitor-grid.js"></script>
-    <script type="text/javascript" src="https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js"></script>
-    <script type="text/javascript" src="https://mytechia.github.io/robobo-scratch-extension-develop/utilities.js"></script>
     <script type="text/javascript" src="lib/robobo-monitor.js"></script>
+    
 
     <script>
         //Lets create a new instance of the Robobo Remote JS Library and connect it to a Robobo
         var params = getAllUrlParams();
+        if (params.url == undefined) {
+          $.getScript("https://mytechia.github.io/robobo-scratch-extension/2/utilities.js", function(){});
+          $.getScript("https://mytechia.github.io/robobo-scratch-extension/2/remote-library/remotelib.js", loadRemote);
 
+
+        }else{
+          var the_arr = params.url.split('/');
+          the_arr.pop();
+          the_arr.pop();
+
+          var str = the_arr.join('/');
+          $.getScript(str+"/utilities.js", function(){});
+          $.getScript(params.url, loadRemote);
+
+
+
+        }
 
         if (params.status != undefined) {
           if (params.status == 'disconnected') {
@@ -272,19 +287,23 @@
           document.getElementById('monitor').classList.remove('disconnected')
         }
 
-        var rem = new Remote(params.ip,"");
+        function loadRemote(){ 
+          var rem = new Remote(params.ip,"");
 
-        //connect to the remote Robobo
-        rem.connect();
+          //connect to the remote Robobo
+          rem.connect();
 
-        //wait until the connection is stablished
-        rem.waitForConnection();
+          //wait until the connection is stablished
+          rem.waitForConnection();
 
-        //register status callbacks
-        registerRemoteCallbacks(rem);
+          //register status callbacks
+          registerRemoteCallbacks(rem);
 
-        //start polling status values
-        setInterval(updateSensors, 100); //10 per second
+          //start polling status values
+          setInterval(updateSensors, 100); //10 per second
+        }
+
+        
 
     </script>
 

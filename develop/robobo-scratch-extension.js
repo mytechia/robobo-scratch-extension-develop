@@ -57,8 +57,10 @@
     var panLowLimit = -160;
 
     //load required libraries
-    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/remote-library/remotelib-develop.js", function(){});
-    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/utilities.js", function(){});
+    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js", function(){});
+    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/utilities.js", function(){});
+
+    var remotelibUrl = "https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js";
 
 
     //Cleanup function when the extension is unloaded
@@ -796,7 +798,7 @@
     hideIcon.style.position = "absolute";
     hideIcon.style.left = "5px";
     hideIcon.style.top = "5px";
-    hideIcon.style.background = "url('http://firmware.theroboboproject.com/monitor/develop/img/plegar-monitor.png') center";
+    hideIcon.style.background = "url('http://firmware.theroboboproject.com/monitor/testing/img/plegar-monitor.png') center";
     hideIcon.style.zIndex = 120;
     hideIcon.style.cursor="pointer";
     hideIcon.addEventListener("click", hideDiv);
@@ -814,7 +816,7 @@
 
 
     monitorIFrame = document.createElement("IFRAME")
-    monitorIFrame.src="http://firmware.theroboboproject.com/monitor/develop/robobo-monitor.html?status=disconnected";
+    monitorIFrame.src="http://firmware.theroboboproject.com/monitor/testing/robobo-monitor.html?status=disconnected";
     //monitorIFrame.src="http://pruebas.local/monitor/robobo-monitor.html";
     monitorIFrame.style.width ="99%";
     monitorIFrame.style.height="99%";
@@ -864,11 +866,11 @@
 
 
     function disconnectMonitor() {
-      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/develop/robobo-monitor.html?status=disconnected";
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/testing/robobo-monitor.html?status=disconnected";
     }
 
     function reconnectMonitor() {
-      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/develop/robobo-monitor.html?ip="+roboboMonitorIp;
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/testing/robobo-monitor.html?ip="+roboboMonitorIp+"?url"+remotelibUrl;
       showDiv();
     }
 
