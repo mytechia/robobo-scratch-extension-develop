@@ -869,7 +869,7 @@
     }
 
     function reconnectMonitor() {
-      monitorIFrame.src="http://firmware.theroboboproject.com/testing/robobo-monitor.html?ip="+roboboMonitorIp+"?url="+remotelibUrl;
+      monitorIFrame.src="http://firmware.theroboboproject.com/testing/robobo-monitor.html?ip="+roboboMonitorIp+"&url="+remotelibUrl;
       showDiv();
     }
 
