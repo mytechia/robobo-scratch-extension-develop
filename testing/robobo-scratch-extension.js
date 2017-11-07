@@ -19,7 +19,7 @@
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-//Scratch extension for the Robobo education robot - Version 0.9.1-dev
+//Scratch extension for the Robobo education robot - Version 0.9.2-testing
 (function(ext) {
 
     var rem; //remote connection to the robot
@@ -61,7 +61,8 @@
     $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/testing/utilities.js", function(){});
 
     var remotelibUrl = "https://mytechia.github.io/robobo-scratch-extension-develop/testing/remote-library/remotelib.js";
-    
+
+
     //Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
 
@@ -869,7 +870,7 @@
     }
 
     function reconnectMonitor() {
-      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/testing/robobo-monitor.html?ip="+roboboMonitorIp+"&url="+remotelibUrl;
+      monitorIFrame.src="http://firmware.theroboboproject.com/monitor/testing/robobo-monitor.html?ip="+roboboMonitorIp;
       showDiv();
     }
 
@@ -994,7 +995,7 @@
           individualwheel: ['right', 'left'],
           mtype: ['non-stop','seconds'],
           orientation: ['yaw','pitch','roll'],
-          emotions: ['happy','sad','angry','normal','sleeping'],
+          emotions: ['happy','laughing','surprised','sad','angry','normal','sleeping','tired','afraid'],
           colors: ['off','white','red','blue','cyan','magenta','yellow','green','orange'],
           status: ['on','off'],
           leds: ['Front-C','Front-L','Front-LL','Front-R','Front-RR','Back-L','Back-R','all'],

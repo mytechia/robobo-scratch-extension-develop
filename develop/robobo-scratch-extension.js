@@ -19,7 +19,7 @@
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-//Scratch extension for the Robobo education robot - Version 0.9.1-dev
+//Scratch extension for the Robobo education robot - Version 0.9.2-develop
 (function(ext) {
 
     var rem; //remote connection to the robot
