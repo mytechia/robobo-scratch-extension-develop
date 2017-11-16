@@ -45,6 +45,37 @@ var lastNote = undefined;
 var wheelLeftSpeedGauge;
 var wheelRightSpeedGauge;
 
+// claps
+
+var clapNotificationCounter = 0;
+
+/* Change color of claps element and  decrement in 1 the notification counter */
+
+
+function clapNotificationReceived() {
+   clapNotificationCounter++;
+   clapNotificationUpdate();
+}
+
+function clapNotificationUpdate() {
+    setClapsCircleColor("#fffc00");
+    setTimeout(function() {
+        if (clapNotificationCounter == 0) {
+          setClapsCircleColor("#c4e8fe");
+        }
+    }, 300);
+    clapNotificationCounter--;
+}
+
+
+function setClapsCircleColor(color) {
+  document.getElementById("audio-sensor-claps-svg").setAttribute("fill", color);
+}
+
+function pausecomp(ms) {
+  ms += new Date().getTime();
+  while (new Date() < ms){}
+}
 
 /* Creates gauge elements to show the wheels speed */
 function createGaugeElements() {
@@ -185,10 +216,6 @@ function setBatteryLevel(batteryIconId, batteryValueId, statusValue) {
 
 }
 
-
-
-
-
 /** Returns all the parameters of an URL */
 function getAllUrlParams(url) {
 
@@ -278,7 +305,8 @@ function registerRemoteCallbacks(rem) {
     rem.registerCallback("onLowBatt",function() {});
     rem.registerCallback("onLowOboBatt",function() {});
     rem.registerCallback("onNewClap",function() {
-        setElementHTML("audio-sensor-claps", replaceUndefined(rem.getClaps()));
+//        setElementHTML("audio-sensor-claps", replaceUndefined(rem.getClaps()));
+       clapNotificationReceived();
     });
 
     rem.registerCallback("onNewTap", function() {

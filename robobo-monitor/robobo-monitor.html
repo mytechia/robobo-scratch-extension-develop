@@ -138,7 +138,17 @@
                 </div>
               </div>
               <br>
-              <div class="label-value claps">Claps: <span class="value" id="audio-sensor-claps"></span></div>
+                <div class="label-value claps">
+                    <div style="float:left; height:14px;">
+                      Claps:
+                    </div> <!-- <span class="value" id="audio-sensor-claps"></span> -->
+                    <div style="float:left; height: 14px; margin-left: 2px;">
+                      <svg height="14" width="14">
+                        <circle id="audio-sensor-claps-svg" cx="7" cy="7" r="7" stroke-width="0" fill="#c4e8fe" />
+                      </svg>                      
+                    </div>
+                    <br>
+                </div>
               </id>
             </div>
           </div>
@@ -261,9 +271,9 @@
     <script type="text/javascript" src="lib/robobo-monitor.js"></script>
 
     <script>
+
         //Lets create a new instance of the Robobo Remote JS Library and connect it to a Robobo
         var params = getAllUrlParams();
-
 
         if (params.status != undefined) {
           if (params.status == 'disconnected') {
@@ -286,7 +296,6 @@
 
         //start polling status values
         setInterval(updateSensors, 100); //10 per second
-
     </script>
 
   </body>
