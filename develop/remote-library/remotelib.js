@@ -289,7 +289,7 @@ Remote.prototype = {
             wheel: wheel,
             degrees: degrees,
             speed:speed,
-            blockid:lastblock
+            blockid:this.lastblock
         },
         "id": this.commandid
     });
