@@ -305,3 +305,11 @@ name:
 
 value:
   emotion: string
+
+31.
+
+name:
+  UNLOCKDEGREES
+
+value:
+  blockid: integer (>0)

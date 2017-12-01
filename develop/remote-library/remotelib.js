@@ -63,6 +63,10 @@ function Remote(ip,passwd){
   //Wheel stop callback
   this.wheelsCallback = undefined;
 
+
+  //Wheel degrees stop callback
+  this.degreesCallback = undefined;
+
   //Tilt stop callback
   this.tiltCallback = undefined;
 
@@ -272,15 +276,20 @@ Remote.prototype = {
   this.sendMessage(message);
   //ENDOF resetEncoders
   },
-
+  
   /** Commands the robot to move the wheel by some angle */
-  moveWheelsByDegree: function(wheel,degrees,speed) {
+  moveWheelsByDegree: function(wheel,degrees,speed,callback) {
+    this.lastblock = this.lastblock+1;    
+    lb = this.lastblock;
+    this.degreesCallback = callback;
+    
     var message = JSON.stringify({
         "name": "MOVEBY-DEGREES",
         "parameters": {
             wheel: wheel,
             degrees: degrees,
-            speed:speed
+            speed:speed,
+            blockid:lastblock
         },
         "id": this.commandid
     });
@@ -435,7 +444,7 @@ Remote.prototype = {
     }
     this.panCallback = callback;
 
-    lb = this.lastblock
+    lb = this.lastblock;
 
     var message = JSON.stringify({
         "name": "MOVEPAN-BLOCKING",
@@ -728,6 +737,10 @@ Remote.prototype = {
     return this.statusmap.get("lastNote");
   },//ENDOF getLastNote
 
+    /** Returns the duration of the last musical note detected by the robot */
+    getLastNoteDuration : function(){
+      return this.statusmap.get("lastNoteDuration");
+    },//ENDOF getLastNoteDuration
 
   processClapStatus : function() {
 
@@ -1274,13 +1287,18 @@ Remote.prototype = {
       this.tiltCallback();
       this.tiltCallback = undefined;
     }
-    else if (msg.name == "UNCLOK-PAN") {
-      console.log('UNCLOK-PAN '+msg.value['blockid']);
+    else if (msg.name == "UNLOCK-PAN") {
+      console.log('UNLOCK-PAN '+msg.value['blockid']);
       //(this.blockingcallbackmap.get(""+msg.value['blockid']))();
       this.panCallback();
       this.panCallback = undefined;
     }
-
+    else if (msg.name == "UNLOCK-DEGREES") {
+      console.log("UNLOCK-DEGREES"+msg.value['blockid']);
+      //(this.blockingcallbackmap.get(""+msg.value['blockid']))();
+      this.degreesCallback();
+      this.degreesCallback = undefined;
+    }
     else if (msg.name == "PAN") {
       //console.log("PAN "+msg.value['panPos']);
       this.statusmap.set("panPos",roboboToScratchAngle(parseInt(msg.value['panPos'])));
@@ -1303,6 +1321,8 @@ Remote.prototype = {
     else if (msg.name == "NOTE") {
       console.log(msg.value['name']+'  '+msg.value['index']+'  '+msg.value['octave']);
       this.statusmap.set("lastNote",msg.value['name']);
+      this.statusmap.set("lastNoteDuration",msg.value['duration']);
+      
 
       (this.callbackmap.get("onNewNote"))();
 

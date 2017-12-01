@@ -505,6 +505,12 @@
       return rem.getLastNote();
     }
 
+    //BLOCK - Last note
+    ext.readLastNoteDuration = function(){
+      rem.keepAlive(); //keep the robot alive to receive stats updates
+      return rem.getLastNoteDuration();
+    }
+
     //BLOCK - Blob position at
     ext.readBlobCoord = function(color, axis){
       rem.keepAlive(); //keep the robot alive to receive stats updates
@@ -963,6 +969,8 @@
 
           ['h', 'when note detected','newNoteFun'],
           ['r', 'last note','readLastNote'],
+          ['r', 'last note duration','readLastNoteDuration'],
+          
 
           ['r', '%m.blobcolor blob position at %m.axis axis','readBlobCoord','green','x'],
           ['r', '%m.blobcolor blob area','readBlobSize','green'],
