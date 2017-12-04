@@ -281,7 +281,7 @@ Remote.prototype = {
   moveWheelsByDegree: function(wheel,degrees,speed,callback) {
     this.lastblock = this.lastblock+1;    
     lb = this.lastblock;
-    this.degreesCallback = callback;
+    this.wheelsCallback = callback;
     
     var message = JSON.stringify({
         "name": "MOVEBY-DEGREES",
@@ -1278,8 +1278,8 @@ Remote.prototype = {
     else if (msg.name == "UNLOCK-MOVE") {
       console.log('UNLOCK-MOVE '+msg.value['blockid']);
       //(this.blockingcallbackmap.get(""+msg.value['blockid']))();
-      this.degreesCallback();
-      this.degreesCallback = undefined;
+      this.wheelsCallback();
+      this.wheelsCallback = undefined;
     }
     else if (msg.name == "UNLOCK-TILT") {
       console.log('UNLOCK-TILT '+msg.value['blockid']);
