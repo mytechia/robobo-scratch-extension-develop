@@ -1278,8 +1278,8 @@ Remote.prototype = {
     else if (msg.name == "UNLOCK-MOVE") {
       console.log('UNLOCK-MOVE '+msg.value['blockid']);
       //(this.blockingcallbackmap.get(""+msg.value['blockid']))();
-      this.wheelsCallback();
-      this.wheelsCallback = undefined;
+      this.degreesCallback();
+      this.degreesCallback = undefined;
     }
     else if (msg.name == "UNLOCK-TILT") {
       console.log('UNLOCK-TILT '+msg.value['blockid']);
