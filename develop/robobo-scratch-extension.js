@@ -255,7 +255,7 @@
       }
     };
 
-    ext.moveDegrees = function(wheel,degrees,speed,callback){
+    ext.moveDegrees = function(wheel,speed,degrees,callback){
       rem.moveWheelsByDegree(wheel,degrees,speed,callback);
     }
 
@@ -926,7 +926,7 @@
           [' ', 'stop %m.stop motors','stopFun','all'],
           ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovementT','30','30','1','seconds'],
           //move wheels left|right|both by XX degress at speed YY
-          ['w', 'move wheels %m.wheels by %s degrees at speed %s','moveDegrees','both','180','20'],
+          ['w', 'move wheels %m.wheels at speed %s by %s degrees ','moveDegrees','both','20','180'],
           
           ['w', 'move pan to %d at speed %n %m.block','movePanRoboboNew','180','15','blocking'],
           ['w', 'move tilt to %d at speed %n %m.block','moveTiltRoboboNew','90','15','blocking'],
