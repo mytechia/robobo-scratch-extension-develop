@@ -19,7 +19,7 @@
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-//Scratch extension for the Robobo education robot - Version 0.9.2-testing
+//Scratch extension for the Robobo education robot - Version 0.9.2-develop
 (function(ext) {
 
     var rem; //remote connection to the robot
@@ -57,10 +57,10 @@
     var panLowLimit = -160;
 
     //load required libraries
-    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/testing/remote-library/remotelib.js", function(){});
-    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/testing/utilities.js", function(){});
+    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js", function(){});
+    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/utilities.js", function(){});
 
-    var remotelibUrl = "https://mytechia.github.io/robobo-scratch-extension-develop/testing/remote-library/remotelib.js";
+    var remotelibUrl = "https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js";
 
 
     //Cleanup function when the extension is unloaded
@@ -254,6 +254,10 @@
         callback();
       }
     };
+
+    ext.moveDegrees = function(wheel,speed,degrees,callback){
+      rem.moveWheelsByDegree(wheel,degrees,speed,callback);
+    }
 
 
     //BLOCK - Move pan --> Pan movement function (absolute)
@@ -503,6 +507,12 @@
     ext.readLastNote = function(){
       rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getLastNote();
+    }
+
+    //BLOCK - Last note
+    ext.readLastNoteDuration = function(){
+      rem.keepAlive(); //keep the robot alive to receive stats updates
+      return rem.getLastNoteDuration();
     }
 
     //BLOCK - Blob position at
@@ -915,6 +925,9 @@
 
           [' ', 'stop %m.stop motors','stopFun','all'],
           ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovementT','30','30','1','seconds'],
+          //move wheels left|right|both by XX degress at speed YY
+          ['w', 'move wheels %m.wheels at speed %s by %s degrees ','moveDegrees','both','20','180'],
+          
           ['w', 'move pan to %d at speed %n %m.block','movePanRoboboNew','180','15','blocking'],
           ['w', 'move tilt to %d at speed %n %m.block','moveTiltRoboboNew','90','15','blocking'],
 
@@ -963,6 +976,8 @@
 
           ['h', 'when note detected','newNoteFun'],
           ['r', 'last note','readLastNote'],
+          ['r', 'last note duration','readLastNoteDuration'],
+          
 
           ['r', '%m.blobcolor blob position at %m.axis axis','readBlobCoord','green','x'],
           ['r', '%m.blobcolor blob area','readBlobSize','green'],
