@@ -92,6 +92,14 @@ function Remote(ip,passwd){
 
   this.lostFace = true;
 
+
+  this.timeout = 100;
+  this.wheelLastTime = Date.now();
+  this.panLastTime = Date.now();
+  this.tiltLastTime = Date.now();
+  
+  
+
 //END OF REMOTE OBJECT
 };
 
@@ -279,28 +287,35 @@ Remote.prototype = {
   
   /** Commands the robot to move the wheel by some angle */
   moveWheelsByDegree: function(wheel,degrees,speed,callback) {
-    this.lastblock = this.lastblock+1;    
-    lb = this.lastblock;
-    this.wheelsCallback = callback;
+
+    if ((this.wheelLastTime-Date.now())>this.timeout){
+      this.wheelLastTime = Date.now();
+      this.lastblock = this.lastblock+1;    
+      lb = this.lastblock;
+      this.wheelsCallback = callback;
+      
+      var message = JSON.stringify({
+          "name": "MOVEBY-DEGREES",
+          "parameters": {
+              wheel: wheel,
+              degrees: degrees,
+              speed:speed,
+              blockid:lb
+          },
+          "id": this.commandid
+      });
+      this.sendMessage(message);
+    }
     
-    var message = JSON.stringify({
-        "name": "MOVEBY-DEGREES",
-        "parameters": {
-            wheel: wheel,
-            degrees: degrees,
-            speed:speed,
-            blockid:lb
-        },
-        "id": this.commandid
-    });
-    this.sendMessage(message);
     //ENDOF moveWheelsByDegree
   },
 
 
   /** Commands the robot to move during some time */
   moveWheelsByTime: function(wheel,time,speed) {
-    var message = JSON.stringify({
+    if ((this.wheelLastTime-Date.now())>this.timeout){
+      this.wheelLastTime = Date.now();
+      var message = JSON.stringify({
         "name": "MOVEBY-TIME",
         "parameters": {
             wheel: wheel,
@@ -310,25 +325,29 @@ Remote.prototype = {
         "id": this.commandid
     });
     this.sendMessage(message);
+  }
     //ENDOF moveWheelsByTime
   },
 
 
   /** Commands the robot to move each wheel with an idepenent speed */
   moveWheelsSeparated: function(lSpeed,rSpeed,time) {
-    lS = ''+lSpeed;
-    rS = ''+rSpeed;
+    if ((this.wheelLastTime-Date.now())>this.timeout){
+      this.wheelLastTime = Date.now();
+      lS = ''+lSpeed;
+      rS = ''+rSpeed;
 
-    var message = JSON.stringify({
-        "name": "MOVE",
-        "parameters": {
-            lspeed: lS,
-            rspeed: rS,
-            time:time
-        },
-        "id": this.commandid
-    });
-    this.sendMessage(message);
+      var message = JSON.stringify({
+          "name": "MOVE",
+          "parameters": {
+              lspeed: lS,
+              rspeed: rS,
+              time:time
+          },
+          "id": this.commandid
+      });
+      this.sendMessage(message);
+  }
 
   },//ENDOF moveWheelsSeparated
 
@@ -336,87 +355,99 @@ Remote.prototype = {
   /** Commands the robot to move each wheel with an idepenent speed and waits
    * until the roboot finishes the movement */
   moveWheelsSeparatedWait: function(lSpeed,rSpeed,time,callback) {
-    console.log("moveWheelsSeparatedWait "+lSpeed+" "+rSpeed+" "+time);
-    lS = ''+lSpeed;
-    rS = ''+rSpeed;
+    if ((this.wheelLastTime-Date.now())>this.timeout){
+      this.wheelLastTime = Date.now();
+      console.log("moveWheelsSeparatedWait "+lSpeed+" "+rSpeed+" "+time);
+      lS = ''+lSpeed;
+      rS = ''+rSpeed;
 
-    this.lastblock = this.lastblock+1;
-    //this.blockingcallbackmap.set(this.lastblock+"",callback);
-    if (this.wheelsCallback != undefined){
-      this.wheelsCallback();
+      this.lastblock = this.lastblock+1;
+      //this.blockingcallbackmap.set(this.lastblock+"",callback);
+      if (this.wheelsCallback != undefined){
+        this.wheelsCallback();
+      }
+
+      this.wheelsCallback = callback;
+      var message = JSON.stringify({
+          "name": "MOVE-BLOCKING",
+          "parameters": {
+              lspeed: lS,
+              rspeed: rS,
+              time:time,
+              blockid: this.lastblock
+          },
+          "id": this.commandid
+      });
+      this.sendMessage(message);
     }
-
-    this.wheelsCallback = callback;
-    var message = JSON.stringify({
-        "name": "MOVE-BLOCKING",
-        "parameters": {
-            lspeed: lS,
-            rspeed: rS,
-            time:time,
-            blockid: this.lastblock
-        },
-        "id": this.commandid
-    });
-    this.sendMessage(message);
 
   },//ENDOF moveWheelsSeparatedWait
 
 
   /** Commands the robot to turn on the wheels motors at the specified speed, indefinitely */
   motorsOn: function(lMotor,rMotor,speed) {
-    var message = JSON.stringify({
-        "name": "MOVE-FOREVER",
-        "parameters": {
-            lmotor: lMotor,
-            rmotor: rMotor,
-            speed:speed
-        },
-        "id": this.commandid
-    });
-    this.sendMessage(message);
+    if ((this.wheelLastTime-Date.now())>this.timeout){
+      this.wheelLastTime = Date.now();
+      var message = JSON.stringify({
+          "name": "MOVE-FOREVER",
+          "parameters": {
+              lmotor: lMotor,
+              rmotor: rMotor,
+              speed:speed
+          },
+          "id": this.commandid
+      });
+      this.sendMessage(message);
+    }
 
   },//ENDOF MOVE-FOREVER
 
 
   /** Commands the robot to turn by some degrees */
   turnInPlace: function(degrees) {
-    var message = JSON.stringify({
-        "name": "TURNINPLACE",
-        "parameters": {
-            degrees: degrees
-        },
-        "id": this.commandid
-    });
-    this.sendMessage(message);
+    if ((this.wheelLastTime-Date.now())>this.timeout){
+      this.wheelLastTime = Date.now();
+      var message = JSON.stringify({
+          "name": "TURNINPLACE",
+          "parameters": {
+              degrees: degrees
+          },
+          "id": this.commandid
+      });
+      this.sendMessage(message);
+    }
 
   },//ENDOF turnInPlace
 
 
   /** Commands the robot to move the PAN to the specified position */
   movePan: function(pos, vel) {
-    s = ''+ vel;
-    pos = scratchToRoboboAngle(pos);
-    
-    if (pos > this.panSuperiorLimit){
-      pos = this.panSuperiorLimit;
-    }
+    if ((this.panLastTime-Date.now())>this.timeout){
+      this.panLastTime = Date.now();
+      s = ''+ vel;
+      pos = scratchToRoboboAngle(pos);
+      
+      if (pos > this.panSuperiorLimit){
+        pos = this.panSuperiorLimit;
+      }
 
-    if (pos < this.panInferiorLimit){
-      pos = this.panInferiorLimit;
+      if (pos < this.panInferiorLimit){
+        pos = this.panInferiorLimit;
+      }
+      
+      var message = JSON.stringify({
+          "name": "MOVEPAN",
+          "parameters": {
+              pos: pos,
+              speed:s
+          },
+          "id": this.commandid
+      });
+      //if (vel > 0){
+      //  this.statusmap.set("panPos",pos);
+      //}
+      this.sendMessage(message);
     }
-    
-    var message = JSON.stringify({
-        "name": "MOVEPAN",
-        "parameters": {
-            pos: pos,
-            speed:s
-        },
-        "id": this.commandid
-    });
-    //if (vel > 0){
-    //  this.statusmap.set("panPos",pos);
-    //}
-    this.sendMessage(message);
 
   }, //ENDOF movePan
 
@@ -424,41 +455,44 @@ Remote.prototype = {
   /** Commands the robot to move the PAN to the specified position
    * and waits until the movement finishes */
   movePanWait: function(pos, vel, callback) {
-    s = ''+ vel;
-    pos = scratchToRoboboAngle(pos);    
-    
-    if (pos > this.panSuperiorLimit){
-      pos = this.panSuperiorLimit;
+    if ((this.panLastTime-Date.now())>this.timeout){
+      this.panLastTime = Date.now();
+      s = ''+ vel;
+      pos = scratchToRoboboAngle(pos);    
+      
+      if (pos > this.panSuperiorLimit){
+        pos = this.panSuperiorLimit;
+      }
+
+      if (pos < this.panInferiorLimit){
+        pos = this.panInferiorLimit;
+      }
+      
+
+
+      this.lastblock = this.lastblock+1;
+      //this.blockingcallbackmap.set(this.lastblock+"",callback);
+      if (this.panCallback != undefined){
+        this.panCallback();
+      }
+      this.panCallback = callback;
+
+      lb = this.lastblock;
+
+      var message = JSON.stringify({
+          "name": "MOVEPAN-BLOCKING",
+          "parameters": {
+              pos: pos,
+              speed:s,
+              blockid:lb
+          },
+          "id": this.commandid
+      });
+      //if (vel > 0){
+      //  this.statusmap.set("panPos",pos);
+      //}
+      this.sendMessage(message);
     }
-
-    if (pos < this.panInferiorLimit){
-      pos = this.panInferiorLimit;
-    }
-    
-
-
-    this.lastblock = this.lastblock+1;
-    //this.blockingcallbackmap.set(this.lastblock+"",callback);
-    if (this.panCallback != undefined){
-      this.panCallback();
-    }
-    this.panCallback = callback;
-
-    lb = this.lastblock;
-
-    var message = JSON.stringify({
-        "name": "MOVEPAN-BLOCKING",
-        "parameters": {
-            pos: pos,
-            speed:s,
-            blockid:lb
-        },
-        "id": this.commandid
-    });
-    //if (vel > 0){
-    //  this.statusmap.set("panPos",pos);
-    //}
-    this.sendMessage(message);
 
   },//ENDOF movePanWait
 
@@ -474,45 +508,50 @@ Remote.prototype = {
 
   /** Commands the  robot to move the PAN by some degrees */
   movePanByDegrees: function (degrees, speed) {
+    if ((this.panLastTime-Date.now())>this.timeout){
+      this.panLastTime = Date.now();
+      console.log("movePanByDegrees");
+      var actual = this.statusmap.get("panPos");
+      if (actual==undefined){
+        actual = 180;
+      }
+      var newpos = parseInt(actual) + parseInt(degrees)
+      if (newpos > 339){
+        newpos = 339;
+      }
+      if (newpos < 27){
+        newpos = 27;
+      }
+      console.log(newpos);
 
-    console.log("movePanByDegrees");
-    var actual = this.statusmap.get("panPos");
-    if (actual==undefined){
-      actual = 180;
+      //this.statusmap.set("panPos",parseInt(newpos));
+      this.movePan(newpos, speed);
     }
-    var newpos = parseInt(actual) + parseInt(degrees)
-    if (newpos > 339){
-      newpos = 339;
-    }
-    if (newpos < 27){
-      newpos = 27;
-    }
-    console.log(newpos);
-
-    //this.statusmap.set("panPos",parseInt(newpos));
-    this.movePan(newpos, speed);
     //END OF MOVEPANBYDEGREES FUNCTION
   },
 
 
   /** Commands the robot to move the TILT to an specified position */
   moveTilt: function (pos, vel) {
-    s = ''+ vel;
- 
-    
+    if ((this.tiltLastTime-Date.now())>this.timeout){
+      this.tiltLastTime = Date.now();
+      s = ''+ vel;
+  
+      
 
-    var message = JSON.stringify({
-        "name": "MOVETILT",
-        "parameters": {
-            pos: pos,
-            speed:s
-        },
-        "id": this.commandid
-    });
-    //if (vel > 0){
-    //  this.statusmap.set("tiltPos",parseInt(pos));
-    //}
-    this.sendMessage(message);
+      var message = JSON.stringify({
+          "name": "MOVETILT",
+          "parameters": {
+              pos: pos,
+              speed:s
+          },
+          "id": this.commandid
+      });
+      //if (vel > 0){
+      //  this.statusmap.set("tiltPos",parseInt(pos));
+      //}
+      this.sendMessage(message);
+    }
 
   },//ENDOF moveTilt
 
@@ -521,57 +560,62 @@ Remote.prototype = {
    * and waits until the robot ends the movement */
   moveTiltWait: function (pos, vel, callback) {
     
-    
-    s = ''+ vel;
-    if (pos > this.tiltSuperiorLimit){
-      pos = this.tiltSuperiorLimit;
-    }
+    if ((this.tiltLastTime-Date.now())>this.timeout){
+      this.tiltLastTime = Date.now();
+      s = ''+ vel;
+      if (pos > this.tiltSuperiorLimit){
+        pos = this.tiltSuperiorLimit;
+      }
 
-    if (pos < this.tiltInferiorLimit){
-      pos = this.tiltInferiorLimit;
-    }
+      if (pos < this.tiltInferiorLimit){
+        pos = this.tiltInferiorLimit;
+      }
 
-    this.lastblock = this.lastblock+1;
-    //this.blockingcallbackmap.set(this.lastblock+"",callback);
-    if (this.tiltCallback != undefined){
-      this.tiltCallback();
+      this.lastblock = this.lastblock+1;
+      //this.blockingcallbackmap.set(this.lastblock+"",callback);
+      if (this.tiltCallback != undefined){
+        this.tiltCallback();
+      }
+      this.tiltCallback = callback;
+      var lb = this.lastblock;
+      var message = JSON.stringify({
+          "name": "MOVETILT-BLOCKING",
+          "parameters": {
+              pos: pos,
+              speed:s,
+              blockid:lb
+          },
+          "id": this.commandid
+      });
+      //if (vel > 0){
+      //  this.statusmap.set("tiltPos",parseInt(pos));
+      //}
+      this.sendMessage(message);
     }
-    this.tiltCallback = callback;
-    var lb = this.lastblock;
-    var message = JSON.stringify({
-        "name": "MOVETILT-BLOCKING",
-        "parameters": {
-            pos: pos,
-            speed:s,
-            blockid:lb
-        },
-        "id": this.commandid
-    });
-    //if (vel > 0){
-    //  this.statusmap.set("tiltPos",parseInt(pos));
-    //}
-    this.sendMessage(message);
 
   },//ENDOF moveTiltWait
 
 
   /** Commands the  robot to move the TILT by some degrees */
   moveTiltByDegrees: function (degrees, speed) {
-    console.log("moveTiltByDegrees");
-    var actual = this.statusmap.get("tiltPos");
-    if (actual==undefined){
-      actual = 90;
+    if ((this.tiltLastTime-Date.now())>this.timeout){
+      this.tiltLastTime = Date.now();
+      console.log("moveTiltByDegrees");
+      var actual = this.statusmap.get("tiltPos");
+      if (actual==undefined){
+        actual = 90;
+      }
+      var newpos = parseInt(actual) + parseInt(degrees)
+      if (newpos > 109){
+        newpos = 109;
+      }
+      if (newpos < 26){
+        newpos = 26;
+      }
+      console.log(newpos);
+      //this.statusmap.set("tiltPos",newpos);
+      this.moveTilt(newpos, speed);
     }
-    var newpos = parseInt(actual) + parseInt(degrees)
-    if (newpos > 109){
-      newpos = 109;
-    }
-    if (newpos < 26){
-      newpos = 26;
-    }
-    console.log(newpos);
-    //this.statusmap.set("tiltPos",newpos);
-    this.moveTilt(newpos, speed);
 
   },//ENDOF moveTiltByDegrees
 
