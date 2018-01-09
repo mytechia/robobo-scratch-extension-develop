@@ -19,7 +19,7 @@
  * along with Robobo Scratch Extension.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-//Scratch extension for the Robobo education robot - Version 0.9.2-develop
+//Scratch extension for the Robobo education robot - Version 2.0.1-develop
 (function(ext) {
 
     var rem; //remote connection to the robot
@@ -928,8 +928,8 @@
           //move wheels left|right|both by XX degress at speed YY
           ['w', 'move wheels %m.wheels at speed %s by %s degrees ','moveDegrees','both','20','180'],
           
-          ['w', 'move pan to %d at speed %n %m.block','movePanRoboboNew','180','15','blocking'],
-          ['w', 'move tilt to %d at speed %n %m.block','moveTiltRoboboNew','90','15','blocking'],
+          ['w', 'move pan to %d at speed %n %m.block','movePanRoboboNew','0','15','blocking'],
+          ['w', 'move tilt to %d at speed %n %m.block','moveTiltRoboboNew','75','15','blocking'],
 
           [' ', 'set led %m.leds color to %m.colors','setLedColor','all','blue'],
 
