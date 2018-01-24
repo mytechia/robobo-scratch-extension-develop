@@ -166,15 +166,21 @@
 /* Styles for the robobo sensors content blocks*/
 
 .value {
+  border-radius: 4px;
+  padding: 2px 2px 2px 2px;
+  color: #002c67;
+  font-size: 11px;
+  width: 100%;
+  margin-left: 1px;
   background-color: #c4e8fe;
   border-color: 1px solid #c4e8fe;
-  border-radius: 4px;
-  padding: 2px 5px 2px 5px;
-  color: #002c67;
-  font-size: 12px;
-  width: 100%;
-  margin-left: 2px;
 }
+
+.value-error {
+  background-color: #ffcbcb!important;
+  border-color: 1px solid #ffcbcb!important;
+}
+
 
 .label-value {
   width: 100%;

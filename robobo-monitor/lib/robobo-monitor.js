@@ -414,14 +414,72 @@ function updateSensors() {
     setElementHTML("color-sensor-custom-size", replaceUndefined(rem.getBlobSize("custom")));
 
     // update IR sensors raw value
-    setElementHTML("ir-sensor-raw-front-c", replaceUndefined(rem.getObstacle(frontCIR)));
-    setElementHTML("ir-sensor-raw-front-l", replaceUndefined(rem.getObstacle(frontLIR)));
-    setElementHTML("ir-sensor-raw-front-ll", replaceUndefined(rem.getObstacle(frontLLIR)));
-    setElementHTML("ir-sensor-raw-front-r", replaceUndefined(rem.getObstacle(frontRIR)));
-    setElementHTML("ir-sensor-raw-front-rr", replaceUndefined(rem.getObstacle(frontRRIR)));
+    var errorValue = 65535; // If the sensor is broken, this value is received.
+    var irElement = undefined;
+
+    var value = replaceUndefined(rem.getObstacle(frontCIR));
+    if (value == errorValue) {
+          value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          irElement = document.getElementById('ir-sensor-raw-front-c');
+          irElement.classList.add('value-error');
+    }
+    setElementHTML("ir-sensor-raw-front-c", value);
+
+    var value = replaceUndefined(rem.getObstacle(frontLIR));
+    if (value == errorValue) {
+          value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          irElement = document.getElementById('ir-sensor-raw-front-l');
+          irElement.classList.add('value-error');
+    }
+    setElementHTML("ir-sensor-raw-front-l", value);
+
+    var value = replaceUndefined(rem.getObstacle(frontLLIR));
+    if (value == errorValue) {
+          value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          irElement = document.getElementById('ir-sensor-raw-front-ll');
+          irElement.classList.add('value-error');
+    }
+    setElementHTML("ir-sensor-raw-front-ll", value);
+
+    var value = replaceUndefined(rem.getObstacle(frontRIR));
+    if (value == errorValue) {
+          value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          irElement = document.getElementById('ir-sensor-raw-front-r');
+          irElement.classList.add('value-error');
+    }
+    setElementHTML("ir-sensor-raw-front-r", value);
+
+    var value = replaceUndefined(rem.getObstacle(frontRRIR));
+    if (value == errorValue) {
+          value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          irElement = document.getElementById('ir-sensor-raw-front-rr');
+          irElement.classList.add('value-error');
+    }
+    setElementHTML("ir-sensor-raw-front-rr", value);
+
+    var value = replaceUndefined(rem.getObstacle(backCIR));
+    if (value == errorValue) {
+          value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          irElement = document.getElementById('ir-sensor-raw-back-c');
+          irElement.classList.add('value-error');
+    }
     setElementHTML("ir-sensor-raw-back-c", replaceUndefined(rem.getObstacle(backCIR)));
-    setElementHTML("ir-sensor-raw-back-r", replaceUndefined(rem.getObstacle(backRIR)));
-    setElementHTML("ir-sensor-raw-back-l", replaceUndefined(rem.getObstacle(backLIR)));
+
+    var value = replaceUndefined(rem.getObstacle(backRIR));
+    if (value == errorValue) {
+          value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          irElement = document.getElementById('ir-sensor-raw-back-r');
+          irElement.classList.add('value-error');
+    }
+    setElementHTML("ir-sensor-raw-back-r", value);
+
+    var value = replaceUndefined(rem.getObstacle(backLIR));
+    if (value == errorValue) {
+          value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          irElement = document.getElementById('ir-sensor-raw-back-l');
+          irElement.classList.add('value-error');
+    }
+    setElementHTML("ir-sensor-raw-back-l", value);
 
     //Battery level
     setBatteryLevel("rob-battery-icon", "rob-battery-value", rem.checkBatt());
