@@ -4,6 +4,9 @@ var RoboboExtension = function () {
 $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js", function(){});
 $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/utilities.js", function(){});
 
+var rem; //remote connection to the robot
+
+
 /**
  * @return {object} This extension's metadata.
  */
@@ -38,20 +41,17 @@ RoboboExtension.prototype.getInfo = function () {
         // in the order intended for display.
         blocks: [
             {
-                opcode: 'foobar',
-                func:'testFun',
-                text: 'Foos the [MOTOR_ID] bar for [DURATION] seconds',
+                opcode: 'connect',
+                func:'connectToRobobo',
+                text: 'Connect at ip [IP]',
                 blockType: Scratch.BlockType.COMMAND,
                 arguments: {
-                    MOTOR_ID: {
+                    IP: {
                         type: Scratch.ArgumentType.STRING,
                         
-                        defaultValue: 'ayyyy'
+                        defaultValue: '192.168.0.'
                     },
-                    DURATION: {
-                        type: Scratch.ArgumentType.NUMBER,
-                        defaultValue: 1
-                    }
+                    
                 }
             }
                 
@@ -73,8 +73,27 @@ RoboboExtension.prototype.getInfo = function () {
 RoboboExtension.prototype.noop = function () {
 };
 
-RoboboExtension.prototype.testFun = function (args) {
-    return args.MOTOR_ID;
+RoboboExtension.prototype.connectToRobobo = function (args) {
+    var ip = args.IP
+    if (rem != undefined){
+        console.log("Closing previous connection");
+        rem.closeConnection(true);
+
+      }
+      rem = new Remote(ip,'');
+      this.started = false;
+
+      rem.connect();
+      rem.waitForConnection();
+
+
+      //open monitor
+      roboboMonitorIp = ip;
+      connectMonitor();
+      if (!rem.isConnected()) {
+          disconnectMonitor();
+      }
+      return rem+"";
 };
 
 RoboboExtension.prototype.returnTrue = function () {
