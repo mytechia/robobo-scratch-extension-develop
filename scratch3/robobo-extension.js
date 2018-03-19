@@ -36,7 +36,7 @@ RoboboExtension.prototype.getInfo = function () {
         blocks: [
             {
                 opcode: 'foobar',
-                func:'returnTrue',
+                func:'testFun',
                 text: 'Foos the [MOTOR_ID] bar for [DURATION] seconds',
                 blockType: Scratch.BlockType.COMMAND,
                 arguments: {
