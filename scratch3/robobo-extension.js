@@ -35,13 +35,14 @@ RoboboExtension.prototype.getInfo = function () {
         // in the order intended for display.
         blocks: [
             {
-                opcode: 'Foobar',
-                text: 'Foos the [ARG1] bar for [DURATION] seconds',
+                opcode: 'foobar',
+                func:'returnTrue',
+                text: 'Foos the [MOTOR_ID] bar for [DURATION] seconds',
                 blockType: Scratch.BlockType.COMMAND,
                 arguments: {
                     MOTOR_ID: {
                         type: Scratch.ArgumentType.STRING,
-                        menu: 'barID',
+                        
                         defaultValue: 'ayyyy'
                     },
                     DURATION: {
@@ -64,19 +65,7 @@ RoboboExtension.prototype.getInfo = function () {
     };
 };
 
-/**
- * Implement myReporter.
- * @param {object} args - the block's arguments.
- * @property {number} LETTER_NUM - the string value of the argument.
- * @property {string} TEXT - the string value of the argument.
- * @returns {string} a string which includes the block argument value.
- */
-RoboboExtension.prototype.myReporter = function (args) {
-    // Note: this implementation is not Unicode-clean; it's just here as an example.
-    const result = args.TEXT.charAt(args.LETTER_NUM);
 
-    return ['Letter ', args.LETTER_NUM, ' of ', args.TEXT, ' is ', result, '.'].join('');
-};
 
 RoboboExtension.prototype.noop = function () {
 };
