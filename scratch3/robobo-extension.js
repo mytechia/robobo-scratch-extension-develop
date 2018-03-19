@@ -4,7 +4,7 @@ var RoboboExtension = function () {
 $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js", function(){});
 $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/utilities.js", function(){});
 
-var rem = undefined; //remote connection to the robot
+//var rem = undefined; //remote connection to the robot
 
 
 /**
