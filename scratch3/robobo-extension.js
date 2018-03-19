@@ -50,7 +50,7 @@ RoboboExtension.prototype.getInfo = function () {
                         type: Scratch.ArgumentType.STRING,
                         
                         defaultValue: '192.168.0.'
-                    },
+                    }
                     
                 }
             }
@@ -74,14 +74,14 @@ RoboboExtension.prototype.noop = function () {
 };
 
 RoboboExtension.prototype.connectToRobobo = function (args) {
-    var ip = args.IP
+    var ip = args.IP;
     if (rem != undefined){
         console.log("Closing previous connection");
         rem.closeConnection(true);
 
       }
       rem = new Remote(ip,'');
-      this.started = false;
+      //this.started = false;
 
       rem.connect();
       rem.waitForConnection();
