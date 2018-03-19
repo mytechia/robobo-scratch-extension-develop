@@ -1,12 +1,9 @@
 var RoboboExtension = function () {
-};
-var script = document.createElement('script');
- 
-script.src = '//code.jquery.com/jquery-1.11.0.min.js';
-document.getElementsByTagName('head')[0].appendChild(script); 
+    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js", function(){});
+$.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/utilities.js", function(){});
 
-//$.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js", function(){});
-//$.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/utilities.js", function(){});
+};
+
 
 //var rem = undefined; //remote connection to the robot
 /**
