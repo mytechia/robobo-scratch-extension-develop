@@ -70,6 +70,10 @@ RoboboExtension.prototype.getInfo = function () {
 RoboboExtension.prototype.noop = function () {
 };
 
+RoboboExtension.prototype.testFun = function (args) {
+    return args.MOTOR_ID;
+};
+
 RoboboExtension.prototype.returnTrue = function () {
     return true;
 };
