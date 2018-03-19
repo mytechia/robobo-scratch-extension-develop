@@ -42,7 +42,7 @@ RoboboExtension.prototype.getInfo = function () {
         blocks: [
             {
                 opcode: 'connect',
-                func:'connectToRobobo',
+                func:'noop',
                 text: 'Connect at ip [IP]',
                 blockType: Scratch.BlockType.COMMAND,
                 arguments: {
@@ -73,7 +73,7 @@ RoboboExtension.prototype.getInfo = function () {
 RoboboExtension.prototype.noop = function () {
 };
 
-RoboboExtension.prototype.connectToRobobo = function (args) {
+/*RoboboExtension.prototype.connectToRobobo = function (args) {
     var ip = args.IP;
     if (rem != undefined){
         console.log("Closing previous connection");
@@ -89,7 +89,7 @@ RoboboExtension.prototype.connectToRobobo = function (args) {
 
       
       return rem+"";
-};
+};*/
 
 RoboboExtension.prototype.returnTrue = function () {
     return true;
