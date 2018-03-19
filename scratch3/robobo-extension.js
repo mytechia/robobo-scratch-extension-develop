@@ -8,7 +8,7 @@ RoboboExtension.prototype.getInfo = function () {
     return {
         // Required: the machine-readable name of this extension.
         // Will be used as the extension's namespace. Must not contain a '.' character.
-        id: 'someBlocks',
+        id: 'robobo',
 
         // Optional: the human-readable name of this extension as string.
         // This and any other string to be displayed in the Scratch UI may either be
@@ -20,7 +20,7 @@ RoboboExtension.prototype.getInfo = function () {
         // internally namespace the messages such that two extensions could have
         // messages with the same ID without colliding.
         // See also: https://github.com/yahoo/react-intl/wiki/API#definemessages
-        name: 'Some Blocks',
+        name: 'Robobo Extension',
 
         // Optional: URI for an icon for this extension. Data URI OK.
         // If not present, use a generic icon.
@@ -78,23 +78,7 @@ RoboboExtension.prototype.getInfo = function () {
         },
 
         // Optional: translations
-        translation_map: {
-            de: {
-                'extensionName': 'Einige Blöcke',
-                'myReporter': 'Buchstabe [LETTER_NUM] von [TEXT]',
-                'myReporter.TEXT_default': 'Text',
-                'menuA_item1': 'Artikel eins',
-
-                // Dynamic menus can be translated too
-                'menuB_example': 'Beispiel',
-
-                // This message contains ICU placeholders (see `myReporter()` below)
-                'myReporter.result': 'Buchstabe {LETTER_NUM} von {TEXT} ist {LETTER}.'
-            },
-            it: {
-                // ...
-            }
-        },
+        
 
         // Optional: list new target type(s) provided by this extension.
         targetTypes: [
