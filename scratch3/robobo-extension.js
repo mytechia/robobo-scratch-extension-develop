@@ -54,37 +54,13 @@ RoboboExtension.prototype.getInfo = function () {
         ],
 
         // Optional: define extension-specific menus here.
-        menus: {
-            // Required: an identifier for this menu, unique within this extension.
-            menuA: [
-                // Static menu: list items which should appear in the menu.
-                {
-                    // Required: the value of the menu item when it is chosen.
-                    value: 'itemId1',
-
-                    // Optional: the human-readable label for this item.
-                    // Use `value` as the text if this is absent.
-                    text: 'Item One'
-                },
-
-                // The simplest form of a list item is a string which will be used as
-                // both value and text.
-                'itemId2'
-            ],
-
-            // Dynamic menu: a string naming a function which returns an array as above.
-            // Called each time the menu is opened.
-            menuB: 'getItemsForMenuB'
-        },
+        
 
         // Optional: translations
         
 
         // Optional: list new target type(s) provided by this extension.
-        targetTypes: [
-            'wedo2', // automatically transformed to 'someBlocks.wedo2'
-            'speech' // automatically transformed to 'someBlocks.speech'
-        ]
+        
     };
 };
 
