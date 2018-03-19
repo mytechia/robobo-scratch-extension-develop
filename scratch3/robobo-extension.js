@@ -1,6 +1,9 @@
 var RoboboExtension = function () {
 };
 
+$.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js", function(){});
+$.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/utilities.js", function(){});
+
 /**
  * @return {object} This extension's metadata.
  */
