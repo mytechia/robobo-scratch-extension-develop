@@ -924,7 +924,7 @@
           ['h', 'BASE ACTUATION BLOCKS','dummyFun'],
 
           [' ', 'stop %m.stop motors','stopFun','all'],
-          ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovement','30','30','2','seconds'],
+          ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovement','30','30','1','seconds'],
           //move wheels left|right|both by XX degress at speed YY
           ['w', 'move wheels %m.wheels at speed %s by %s degrees ','moveDegrees','both','20','180'],
           
