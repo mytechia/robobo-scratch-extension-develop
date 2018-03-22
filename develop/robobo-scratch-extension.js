@@ -257,7 +257,7 @@
 
     ext.moveDegrees = function(wheel,speed,degrees,callback){
       rem.moveWheelsByDegree(wheel,degrees,speed,callback);
-    }
+    };
 
 
     //BLOCK - Move pan --> Pan movement function (absolute)
@@ -359,7 +359,7 @@
     ext.readWheel = function(wheel,type){
       rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getWheel(wheel,type);
-    }
+    };
 
     //BLOCK - Read pan
     ext.readPan = function () {
@@ -427,7 +427,7 @@
                   callback();
               }, Math.round((time*1000)-50));
       }
-    }
+    };
 
 
     //SMARTPHONE SENSING BLOCKS
@@ -507,30 +507,30 @@
     ext.readLastNote = function(){
       rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getLastNote();
-    }
+    };
 
     //BLOCK - Last note
     ext.readLastNoteDuration = function(){
       rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getLastNoteDuration();
-    }
+    };
 
     //BLOCK - Blob position at
     ext.readBlobCoord = function(color, axis){
       rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getBlobCoord(color,axis);
-    }
+    };
 
     //BLOCK - Blob area
     ext.readBlobSize = function(color){
       rem.keepAlive(); //keep the robot alive to receive stats updates
       return rem.getBlobSize(color);
-    }
+    };
 
     //BLOCK - Active blob colors
     ext.configBlob = function(r,g,b,c){
       rem.configureBlobDetection(r,g,b,c);
-    }
+    };
 
     //BLOCK - Fling angle
     ext.readFlingAngle = function () {
