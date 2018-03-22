@@ -356,7 +356,7 @@ Remote.prototype = {
 
   /** Commands the robot to move each wheel with an idepenent speed */
   moveWheelsSeparated: function(lSpeed,rSpeed,time) {
-    if (this.filterMovement((abs(lSpeed)+abs(rSpeed)),"wheels")){
+    if (this.filterMovement((Math.abs(lSpeed)+Math.abs(rSpeed)),"wheels")){
       this.wheelLastTime = Date.now();
       lS = ''+lSpeed;
       rS = ''+rSpeed;
@@ -379,7 +379,7 @@ Remote.prototype = {
   /** Commands the robot to move each wheel with an idepenent speed and waits
    * until the roboot finishes the movement */
   moveWheelsSeparatedWait: function(lSpeed,rSpeed,time,callback) {
-    if (this.filterMovement((abs(lSpeed)+abs(rSpeed)),"wheels")){
+    if (this.filterMovement((Math.abs(lSpeed)+Math.abs(rSpeed)),"wheels")){
       this.wheelLastTime = Date.now();
       console.log("moveWheelsSeparatedWait "+lSpeed+" "+rSpeed+" "+time);
       lS = ''+lSpeed;
