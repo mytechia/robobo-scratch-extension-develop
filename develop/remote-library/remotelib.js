@@ -212,7 +212,31 @@ Remote.prototype = {
     }.bind(this);
 
   }, //ENDOF connect
+  filterMovement(speed,axis){
+    if (speed == 0){
+      return true;
+    }else{
+      switch (axis) {
+        case "pan":
+          return ((Date.now()-this.panLastTime)>this.timeout);
+          break;
 
+        case "tilt":
+          
+          return ((Date.now()-this.tiltLastTime)>this.timeout);
+          break;
+
+        case "wheels":
+        
+          return ((Date.now()-this.wheelLastTime)>this.timeout);
+        break;
+
+        default:
+          return false;
+          break;
+      }
+    }
+  },
   /** Waits until the connection is established */
   waitForConnection : function() {
 
@@ -253,7 +277,7 @@ Remote.prototype = {
     this.statusmap.set("error",err);
 
     if (this.callbackmap.get("onError") != null) {
-      (this.callbackmap.get("onError"))();
+      (this.callbackmap.get("onError"))(); 
     }    
   },//ENDOF fireError
 
@@ -288,7 +312,7 @@ Remote.prototype = {
   /** Commands the robot to move the wheel by some angle */
   moveWheelsByDegree: function(wheel,degrees,speed,callback) {
 
-    if ((Date.now()-this.wheelLastTime)>this.timeout){
+    if (this.filterMovement(speed,"wheels")){
       this.wheelLastTime = Date.now();
       this.lastblock = this.lastblock+1;    
       lb = this.lastblock;
@@ -313,7 +337,7 @@ Remote.prototype = {
 
   /** Commands the robot to move during some time */
   moveWheelsByTime: function(wheel,time,speed) {
-    if ((Date.now()-this.wheelLastTime)>this.timeout){
+    if (this.filterMovement(speed,"wheels")){
       this.wheelLastTime = Date.now();
       var message = JSON.stringify({
         "name": "MOVEBY-TIME",
@@ -332,7 +356,7 @@ Remote.prototype = {
 
   /** Commands the robot to move each wheel with an idepenent speed */
   moveWheelsSeparated: function(lSpeed,rSpeed,time) {
-    if ((Date.now()-this.wheelLastTime)>this.timeout){
+    if (this.filterMovement(abs(lSpeed)+abs(rSpeed),"wheels")){
       this.wheelLastTime = Date.now();
       lS = ''+lSpeed;
       rS = ''+rSpeed;
@@ -355,7 +379,7 @@ Remote.prototype = {
   /** Commands the robot to move each wheel with an idepenent speed and waits
    * until the roboot finishes the movement */
   moveWheelsSeparatedWait: function(lSpeed,rSpeed,time,callback) {
-    if ((Date.now()-this.wheelLastTime)>this.timeout){
+    if (this.filterMovement(abs(lSpeed)+abs(rSpeed),"wheels")){
       this.wheelLastTime = Date.now();
       console.log("moveWheelsSeparatedWait "+lSpeed+" "+rSpeed+" "+time);
       lS = ''+lSpeed;
@@ -386,7 +410,7 @@ Remote.prototype = {
 
   /** Commands the robot to turn on the wheels motors at the specified speed, indefinitely */
   motorsOn: function(lMotor,rMotor,speed) {
-    if ((Date.now()-this.wheelLastTime)>this.timeout){
+    if (this.filterMovement(speed,"wheels")){
       this.wheelLastTime = Date.now();
       var message = JSON.stringify({
           "name": "MOVE-FOREVER",
@@ -405,7 +429,7 @@ Remote.prototype = {
 
   /** Commands the robot to turn by some degrees */
   turnInPlace: function(degrees) {
-    if ((Date.now()-this.wheelLastTime)>this.timeout){
+    if (this.filterMovement(speed,"wheels")){
       this.wheelLastTime = Date.now();
       var message = JSON.stringify({
           "name": "TURNINPLACE",
@@ -422,7 +446,7 @@ Remote.prototype = {
 
   /** Commands the robot to move the PAN to the specified position */
   movePan: function(pos, vel) {
-    if ((Date.now()-this.panLastTime)>this.timeout){
+    if (this.filterMovement(vel,"pan")){
       this.panLastTime = Date.now();
       s = ''+ vel;
       pos = scratchToRoboboAngle(pos);
@@ -455,7 +479,7 @@ Remote.prototype = {
   /** Commands the robot to move the PAN to the specified position
    * and waits until the movement finishes */
   movePanWait: function(pos, vel, callback) {
-    if ((Date.now()-this.panLastTime)>this.timeout){
+    if (this.filterMovement(vel,"pan")){
       this.panLastTime = Date.now();
       s = ''+ vel;
       pos = scratchToRoboboAngle(pos);    
@@ -508,7 +532,7 @@ Remote.prototype = {
 
   /** Commands the  robot to move the PAN by some degrees */
   movePanByDegrees: function (degrees, speed) {
-    if ((Date.now()-this.panLastTime)>this.timeout){
+    if (this.filterMovement(speed,"pan")){
       this.panLastTime = Date.now();
       console.log("movePanByDegrees");
       var actual = this.statusmap.get("panPos");
@@ -533,7 +557,7 @@ Remote.prototype = {
 
   /** Commands the robot to move the TILT to an specified position */
   moveTilt: function (pos, vel) {
-    if ((Date.now()-this.tiltLastTime)>this.timeout){
+    if (this.filterMovement(vel,"tilt")){
       this.tiltLastTime = Date.now();
       s = ''+ vel;
   
@@ -560,7 +584,7 @@ Remote.prototype = {
    * and waits until the robot ends the movement */
   moveTiltWait: function (pos, vel, callback) {
     
-    if ((Date.now()-this.tiltLastTime)>this.timeout){
+    if (this.filterMovement(vel,"tilt")){
       this.tiltLastTime = Date.now();
       s = ''+ vel;
       if (pos > this.tiltSuperiorLimit){
@@ -598,7 +622,7 @@ Remote.prototype = {
 
   /** Commands the  robot to move the TILT by some degrees */
   moveTiltByDegrees: function (degrees, speed) {
-    if ((Date.now()-this.tiltLastTime)>this.timeout){
+    if (this.filterMovement(speed,"tilt")){
       this.tiltLastTime = Date.now();
       console.log("moveTiltByDegrees");
       var actual = this.statusmap.get("tiltPos");
