@@ -242,7 +242,7 @@
     };
 
     //BLOCK - Move wheels at speed
-    ext.newMovementT = function(rSpeed,lSpeed,quantity,mode,callback){
+    ext.newMovementF = function(rSpeed,lSpeed,quantity,mode,callback){
       if (mode == 'non-stop'){
         rem.moveWheelsSeparated(lSpeed,rSpeed,2147483647); //TODO -> use rem.motorsOn
         callback();
@@ -924,7 +924,7 @@
           ['h', 'BASE ACTUATION BLOCKS','dummyFun'],
 
           [' ', 'stop %m.stop motors','stopFun','all'],
-          ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovementT','30','30','1','seconds'],
+          ['w', 'move wheels at speed R %s L %s for %s %m.mtype','newMovementF','30','30','1','seconds'],
           //move wheels left|right|both by XX degress at speed YY
           ['w', 'move wheels %m.wheels at speed %s by %s degrees ','moveDegrees','both','20','180'],
           
