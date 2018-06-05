@@ -269,6 +269,7 @@
     <script type="text/javascript" src="https://mytechia.github.io/robobo-scratch-extension/2/remote-library/remotelib.js"></script>
     <script type="text/javascript" src="https://mytechia.github.io/robobo-scratch-extension/2/utilities.js"></script>
     <script type="text/javascript" src="lib/robobo-monitor.js"></script>
+    <script type="text/javascript" src="local-ip-config.js"></script>
 
     <script>
 
@@ -283,7 +284,12 @@
           document.getElementById('monitor').classList.remove('disconnected')
         }
 
-        var rem = new Remote(params.ip,"");
+        var ip =  localIP;
+        if (params.ip != undefined) {
+          ip = params.ip;
+        }
+
+        var rem = new Remote(ip,"");
 
         //connect to the remote Robobo
         rem.connect();

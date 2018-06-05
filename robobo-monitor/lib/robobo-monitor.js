@@ -2,6 +2,7 @@
 /*******************************************************************************
  * Copyright 2017 Mytech Ingenieria Aplicada <http://www.mytechia.com>
  * Copyright 2017 Gervasio Varela <gervasio.varela@mytechia.com>
+ * Copyright 2017 Alma Mallo <alma.mallo@mytechia.com>
  * <p>
  * This file is part of Robobo Scratch Extension.
  * <p>
