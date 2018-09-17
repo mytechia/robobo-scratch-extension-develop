@@ -143,7 +143,7 @@
 
     //Callback for musical notes
     ext.onNewNote = function () {
-      newNote= true;
+      newNote = true;
 
     }
 

@@ -1,6 +1,4 @@
 var RoboboExtension = function () {
-    $.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/remote-library/remotelib.js", function(){});
-$.getScript("https://mytechia.github.io/robobo-scratch-extension-develop/develop/utilities.js", function(){});
 
 };
 
@@ -41,14 +39,14 @@ RoboboExtension.prototype.getInfo = function () {
         blocks: [
             {
                 opcode: 'connect',
-                func:'noop',
+                func:'connectToRobobo',
                 text: 'Connect at ip [IP]',
                 blockType: Scratch.BlockType.COMMAND,
                 arguments: {
                     IP: {
                         type: Scratch.ArgumentType.STRING,
                         
-                        defaultValue: '192.168.0.'
+                        defaultValue: '192.168.0.5'
                     }
                     
                 }
@@ -72,23 +70,15 @@ RoboboExtension.prototype.getInfo = function () {
 RoboboExtension.prototype.noop = function () {
 };
 
-/*RoboboExtension.prototype.connectToRobobo = function (args) {
-    var ip = args.IP;
-    if (rem != undefined){
-        console.log("Closing previous connection");
-        rem.closeConnection(true);
+RoboboExtension.prototype.connectToRobobo = function (args) {
+    var ip = args.IP.trim();
+    var port = 40404
+    var WebSocketClient = require('websocket').client
+    console.log("before");
+   //var ws = new WebSocket('ws://'+ip+':'+port);
+    console.log("after");
 
-      }
-      rem = new Remote(ip,'');
-      //this.started = false;
-
-      rem.connect();
-      rem.waitForConnection();
-
-
-      
-      return rem+"";
-};*/
+};
 
 RoboboExtension.prototype.returnTrue = function () {
     return true;
