@@ -24,7 +24,7 @@
 //Constructor of the remote control object
 function Remote(ip,passwd){
   this.ip = ip.trim();
-  this.port = 40404;
+  this.port = 8080;
 
   //Last keep-alive message timestamp
   this.lastKeepAliveTime = 0;
